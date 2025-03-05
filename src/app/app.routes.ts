@@ -2,25 +2,35 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'pages/dashboard/basic',
-    pathMatch: 'full'
-  },
-  {
-    path: 'pages',
-    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule)
-  },
-  {
-    path: 'auth',
-    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
-  },
-  {
     path: 'error',
-    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule),
+  },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./common/common.component').then(c => c.CommonComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./main/main.component').then(c => c.MainComponent),
+        children: [
+          {
+            path: 'home',
+            loadComponent: () =>
+              import('./pages/home/home.component').then(c => c.HomeComponent),
+            title: 'Home',
+          },
+        ],
+      },
+    ],
   },
   {
     path: '**',
     title: 'Page Not Found',
-    loadComponent: () => import('./error/not-found/not-found.component').then(c => c.NotFoundComponent)
-  }
+    loadComponent: () =>
+      import('./error/not-found/not-found.component').then(
+        c => c.NotFoundComponent
+      ),
+  },
 ];
