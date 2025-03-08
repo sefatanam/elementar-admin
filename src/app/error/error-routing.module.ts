@@ -18,6 +18,11 @@ const routes: Routes = [
         c => c.AccessDeniedComponent
       ),
   },
+  {
+    path: 'not-found-1',
+    title: 'Not Found',
+    loadComponent: () => import('./not-found-1/not-found-1.component').then(c => c.NotFound1Component)
+  },
 ];
 
 @NgModule({
