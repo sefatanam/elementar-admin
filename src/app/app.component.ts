@@ -36,7 +36,6 @@ import { LogoComponent } from '@elementar-ui/components/logo';
     MatAnchor,
     SoundEffectDirective,
     MatTooltip,
-    RouterLinkActive,
     RouterLink,
     MatIconButton,
     LogoComponent
