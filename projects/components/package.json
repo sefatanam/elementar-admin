@@ -4,11 +4,11 @@
   "version": "0.2.27",
   "repository": {
     "type": "git",
-    "url": "https://github.com/elementarlabs/elementar-admin.git"
+    "url": "https://github.com/elementarlabs/elementar-ui.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/elementarlabs/elementar-admin/issues"
+    "url": "https://github.com/elementarlabs/elementar-ui/issues"
   },
   "homepage": "https://elementarui.com",
   "keywords": [
