@@ -33,7 +33,7 @@
               },
               {
                 "glob": "**/_examples/**",
-                "input": "src/app/pages",
+                "input": "src/app",
                 "output": "_docs"
               }
             ],
