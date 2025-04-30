@@ -3,7 +3,7 @@
 :host {
   position: relative;
   padding-inline-start: var(--emr-sidebar-nav-group-menu-padding-start);
-  transition: grid-template-rows .1s ease-in-out;
+  // transition: grid-template-rows .05s linear;
   grid-template-rows: 0fr;
   display: grid;
 
@@ -15,6 +15,7 @@
   }
 
   &.is-active {
+    // transition: grid-template-rows .1s ease-in;
     grid-template-rows: 1fr;
     margin-top: var(--emr-sidebar-nav-item-space-y);
 

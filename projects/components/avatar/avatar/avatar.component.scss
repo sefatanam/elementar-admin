@@ -2,10 +2,10 @@
 
 :host {
   --emr-avatar-font-weight: 500;
-  --emr-avatar-size: calc(var(--spacing) * 10);
-  --emr-avatar-border-radius: calc(infinity * 1px);
-  --emr-avatar-bg: var(--color-emerald-500);
-  --emr-avatar-color: white;
+  --emr-avatar-size: --spacing(10);
+  --emr-avatar-border-radius: 99999px;
+  --emr-avatar-bg: var(--color-neutral-500);
+  --emr-avatar-color: #fff;
   --emr-avatar-presence-indicator-size: 20%;
   --emr-avatar-presence-indicator-position-top: 5%;
   --emr-avatar-presence-indicator-position-end: 5%;

@@ -1,6 +1,7 @@
 :host {
   display: block;
   scroll-padding-inline: 100px;
+  flex: none;
 }
 
 :host-context(.emr-carousel.fade) {

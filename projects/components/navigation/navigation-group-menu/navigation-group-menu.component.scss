@@ -1,7 +1,7 @@
 :host {
   position: relative;
   padding-inline-start: var(--emr-navigation-group-menu-padding-start);
-  transition: grid-template-rows .1s ease-in-out;
+  // transition: grid-template-rows .1s ease-in-out;
   grid-template-rows: 0fr;
   display: grid;
 

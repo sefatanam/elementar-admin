@@ -43,8 +43,8 @@ export class SidebarNavItemComponent implements SidebarNavItem {
       return;
     }
 
-    this._navigation.itemClicked.emit(this.key());
     this._navStore.setItemActiveKey(this.key());
+    this._navigation.itemClicked.emit(this.key());
   }
 
   get active(): boolean {

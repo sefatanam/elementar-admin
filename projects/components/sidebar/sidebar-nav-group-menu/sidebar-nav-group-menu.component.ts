@@ -1,11 +1,9 @@
 import {
   AfterContentInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   contentChildren,
-  DestroyRef,
-  inject,
+  inject, OnInit,
   signal,
 } from '@angular/core';
 import { SIDEBAR_NAVIGATION, SIDEBAR_NAVIGATION_GROUP } from '../types';
@@ -25,11 +23,9 @@ import { SidebarNavStore } from '../sidebar.store';
     '[class.is-active]': 'active'
   }
 })
-export class SidebarNavGroupMenuComponent implements AfterContentInit {
+export class SidebarNavGroupMenuComponent implements AfterContentInit, OnInit {
   readonly navigation = inject<SidebarNavComponent>(SIDEBAR_NAVIGATION);
   private _group = inject<SidebarNavGroupComponent>(SIDEBAR_NAVIGATION_GROUP);
-  private _cdr = inject(ChangeDetectorRef);
-  private _destroyRef = inject(DestroyRef);
   private _navStore = inject(SidebarNavStore);
 
   readonly _items = contentChildren(SidebarNavItemComponent, { descendants: true });
@@ -38,6 +34,20 @@ export class SidebarNavGroupMenuComponent implements AfterContentInit {
 
   get active(): boolean {
     return this._navStore.isGroupActive(this.key());
+  }
+
+  ngOnInit() {
+    this.navigation
+      .itemClicked
+      .subscribe(() => {
+        const isGroupActive = this._items().filter(
+          itemComponent => itemComponent.active
+        ).length > 0;
+
+        if (!isGroupActive && this._group._groupId === this._navStore.activeGroupKey()) {
+          this._navStore.setGroupActiveKey(null);
+        }
+      });
   }
 
   ngAfterContentInit() {

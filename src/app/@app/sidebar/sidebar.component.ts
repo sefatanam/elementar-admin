@@ -56,8 +56,9 @@ export class SidebarComponent implements OnInit {
     {
       type: 'link',
       name: 'Overview',
-      icon: 'dashboard',
-      link: '/'
+      key: 'overview',
+      icon: 'local_fire_department',
+      link: ''
     },
     {
       type: 'group',

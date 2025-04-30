@@ -1,11 +1,11 @@
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   contentChildren,
   ElementRef, forwardRef,
   inject,
-  input,
+  input, OnInit,
   output,
   SimpleChanges,
 } from '@angular/core';
@@ -14,6 +14,7 @@ import {
 } from '../sidebar-nav-item/sidebar-nav-item.component';
 import { SIDEBAR_NAVIGATION } from '../types';
 import { SidebarNavStore } from '../sidebar.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'emr-sidebar-nav',
@@ -75,7 +76,7 @@ export class SidebarNavComponent {
   }
 
   private _hasScroll(element: HTMLElement): boolean {
-    if (!element.getBoundingClientRect()) {
+    if (!element.getBoundingClientRect) {
       return false;
     }
 
