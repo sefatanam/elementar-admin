@@ -1,0 +1,80 @@
+:host {
+  display: block; /* Компонент должен быть блочным */
+  position: relative; /* Для позиционирования кастомного скроллбара */
+  overflow: hidden; /* Скрываем все, что выходит за пределы хоста (включая нативный скроллбар) */
+  height: 100%; /* По умолчанию занимаем всю высоту родителя */
+  /* CSS переменные для легкой кастомизации hover-эффекта */
+  --thumb-hover-color: rgba(0, 0, 0, 0.6);
+  --scrollbar-width: 8px; /* Значение по умолчанию, будет перезаписано из TS */
+}
+
+.scrollable-content {
+  height: 100%;
+  overflow-y: scroll; /* Включаем скролл для этого блока */
+  /* Хитрость для скрытия нативного скроллбара: делаем блок шире хоста */
+  /* Ширина подбирается так, чтобы скроллбар оказался за пределами видимости хоста */
+  /* Добавляем ширину скроллбара + небольшой запас */
+  width: 100%; /* 17px - типичная ширина скроллбара, можно подбирать */
+  padding-right: calc(17px - var(--scrollbar-width)); /* Компенсируем padding, чтобы контент не смещался под кастомный скролл */
+  box-sizing: border-box; /* Учитываем padding в общей ширине/высоте */
+
+  /* Стилизация самого скроллбара браузера (для Webkit/Blink) */
+  /* Это не обязательно для overlay, но может помочь в отладке или как fallback */
+  &::-webkit-scrollbar {
+    width: 0; /* Делаем нативный скроллбар невидимым */
+    height: 0;
+    background: transparent; /* На всякий случай */
+  }
+
+  /* Убираем скроллбар в Firefox */
+  scrollbar-width: none;
+  /* Убираем скроллбар в IE/Edge (старые версии) */
+  -ms-overflow-style: none;
+}
+
+.scroll-track {
+  position: absolute;
+  top: 0;
+  right: 0; /* Позиционируем справа */
+  bottom: 0;
+  width: var(--scrollbar-width); /* Используем переменную */
+  background-color: transparent; /* Цвет трека по умолчанию */
+  border-radius: 4px;
+  opacity: 0; /* По умолчанию скрыт */
+  transition: opacity 0.2s ease-in-out; /* Плавное появление/исчезновение */
+  z-index: 10; /* Над контентом */
+}
+
+.scroll-thumb {
+  position: absolute;
+  top: 0; /* Позиция будет управляться через transform: translateY */
+  left: 0;
+  width: var(--scrollbar-width); /* Используем переменную */
+  background-color: rgba(0, 0, 0, 0.4); /* Цвет ползунка по умолчанию */
+  border-radius: 4px;
+  cursor: grab;
+  transition: background-color 0.2s ease-in-out; /* Плавное изменение цвета */
+}
+
+.scroll-thumb:active {
+  cursor: grabbing; /* Курсор при перетаскивании */
+}
+
+/* --- Стили для управления видимостью и интерактивностью --- */
+
+/* Показываем трек, когда скроллбар должен быть виден */
+:host(.scrollbar-visible) .scroll-track {
+  opacity: 1;
+}
+
+/* Делаем ползунок темнее при наведении на хост или при перетаскивании */
+:host(.scrollbar-interactive) .scroll-thumb {
+  background-color: var(--thumb-hover-color); /* Используем переменную для hover-цвета */
+}
+
+/* Можно добавить стили для наведения конкретно на ползунок, если нужно */
+/*
+:host(.scrollbar-visible) .scroll-thumb:hover {
+   background-color: var(--thumb-hover-color);
+}
+*/

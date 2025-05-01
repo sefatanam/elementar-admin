@@ -6,7 +6,7 @@
   display: block;
   width: 100%;
   flex-grow: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
   padding: var(--emr-sidebar-body-padding);
