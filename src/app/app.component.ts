@@ -64,13 +64,12 @@ export class AppComponent implements OnInit {
           });
         })
       ;
-
-      this._analyticsService.trackPageViews();
     });
   }
 
   ngOnInit(): void {
     this._themeManager.setColorScheme(this._themeManager.getPreferredColorScheme());
     this._seoService.trackCanonicalChanges(this._envService.getValue('siteUrl'));
+    this._analyticsService.trackPageViews();
   }
 }

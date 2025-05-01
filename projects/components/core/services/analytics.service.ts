@@ -1,7 +1,7 @@
-import { inject, Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { filter } from 'rxjs';
 import { NavigationEnd, Router } from '@angular/router';
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
 import { EnvironmentService } from './environment.service';
 
 declare const gtag: any;
@@ -10,6 +10,7 @@ declare const gtag: any;
   providedIn: 'root'
 })
 export class AnalyticsService {
+  private _platformId = inject(PLATFORM_ID);
   private _router = inject(Router);
   private _document = inject(DOCUMENT);
   private _environmentService = inject(EnvironmentService);
@@ -35,6 +36,11 @@ export class AnalyticsService {
         gtag('config', '${googleAnalyticsId}');`
       ;
       this._document.head.appendChild(dataLayerScript);
+
+      if (isPlatformServer(this._platformId)) {
+        return;
+      }
+
       this._router.events.pipe(
         filter((event) => event instanceof NavigationEnd),
       ).subscribe((event: any) => {

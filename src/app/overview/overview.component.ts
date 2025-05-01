@@ -95,6 +95,26 @@ export class OverviewComponent {
       routerLink: '/components/badge',
       imageUrl: 'assets/overview/badge.svg',
       name: 'Badge'
-    }
+    },
+    {
+      routerLink: '/components/snackbar',
+      imageUrl: 'assets/overview/snackbar.svg',
+      name: 'Snackbar'
+    },
+    {
+      routerLink: '/components/progress-spinner',
+      imageUrl: 'assets/overview/spinner.svg',
+      name: 'Progress Spinner'
+    },
+    {
+      routerLink: '/components/stepper',
+      imageUrl: 'assets/overview/stepper.svg',
+      name: 'Stepper'
+    },
+    {
+      routerLink: '/forms/slide-toggle',
+      imageUrl: 'assets/overview/slide-toggle.svg',
+      name: 'Slide Toggle'
+    },
   ]);
 }
