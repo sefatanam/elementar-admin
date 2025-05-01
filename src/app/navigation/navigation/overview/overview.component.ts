@@ -23,21 +23,23 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
 import {
   NavigationWithBadgesExampleComponent
 } from '../_examples/navigation-with-badges-example/navigation-with-badges-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicNavigationExampleComponent,
-        NavigationWithHeadingExampleComponent,
-        NavigationWithDividerExampleComponent,
-        NavigationWithIconsExampleComponent,
-        NavigationWithNestedMenuExampleComponent,
-        NavigationSecondaryThemeExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        NavigationWithBadgesExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicNavigationExampleComponent,
+    NavigationWithHeadingExampleComponent,
+    NavigationWithDividerExampleComponent,
+    NavigationWithIconsExampleComponent,
+    NavigationWithNestedMenuExampleComponent,
+    NavigationSecondaryThemeExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    NavigationWithBadgesExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

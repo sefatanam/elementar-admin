@@ -18,20 +18,22 @@ import {
 } from '../_examples/stepper-label-bottom-position-example/stepper-label-bottom-position-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicStepperExampleComponent,
-        StepperVerticalExampleComponent,
-        StepperHeaderPositionExampleComponent,
-        StepperWithErrorsStateExampleComponent,
-        StepperResponsiveExampleComponent,
-        StepperLabelBottomPositionExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicStepperExampleComponent,
+    StepperVerticalExampleComponent,
+    StepperHeaderPositionExampleComponent,
+    StepperWithErrorsStateExampleComponent,
+    StepperResponsiveExampleComponent,
+    StepperLabelBottomPositionExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

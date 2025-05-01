@@ -14,19 +14,21 @@ import { PaginatedTabsExampleComponent } from '../_examples/paginated-tabs-examp
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
 import { SortableTabsExampleComponent } from '../_examples/sortable-tabs-example/sortable-tabs-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PlaygroundComponent,
-        BasicTabsExampleComponent,
-        TabsWithAlignedLabelsExampleComponent,
-        TabsWithCustomLabelTemplateExampleComponent,
-        TabsWithHeadersOnTheBottomExampleComponent,
-        PaginatedTabsExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        SortableTabsExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicTabsExampleComponent,
+    TabsWithAlignedLabelsExampleComponent,
+    TabsWithCustomLabelTemplateExampleComponent,
+    TabsWithHeadersOnTheBottomExampleComponent,
+    PaginatedTabsExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    SortableTabsExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

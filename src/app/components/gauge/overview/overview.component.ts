@@ -12,6 +12,7 @@ import {
 } from '../_examples/gauge-custom-stroke-width-example/gauge-custom-stroke-width-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -21,7 +22,8 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
     GaugeCustomSizeExampleComponent,
     GaugeCustomStrokeWidthExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

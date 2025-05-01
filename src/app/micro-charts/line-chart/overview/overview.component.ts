@@ -23,6 +23,7 @@ import {
 import {
   MchartLineResponsiveExampleComponent
 } from '../_examples/mchart-line-responsive-example/mchart-line-responsive-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -36,7 +37,8 @@ import {
     MchartLineWithAreaExampleComponent,
     MchartLineCompactExampleComponent,
     MchartLineWithMarkersExampleComponent,
-    MchartLineResponsiveExampleComponent
+    MchartLineResponsiveExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

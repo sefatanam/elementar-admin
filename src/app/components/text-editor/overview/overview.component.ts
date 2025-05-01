@@ -8,6 +8,7 @@ import {
 import {
   TextEditorFloatingMenuExampleComponent
 } from '../_examples/text-editor-floating-menu-example/text-editor-floating-menu-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -16,7 +17,8 @@ import {
     PageContentDirective,
     PlaygroundComponent,
     BasicTextEditorExampleComponent,
-    TextEditorFloatingMenuExampleComponent
+    TextEditorFloatingMenuExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

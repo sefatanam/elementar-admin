@@ -8,15 +8,17 @@ import {
 } from '../_examples/slide-toggle-with-forms-example/slide-toggle-with-forms-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PlaygroundComponent,
-        BasicSlideToggleExampleComponent,
-        SlideToggleWithFormsExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicSlideToggleExampleComponent,
+    SlideToggleWithFormsExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

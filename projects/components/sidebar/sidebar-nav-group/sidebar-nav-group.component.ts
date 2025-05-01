@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   contentChild,
-  forwardRef,
+  forwardRef, OnInit,
 } from '@angular/core';
 import { SidebarNavGroupToggleComponent } from '../sidebar-nav-group-toggle/sidebar-nav-group-toggle.component';
 import { SIDEBAR_NAVIGATION_GROUP } from '../types';

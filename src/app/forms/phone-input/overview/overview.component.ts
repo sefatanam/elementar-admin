@@ -12,6 +12,7 @@ import {
 import {
   PhoneInputPreferredCountriesExampleComponent
 } from '../_examples/phone-input-preferred-countries-example/phone-input-preferred-countries-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -22,7 +23,8 @@ import {
     MatTab,
     MatTabGroup,
     PhoneInputOnlyCountriesExampleComponent,
-    PhoneInputPreferredCountriesExampleComponent
+    PhoneInputPreferredCountriesExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

@@ -9,17 +9,19 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
 import {
   TabPanelCompactExampleComponent
 } from '../_examples/tab-panel-compact-example/tab-panel-compact-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        TabPanelWithPanelsInsideExampleComponent,
-        BasicTabPanelExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        TabPanelCompactExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    TabPanelWithPanelsInsideExampleComponent,
+    BasicTabPanelExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    TabPanelCompactExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

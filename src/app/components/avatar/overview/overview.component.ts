@@ -21,23 +21,25 @@ import {
   AvatarAutomaticColorExampleComponent
 } from '../_examples/avatar-automatic-color-example/avatar-automatic-color-example.component';
 import { AvatarDicebearExampleComponent } from '../_examples/avatar-dicebear-example/avatar-dicebear-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicAvatarExampleComponent,
-        AvatarSizesExampleComponent,
-        AvatarWithImagesExampleComponent,
-        AvatarWithIconsExampleComponent,
-        GroupedAvatarsExampleComponent,
-        GroupedAndTotalAvatarsExampleComponent,
-        AvatarPresenceIndicatorExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        AvatarAutomaticColorExampleComponent,
-        AvatarDicebearExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicAvatarExampleComponent,
+    AvatarSizesExampleComponent,
+    AvatarWithImagesExampleComponent,
+    AvatarWithIconsExampleComponent,
+    GroupedAvatarsExampleComponent,
+    GroupedAndTotalAvatarsExampleComponent,
+    AvatarPresenceIndicatorExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    AvatarAutomaticColorExampleComponent,
+    AvatarDicebearExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

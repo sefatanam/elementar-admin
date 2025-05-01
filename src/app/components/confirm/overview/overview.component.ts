@@ -6,15 +6,17 @@ import { BasicConfirmExampleComponent } from '../_examples/basic-confirm-example
 import {
   ConfirmFormModalExampleComponent
 } from '../_examples/confirm-form-modal-example/confirm-form-modal-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PageComponent,
-        PageContentDirective,
-        PlaygroundComponent,
-        BasicConfirmExampleComponent,
-        ConfirmFormModalExampleComponent
-    ],
+  imports: [
+    PageComponent,
+    PageContentDirective,
+    PlaygroundComponent,
+    BasicConfirmExampleComponent,
+    ConfirmFormModalExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

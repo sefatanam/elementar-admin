@@ -7,6 +7,7 @@ import { SidebarCompactExampleComponent } from '../_examples/sidebar-compact-exa
 import {
   SidebarWithCustomIconsExampleComponent
 } from '../_examples/sidebar-with-custom-icons-example/sidebar-with-custom-icons-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -15,7 +16,8 @@ import {
     PlaygroundComponent,
     PageComponent,
     SidebarCompactExampleComponent,
-    SidebarWithCustomIconsExampleComponent
+    SidebarWithCustomIconsExampleComponent,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

@@ -10,18 +10,20 @@ import {
 } from '../_examples/card-footer-loading-example/card-footer-loading-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicCardExampleComponent,
-        CardActionsExampleComponent,
-        CardMultipleSectionsExampleComponent,
-        CardFooterLoadingExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicCardExampleComponent,
+    CardActionsExampleComponent,
+    CardMultipleSectionsExampleComponent,
+    CardFooterLoadingExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

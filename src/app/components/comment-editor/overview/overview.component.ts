@@ -26,6 +26,7 @@ import {
 import {
   CommentEditorWithMaxContentHeightExampleComponent
 } from '../_examples/comment-editor-with-max-content-height-example/comment-editor-with-max-content-height-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -40,7 +41,8 @@ import {
     CommentEditorWithCustomIconsExampleComponent,
     CommentEditorCancelButtonAlwaysVisibleExampleComponent,
     CommentEditorCustomButtonLabelsExampleComponent,
-    CommentEditorWithMaxContentHeightExampleComponent
+    CommentEditorWithMaxContentHeightExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

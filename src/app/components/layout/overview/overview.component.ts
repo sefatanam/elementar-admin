@@ -18,6 +18,7 @@ import {
 import { LayoutAsideExampleComponent } from '../_examples/layout-aside-example/layout-aside-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -31,7 +32,8 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
     LayoutWithNestedLayoutsExampleComponent,
     LayoutAsideExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

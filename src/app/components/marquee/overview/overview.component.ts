@@ -7,17 +7,19 @@ import { MarqueeReverseExampleComponent } from '../_examples/marquee-reverse-exa
 import {
   MarqueePauseOnHoverExampleComponent
 } from '../_examples/marquee-pause-on-hover-example/marquee-pause-on-hover-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PageComponent,
-        PageContentDirective,
-        PlaygroundComponent,
-        BasicMarqueeExampleComponent,
-        MarqueeReverseExampleComponent,
-        MarqueePauseOnHoverExampleComponent
-    ],
+  imports: [
+    PageComponent,
+    PageContentDirective,
+    PlaygroundComponent,
+    BasicMarqueeExampleComponent,
+    MarqueeReverseExampleComponent,
+    MarqueePauseOnHoverExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

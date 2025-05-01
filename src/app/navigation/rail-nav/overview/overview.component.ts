@@ -6,15 +6,17 @@ import { BasicRailNavExampleComponent } from '../_examples/basic-rail-nav-exampl
 import {
   RailNavCustomizationExampleComponent
 } from '../_examples/rail-nav-customization-example/rail-nav-customization-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PageComponent,
-        PageContentDirective,
-        PlaygroundComponent,
-        BasicRailNavExampleComponent,
-        RailNavCustomizationExampleComponent
-    ],
+  imports: [
+    PageComponent,
+    PageContentDirective,
+    PlaygroundComponent,
+    BasicRailNavExampleComponent,
+    RailNavCustomizationExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

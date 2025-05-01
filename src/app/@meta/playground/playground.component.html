@@ -1,8 +1,8 @@
 <div class="border border-default rounded-xl relative mb-14 mt-6 overflow-hidden">
-  <div class="p-7">
+  <div class="p-7 min-h-[300px]">
     @defer {
-      <ng-content></ng-content>
-    } @loading {
+      <ng-content/>
+    } @placeholder (minimum 1s) {
       Loading...
     }
   </div>

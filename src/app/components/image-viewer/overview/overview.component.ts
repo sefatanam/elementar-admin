@@ -12,6 +12,7 @@ import {
   ImageViewerWithTitleExampleComponent
 } from '../_examples/image-viewer-with-title-example/image-viewer-with-title-example.component';
 import { MatDivider } from '@angular/material/divider';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -21,7 +22,8 @@ import { MatDivider } from '@angular/material/divider';
     BasicImageViewerExampleComponent,
     ImageViewerWithCaptionAndDescriptionExampleComponent,
     ImageViewerWithTitleExampleComponent,
-    MatDivider
+    MatDivider,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

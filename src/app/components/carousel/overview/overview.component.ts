@@ -10,6 +10,7 @@ import {
   CarouselFadeEffectExampleComponent
 } from '../_examples/carousel-fade-effect-example/carousel-fade-effect-example.component';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -20,7 +21,8 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
     PageContentDirective,
     CarouselFadeEffectExampleComponent,
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

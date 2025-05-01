@@ -17,6 +17,7 @@ import {
 import {
   BlockStateWithCustomIconExampleComponent
 } from '../_examples/block-state-with-custom-icon-example/block-state-with-custom-icon-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -27,7 +28,8 @@ import {
     BlockStateWithImageExampleComponent,
     BlockStateWithIconExampleComponent,
     BlockStateWithActionsExampleComponent,
-    BlockStateWithCustomIconExampleComponent
+    BlockStateWithCustomIconExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

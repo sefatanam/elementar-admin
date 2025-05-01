@@ -27,6 +27,7 @@ import {
 import {
   DataViewLoadingStateExampleComponent
 } from '../_examples/data-view-loading-state-example/data-view-loading-state-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -42,7 +43,8 @@ import {
     DataViewCustomCellRenderersExampleComponent,
     DataViewWithActionBarExampleComponent,
     DataViewFilterDataExampleComponent,
-    DataViewLoadingStateExampleComponent
+    DataViewLoadingStateExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

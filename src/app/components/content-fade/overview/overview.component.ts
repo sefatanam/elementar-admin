@@ -11,6 +11,7 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
 import {
   ContentFadeCustomPositionExampleComponent
 } from '../_examples/content-fade-custom-position-example/content-fade-custom-position-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -20,7 +21,8 @@ import {
     ContentFadeCustomWidthExampleComponent,
     ContentFadeCustomPositionExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

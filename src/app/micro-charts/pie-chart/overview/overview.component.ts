@@ -14,6 +14,7 @@ import {
 import {
   MchartPieWithTooltipExampleComponent
 } from '../_examples/mchart-pie-with-tooltip-example/mchart-pie-with-tooltip-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -24,7 +25,8 @@ import {
     MchartPieBasicExampleComponent,
     MchartPieWithLegendExampleComponent,
     MchartPieValueOnSlicesExampleComponent,
-    MchartPieWithTooltipExampleComponent
+    MchartPieWithTooltipExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

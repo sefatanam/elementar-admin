@@ -9,6 +9,7 @@ import {
 import {
   ThumbnailMakerWithFileSelectExampleComponent
 } from '../_examples/thumbnail-maker-with-file-select-example/thumbnail-maker-with-file-select-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -18,7 +19,8 @@ import {
     PlaygroundComponent,
     BasicThumbnailMakerComponent,
     ThumbnailMakerWithHelperTextExampleComponent,
-    ThumbnailMakerWithFileSelectExampleComponent
+    ThumbnailMakerWithFileSelectExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

@@ -3,14 +3,16 @@ import { PlaygroundComponent } from '@meta/playground/playground.component';
 import { BasicSkeletonExampleComponent } from '../_examples/basic-skeleton-example/basic-skeleton-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PlaygroundComponent,
-        BasicSkeletonExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicSkeletonExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

@@ -11,6 +11,7 @@ import { SidebarNavComponent } from '../sidebar-nav/sidebar-nav.component';
 import { SidebarNavGroupComponent } from '../sidebar-nav-group/sidebar-nav-group.component';
 import { SidebarNavItemComponent } from '../sidebar-nav-item/sidebar-nav-item.component';
 import { SidebarNavStore } from '../sidebar.store';
+import { watchState } from '@ngrx/signals';
 
 @Component({
   selector: 'emr-sidebar-nav-group-menu',
@@ -36,6 +37,24 @@ export class SidebarNavGroupMenuComponent implements AfterContentInit, OnInit {
     return this._navStore.isGroupActive(this.key());
   }
 
+  constructor() {
+    // let activeItemKey = this._navStore.activeItemKey();
+    // watchState(this._navStore, (store) => {
+    //   if (activeItemKey === store.activeItemKey) {
+    //     return;
+    //   }
+    //
+    //   const isGroupActive = this._items().filter(
+    //     itemComponent => itemComponent.active
+    //   ).length > 0;
+    //
+    //   if (isGroupActive && store.activeGroupKey !== this.key()) {
+    //     activeItemKey = store.activeItemKey;
+    //     this._navStore.setGroupActiveKey(this.key());
+    //   }
+    // });
+  }
+
   ngOnInit() {
     this.navigation
       .itemClicked
@@ -51,6 +70,10 @@ export class SidebarNavGroupMenuComponent implements AfterContentInit, OnInit {
   }
 
   ngAfterContentInit() {
+    this._checkIfActive();
+  }
+
+  private _checkIfActive() {
     const isGroupActive = this._items().filter(
       itemComponent => itemComponent.active
     ).length > 0;

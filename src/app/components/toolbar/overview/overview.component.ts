@@ -3,6 +3,7 @@ import { PlaygroundComponent } from '@meta/playground/playground.component';
 import { BasicToolbarExampleComponent } from '../_examples/basic-toolbar-example/basic-toolbar-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -10,7 +11,8 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
     PlaygroundComponent,
     BasicToolbarExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

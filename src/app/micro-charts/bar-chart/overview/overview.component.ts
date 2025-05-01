@@ -20,20 +20,22 @@ import {
 import {
   MchartBarWithTooltipExampleComponent
 } from '../_examples/mchart-bar-with-tooltip-example/mchart-bar-with-tooltip-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PageComponent,
-        PageContentDirective,
-        PlaygroundComponent,
-        MchartBarBasicExampleComponent,
-        MchartBarCustomRadiusExampleComponent,
-        MchartBarWithBarHighlightExampleComponent,
-        MchartBarResponsiveExampleComponent,
-        MchartBarFillGradientExampleComponent,
-        MchartBarWithTooltipExampleComponent
-    ],
+  imports: [
+    PageComponent,
+    PageContentDirective,
+    PlaygroundComponent,
+    MchartBarBasicExampleComponent,
+    MchartBarCustomRadiusExampleComponent,
+    MchartBarWithBarHighlightExampleComponent,
+    MchartBarResponsiveExampleComponent,
+    MchartBarFillGradientExampleComponent,
+    MchartBarWithTooltipExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

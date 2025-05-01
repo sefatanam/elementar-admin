@@ -8,6 +8,7 @@ import {
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
@@ -19,7 +20,8 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
     PageComponent,
     PageContentDirective,
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

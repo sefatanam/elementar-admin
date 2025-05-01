@@ -6,6 +6,7 @@ import {
 import { PlaygroundComponent } from '@meta/playground/playground.component';
 import { PageComponent } from '@meta/page/page.component';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -15,7 +16,8 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
     PlaygroundComponent,
     PageComponent,
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

@@ -6,17 +6,19 @@ import { FileListExampleComponent } from '../_examples/file-list-example/file-li
 import { FileGridExampleComponent } from '../_examples/file-grid-example/file-grid-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PlaygroundComponent,
-        BasicUploadExampleComponent,
-        UploadAreaExampleComponent,
-        FileListExampleComponent,
-        FileGridExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicUploadExampleComponent,
+    UploadAreaExampleComponent,
+    FileListExampleComponent,
+    FileGridExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

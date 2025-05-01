@@ -20,6 +20,7 @@ import {
 import {
   BreadcrumbsGlobalExampleComponent
 } from '../_examples/breadcrumbs-global-example/breadcrumbs-global-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -31,7 +32,8 @@ import {
     PageComponent,
     PageContentDirective,
     BreadcrumbsWithLastItemAsLinkExampleComponent,
-    BreadcrumbsGlobalExampleComponent
+    BreadcrumbsGlobalExampleComponent,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

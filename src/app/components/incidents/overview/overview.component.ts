@@ -6,6 +6,7 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
 import {
   IncidentsShowHideDynamiclyExampleComponent
 } from '../_examples/incidents-show-hide-dynamicly-example/incidents-show-hide-dynamicly-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -13,7 +14,8 @@ import {
     BasicIncidentsExampleComponent,
     PageComponent,
     PageContentDirective,
-    IncidentsShowHideDynamiclyExampleComponent
+    IncidentsShowHideDynamiclyExampleComponent,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

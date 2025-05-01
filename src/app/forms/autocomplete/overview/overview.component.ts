@@ -17,6 +17,7 @@ import {
 import { OptionGroupsExampleComponent } from '../_examples/option-groups-example/option-groups-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -28,7 +29,8 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
     AutoHighlightFirstPersonExampleComponent,
     OptionGroupsExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

@@ -13,19 +13,21 @@ import {
 import { ListVariantsExampleComponent } from '../_examples/list-variants-example/list-variants-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicListExampleComponent,
-        ListWithSectionsExampleComponent,
-        ListWithSelectionExampleComponent,
-        ListWithSingleSelectionExampleComponent,
-        ListVariantsExampleComponent,
-        PageComponent,
-        PageContentDirective
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicListExampleComponent,
+    ListWithSectionsExampleComponent,
+    ListWithSelectionExampleComponent,
+    ListWithSingleSelectionExampleComponent,
+    ListVariantsExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

@@ -6,15 +6,17 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
 import {
   DividerHorizontalAndVerticalExampleComponent
 } from '../_examples/divider-horizontal-and-vertical-example/divider-horizontal-and-vertical-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
-    imports: [
-        PlaygroundComponent,
-        BasicDividerExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        DividerHorizontalAndVerticalExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicDividerExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    DividerHorizontalAndVerticalExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

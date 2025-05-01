@@ -11,6 +11,7 @@ import {
 import {
   TimepickerCustomToggleIconExampleComponent
 } from '../_examples/timepicker-custom-toggle-icon-example/timepicker-custom-toggle-icon-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   selector: 'app-overview',
@@ -20,7 +21,8 @@ import {
     PlaygroundComponent,
     BasicTimepickerExampleComponent,
     TimepickerWithDatepickerExampleComponent,
-    TimepickerCustomToggleIconExampleComponent
+    TimepickerCustomToggleIconExampleComponent,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

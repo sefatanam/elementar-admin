@@ -4,6 +4,7 @@ import { BasicPanelExampleComponent } from '../_examples/basic-panel-example/bas
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
 import { MatDivider } from '@angular/material/divider';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
@@ -12,7 +13,8 @@ import { MatDivider } from '@angular/material/divider';
     BasicPanelExampleComponent,
     PageComponent,
     PageContentDirective,
-    MatDivider
+    MatDivider,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

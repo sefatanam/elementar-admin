@@ -23,23 +23,25 @@ import {
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
 import { SortableTableExampleComponent } from '../_examples/sortable-table-example/sortable-table-example.component';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
-    imports: [
-        PlaygroundComponent,
-        BasicTableExampleComponent,
-        TableWithPaginationExampleComponent,
-        TableWithSortExampleComponent,
-        TableWithFilteringExampleComponent,
-        TableWithSelectionExampleComponent,
-        TableWithFixedColumnsExampleComponent,
-        TableWithStickyHeaderExampleComponent,
-        TableWithStickyFooterExampleComponent,
-        PageComponent,
-        PageContentDirective,
-        SortableTableExampleComponent
-    ],
+  imports: [
+    PlaygroundComponent,
+    BasicTableExampleComponent,
+    TableWithPaginationExampleComponent,
+    TableWithSortExampleComponent,
+    TableWithFilteringExampleComponent,
+    TableWithSelectionExampleComponent,
+    TableWithFixedColumnsExampleComponent,
+    TableWithStickyHeaderExampleComponent,
+    TableWithStickyFooterExampleComponent,
+    PageComponent,
+    PageContentDirective,
+    SortableTableExampleComponent,
+    PageTitleDirective
+  ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'
 })

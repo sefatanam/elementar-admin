@@ -14,6 +14,7 @@ import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
 import { MatDivider } from '@angular/material/divider';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -28,7 +29,8 @@ import { MatDivider } from '@angular/material/divider';
     PageContentDirective,
     MatTabGroup,
     MatTab,
-    MatDivider
+    MatDivider,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

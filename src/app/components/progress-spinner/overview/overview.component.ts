@@ -8,6 +8,7 @@ import {
 } from '../_examples/configurable-spinner-example/configurable-spinner-example.component';
 import { PageComponent } from '@meta/page/page.component';
 import { PageContentDirective } from '@meta/page/page-content.directive';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -15,7 +16,8 @@ import { PageContentDirective } from '@meta/page/page-content.directive';
     BasicProgressSpinnerExampleComponent,
     ConfigurableSpinnerExampleComponent,
     PageComponent,
-    PageContentDirective
+    PageContentDirective,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

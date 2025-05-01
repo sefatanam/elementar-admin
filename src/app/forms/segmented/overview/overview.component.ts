@@ -14,6 +14,7 @@ import {
   SegmentedIconsOnlyExampleComponent
 } from '../_examples/segmented-icons-only-example/segmented-icons-only-example.component';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
@@ -27,7 +28,8 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
     PageContentDirective,
     SegmentedIconsOnlyExampleComponent,
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

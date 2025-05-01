@@ -12,6 +12,7 @@ import {
   CardOverlayWithBlurExampleComponent
 } from '../_examples/card-overlay-with-blur-example/card-overlay-with-blur-example.component';
 import { MatDivider } from '@angular/material/divider';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
     selector: 'app-overview',
@@ -22,7 +23,8 @@ import { MatDivider } from '@angular/material/divider';
     BasicCardOverlayExampleComponent,
     CardOverlayWithTranslateExampleComponent,
     CardOverlayWithBlurExampleComponent,
-    MatDivider
+    MatDivider,
+    PageTitleDirective
   ],
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.scss'

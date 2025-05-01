@@ -15,6 +15,7 @@ import {
   BrandColorsDisabledExampleComponent
 } from '../_examples/brand-colors-disabled-example/brand-colors-disabled-example.component';
 import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { PageTitleDirective } from '@meta/page/page-title.directive';
 
 @Component({
   imports: [
@@ -26,7 +27,8 @@ import { MatTab, MatTabGroup } from '@angular/material/tabs';
     BrandColorsAsFormControlExampleComponent,
     BrandColorsDisabledExampleComponent,
     MatTab,
-    MatTabGroup
+    MatTabGroup,
+    PageTitleDirective
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
