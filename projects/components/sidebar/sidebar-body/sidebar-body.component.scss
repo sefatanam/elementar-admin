@@ -9,7 +9,10 @@
   overflow-y: hidden;
   overflow-x: hidden;
   position: relative;
-  padding: var(--emr-sidebar-body-padding);
+
+  .scroll-content {
+    padding: var(--emr-sidebar-body-padding);
+  }
 }
 
 :host-context(.emr-sidebar.compact) {

@@ -29,10 +29,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
   @ViewChild('scrollTrack', { static: true }) scrollTrackRef!: ElementRef<HTMLElement>;
   @ViewChild('scrollThumb', { static: true }) scrollThumbRef!: ElementRef<HTMLElement>;
 
-  // --- Входные параметры для кастомизации ---
-  @Input() trackColor: string = 'rgba(0, 0, 0, 0.1)';
-  @Input() thumbColor: string = 'rgba(0, 0, 0, 0.4)';
-  @Input() thumbHoverColor: string = 'rgba(0, 0, 0, 0.6)';
   @Input() scrollbarWidth: string = '8px'; // Ширина скроллбара
   @Input() autoHide: boolean = true; // Автоматически скрывать скроллбар
 
@@ -44,6 +40,7 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
   private isHovering: boolean = false;
   private hideTimeout: any = null;
   private isVisible: boolean = !this.autoHide; // Начальное состояние видимости
+  private isInside: boolean = false; // Начальное состояние видимости
 
   // Привязка класса к хосту для управления видимостью
   @HostBinding('class.scrollbar-visible') get scrollbarVisible() {
@@ -77,10 +74,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
       return;
     }
 
-    // Обновляем стили при изменении Input-параметров
-    if (changes['trackColor'] || changes['thumbColor'] || changes['scrollbarWidth']) {
-      this.applyScrollbarStyles();
-    }
     if (changes['autoHide']) {
       this.isVisible = !this.autoHide;
       this.updateVisibilityState(); // Обновить видимость сразу
@@ -201,6 +194,14 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     this.zone.run(() => this.cdRef.markForCheck());
   }
 
+  protected onMouseEnter() {
+
+  }
+
+  protected onMouseLeave() {
+
+  }
+
   private onMouseMove(event: MouseEvent): void {
     if (!this.isDragging) return;
 
@@ -265,14 +266,10 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     const minThumbHeight = 20; // px
     const thumbHeight = Math.max(trackHeight * this.scrollRatio, minThumbHeight);
 
-    thumbElement.style.height = `${thumbHeight}px`;
-
-    // Обновляем позицию ползунка
-    this.updateThumbPosition();
-
     // Обновляем видимость скроллбара (показываем/скрываем трек)
     const shouldBeVisible = this.hasScroll();
-    if (!this.autoHide) {
+
+    if (!this.autoHide || this.isHovering) {
       this.isVisible = shouldBeVisible;
     } else {
       // При autoHide видимость управляется через hover/scroll/drag
@@ -280,6 +277,12 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
       if (!shouldBeVisible) {
         this.isVisible = false;
       }
+    }
+
+    if (this.isVisible) {
+      thumbElement.style.height = `${thumbHeight}px`;
+      // Обновляем позицию ползунка
+      this.updateThumbPosition();
     }
 
     this.updateVisibilityState();
@@ -317,14 +320,10 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     const thumbElement = this.scrollThumbRef?.nativeElement;
 
     if (trackElement && thumbElement) {
-      this.renderer.setStyle(trackElement, 'background-color', this.trackColor);
+      // this.renderer.setStyle(trackElement, 'background-color', this.trackColor);
       this.renderer.setStyle(trackElement, 'width', this.scrollbarWidth);
-      this.renderer.setStyle(thumbElement, 'background-color', this.thumbColor);
+      // this.renderer.setStyle(thumbElement, 'background-color', this.thumbColor);
       this.renderer.setStyle(thumbElement, 'width', this.scrollbarWidth);
-
-      // Создаем CSS переменные для hover эффекта, управляемого через CSS
-      this.elRef.nativeElement.style.setProperty('--thumb-hover-color', this.thumbHoverColor);
-      this.elRef.nativeElement.style.setProperty('--scrollbar-width', this.scrollbarWidth); // Для расчета отступа контента
     }
   }
 
@@ -367,11 +366,5 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
   }
 
   private updateVisibilityState(): void {
-    // Этот метод просто применяет текущее значение isVisible к DOM,
-    // но фактическое управление классом происходит через @HostBinding.
-    // Можно использовать для дополнительной логики при изменении видимости, если нужно.
-    // Например, можно было бы напрямую добавлять/удалять класс здесь с помощью Renderer2,
-    // если не использовать @HostBinding.
-    // console.log('Scrollbar visibility updated:', this.isVisible);
   }
 }
