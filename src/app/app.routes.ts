@@ -319,6 +319,10 @@ export const routes: Routes = [
     loadChildren: () => import('./micro-charts/micro-charts.module').then(m => m.MicroChartsModule)
   },
   {
+    path: 'components/kanban-board',
+    loadChildren: () => import('./components/kanban-board/kanban-board.module').then(m => m.KanbanBoardModule)
+  },
+  {
     path: '**',
     title: 'Page Not Found',
     loadComponent: () => import('./error/not-found/not-found.component').then(c => c.NotFoundComponent)

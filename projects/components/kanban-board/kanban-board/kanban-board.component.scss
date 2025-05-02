@@ -1,11 +1,39 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-kanban-board-col-width: calc(var(--spacing) * 72);
-  --emr-kanban-board-padding-x: calc(var(--spacing) * 10);
-  --emr-kanban-board-column-gap: calc(var(--spacing) * 5);
+  --emr-kanban-board-col-width: --spacing(72);
+  --emr-kanban-board-padding-x: --spacing(10);
+  --emr-kanban-board-column-gap: --spacing(5);
 
   height: 100%;
+
+  .header {
+    padding: 0 var(--emr-kanban-board-padding-x);
+
+    &-container {
+      gap: var(--emr-kanban-board-column-gap);
+    }
+
+    &-column {
+      width: var(--emr-kanban-board-col-width);
+      flex: none;
+    }
+  }
+
+  .body {
+    gap: var(--emr-kanban-board-column-gap);
+    padding: 0 var(--emr-kanban-board-padding-x);
+  }
+
+  .column {
+    padding-bottom: var(--emr-kanban-board-column-gap);
+    gap: var(--emr-kanban-board-column-gap);
+
+    &-container {
+      width: var(--emr-kanban-board-col-width);
+      flex: none;
+    }
+  }
 
   .cdk-drag-placeholder {
     opacity: 60%;
@@ -29,7 +57,7 @@
 .kanban-item {
   &.cdk-drag-preview {
     background: var(--color-surface-container-lowest);
-    padding: calc(var(--spacing) * 3);
+    padding: --spacing(3);
     cursor: pointer;
     flex: none;
     box-shadow: var(--shadow-sm);

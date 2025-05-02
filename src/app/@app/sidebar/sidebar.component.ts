@@ -554,6 +554,12 @@ export class SidebarComponent implements OnInit {
           name: 'Screen Loader',
           link: '/components/screen-loader'
         },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Kanban Board',
+          link: '/components/kanban-board'
+        },
       ]
     },
     {

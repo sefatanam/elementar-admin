@@ -1,0 +1,9 @@
+<emr-kanban-board [columns]="columns">
+  <ng-template emrKanbanItemDef let-item let-column>
+    <div class="font-medium text-sm">{{ item.name }}</div>
+    <div class="flex items-center justify-between mt-3.5">
+      <emr-dicebear [key]="item.assignee.id" class="size-7"/>
+      <mat-icon [style.color]="item.color" class="filled">flag</mat-icon>
+    </div>
+  </ng-template>
+</emr-kanban-board>

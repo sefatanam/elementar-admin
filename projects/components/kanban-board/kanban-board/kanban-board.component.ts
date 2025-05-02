@@ -82,11 +82,6 @@ export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanIte
   private _autoScrollStarted = false;
 
   ngAfterViewInit() {
-    // fromEvent(this._scrollContainerContent().nativeElement, 'mousedown')
-    //   .subscribe((event: any) => {
-    //     console.log(event.target);
-    //   })
-    // ;
   }
 
   protected itemMousedown(event: MouseEvent) {
@@ -171,9 +166,5 @@ export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanIte
 
   onDragEnded(event: CdkDragEnd) {
     this.isDraggingActive = false;
-  }
-
-  private _scrollTo() {
-
   }
 }
