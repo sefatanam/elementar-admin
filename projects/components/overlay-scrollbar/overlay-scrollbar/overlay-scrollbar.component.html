@@ -1,10 +1,6 @@
-<!-- Внешний контейнер (хост компонента) уже имеет position: relative из CSS -->
-<!-- Внутренний контейнер для контента и скрытия нативного скроллбара -->
 <div #scrollableContent class="scrollable-content">
-  <ng-content></ng-content> <!-- Сюда будет проецироваться контент -->
+  <ng-content/>
 </div>
-
-<!-- Кастомный скроллбар -->
 <div #scrollTrack class="scroll-track">
   <div #scrollThumb class="scroll-thumb" (mousedown)="onThumbMouseDown($event)"></div>
 </div>

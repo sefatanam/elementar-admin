@@ -5,22 +5,23 @@ import {
   AfterViewInit,
   OnDestroy,
   HostBinding,
-  HostListener,
   NgZone,
-  ChangeDetectionStrategy,
   ChangeDetectorRef,
   Renderer2,
   Input,
   OnChanges,
   SimpleChanges, inject, PLATFORM_ID
 } from '@angular/core';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 
 @Component({
   selector: 'emr-overlay-scrollbar',
   imports: [],
   templateUrl: './overlay-scrollbar.component.html',
-  styleUrl: './overlay-scrollbar.component.scss'
+  styleUrl: './overlay-scrollbar.component.scss',
+  host: {
+    'class': 'emr-overlay-scrollbar'
+  }
 })
 export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnChanges {
   private _platformId = inject(PLATFORM_ID);
@@ -32,7 +33,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
   @Input() scrollbarWidth: string = '8px'; // Ширина скроллбара
   @Input() autoHide: boolean = true; // Автоматически скрывать скроллбар
 
-  // --- Внутренние переменные ---
   private scrollRatio: number = 1;
   private isDragging: boolean = false;
   private dragStartY: number = 0;
@@ -40,7 +40,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
   private isHovering: boolean = false;
   private hideTimeout: any = null;
   private isVisible: boolean = !this.autoHide; // Начальное состояние видимости
-  private isInside: boolean = false; // Начальное состояние видимости
 
   // Привязка класса к хосту для управления видимостью
   @HostBinding('class.scrollbar-visible') get scrollbarVisible() {
@@ -105,7 +104,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
 
       this.mutationObserver = new MutationObserver(this.updateScrollbar.bind(this));
       this.mutationObserver.observe(scrollableElement, { childList: true, subtree: true, characterData: true });
-
     });
 
     // Первоначальный расчет и установка стилей
@@ -159,8 +157,7 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
       this.isVisible = this.hasScroll(); // Показываем только если есть скролл
       this.updateVisibilityState();
     }
-    // Нужно запустить change detection вручную, т.к. мы можем быть вне зоны
-    this.zone.run(() => this.cdRef.markForCheck());
+    this.cdRef.markForCheck();
   }
 
   private onHostMouseLeave(): void {
@@ -169,7 +166,7 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
       this.hideScrollbarAfterDelay();
     }
     // Нужно запустить change detection вручную
-    this.zone.run(() => this.cdRef.markForCheck());
+    this.cdRef.markForCheck();
   }
 
   // --- Логика перетаскивания ---
@@ -192,14 +189,6 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
 
     // Обновляем состояние (например, класс для hover-эффекта во время перетаскивания)
     this.zone.run(() => this.cdRef.markForCheck());
-  }
-
-  protected onMouseEnter() {
-
-  }
-
-  protected onMouseLeave() {
-
   }
 
   private onMouseMove(event: MouseEvent): void {
@@ -237,8 +226,7 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
         this.hideScrollbarAfterDelay();
       }
 
-      // Обновляем состояние
-      this.zone.run(() => this.cdRef.markForCheck());
+      this.cdRef.markForCheck();
     }
   }
 
@@ -247,9 +235,9 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     document.removeEventListener('mouseup', this.boundOnMouseUp);
   }
 
-  // --- Вспомогательные методы ---
-
   private updateScrollbar(): void {
+    console.log('updateScrollbar');
+
     const scrollableElement = this.scrollableContentRef.nativeElement;
     const thumbElement = this.scrollThumbRef.nativeElement;
     const trackElement = this.scrollTrackRef.nativeElement;
@@ -272,23 +260,19 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     if (!this.autoHide || this.isHovering) {
       this.isVisible = shouldBeVisible;
     } else {
-      // При autoHide видимость управляется через hover/scroll/drag
-      // Но если скролла нет, то и показывать нечего
       if (!shouldBeVisible) {
         this.isVisible = false;
       }
     }
 
-    if (this.isVisible) {
+    if (shouldBeVisible) {
       thumbElement.style.height = `${thumbHeight}px`;
       // Обновляем позицию ползунка
       this.updateThumbPosition();
     }
 
     this.updateVisibilityState();
-
-    // Уведомляем Angular об изменениях, так как расчеты могли произойти вне зоны
-    this.zone.run(() => this.cdRef.markForCheck());
+    this.cdRef.markForCheck();
   }
 
   private updateThumbPosition(): void {

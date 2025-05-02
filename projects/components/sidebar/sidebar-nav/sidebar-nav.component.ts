@@ -1,11 +1,12 @@
 import {
-  afterNextRender,
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  AfterContentInit,
+  afterNextRender, booleanAttribute,
+  ChangeDetectionStrategy,
   Component,
   contentChildren,
   ElementRef, forwardRef,
   inject,
-  input, OnInit,
+  input,
   output,
   SimpleChanges,
 } from '@angular/core';
@@ -14,7 +15,7 @@ import {
 } from '../sidebar-nav-item/sidebar-nav-item.component';
 import { SIDEBAR_NAVIGATION } from '../types';
 import { SidebarNavStore } from '../sidebar.store';
-import { watchState } from '@ngrx/signals';
+import { SidebarNavGroupComponent } from '@elementar-ui/components/sidebar';
 
 @Component({
   selector: 'emr-sidebar-nav',
@@ -33,46 +34,44 @@ import { watchState } from '@ngrx/signals';
     'class': 'emr-sidebar-nav',
   },
 })
-export class SidebarNavComponent {
+export class SidebarNavComponent implements AfterContentInit {
   private _elementRef = inject(ElementRef);
   private _navStore = inject(SidebarNavStore);
 
   readonly _items = contentChildren(SidebarNavItemComponent, { descendants: true });
+  readonly _groups = contentChildren(SidebarNavGroupComponent, { descendants: true });
 
   activeKey = input();
+  autoScrollToActiveItem = input(false, {
+    transform: booleanAttribute
+  });
 
   readonly itemClicked = output<any>();
 
   constructor() {
     // scroll to the active item if it is not visible in the viewport
     afterNextRender(() => {
-      this._items().forEach((item: SidebarNavItemComponent) => {
-        if (item.active) {
-          let parentElement = this._elementRef.nativeElement.parentNode || null;
-          const itemElement = item._hostElement.nativeElement as HTMLElement;
-
-          while (parentElement !== null) {
-            if (this._hasScroll(parentElement)) {
-              if (!this._isScrolledIntoView(itemElement, parentElement)) {
-                const parentRect = parentElement.getBoundingClientRect();
-                const elementRect = itemElement.getBoundingClientRect();
-                parentElement.scrollTop = elementRect.top - parentRect.height / 2;
-              }
-
-              parentElement = null;
-            } else {
-              parentElement = parentElement.parentNode || null;
-            }
-          }
-        }
-      });
+      if (this.autoScrollToActiveItem()) {
+        this._scrollToActiveItem();
+      }
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['activeKey']) {
       this._navStore.setItemActiveKey(changes['activeKey'].currentValue);
+      this._groups().forEach((group: SidebarNavGroupComponent) => {
+        if (group.hasActiveItem()) {
+          this._navStore.setGroupActiveKey(group._groupId);
+          requestAnimationFrame(() => {
+            this._scrollToActiveItem();
+          });
+        }
+      });
     }
+  }
+
+  ngAfterContentInit() {
   }
 
   private _hasScroll(element: HTMLElement): boolean {
@@ -87,5 +86,22 @@ export class SidebarNavComponent {
     const elementRect = element.getBoundingClientRect();
     const parentRect = parent.getBoundingClientRect();
     return (elementRect.top >= 0) && (elementRect.bottom <= parentRect.height);
+  }
+
+  private _scrollToActiveItem(): void {
+    this._items().forEach((item: SidebarNavItemComponent) => {
+      if (item.active) {
+        let scrollContainer = this._elementRef.nativeElement.closest('.scrollable-content');
+        const itemElement = item._hostElement.nativeElement as HTMLElement;
+
+        if (this._hasScroll(scrollContainer)) {
+          if (!this._isScrolledIntoView(itemElement, scrollContainer)) {
+            const parentRect = scrollContainer.getBoundingClientRect();
+            const elementRect = itemElement.getBoundingClientRect();
+            scrollContainer.scrollTop = elementRect.top - parentRect.height / 2;
+          }
+        }
+      }
+    });
   }
 }

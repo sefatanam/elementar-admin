@@ -1,5 +1,5 @@
 import { afterNextRender, Component, inject, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
 import { PageLoadingBarComponent } from '@elementar-ui/components/page-loading-bar';
 import {
