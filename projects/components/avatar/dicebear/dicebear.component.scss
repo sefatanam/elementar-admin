@@ -2,16 +2,16 @@
 
 :host {
   --emr-avatar-font-weight: 500;
-  --emr-avatar-size: calc(var(--spacing) * 10);
+  --emr-avatar-size: --spacing(10);
   --emr-avatar-border-radius: calc(infinity * 1px);
-  --emr-avatar-bg: var(--color-emerald-500);
+  --emr-avatar-bg: #778da9;
   --emr-avatar-color: white;
   --emr-avatar-presence-indicator-size: 20%;
   --emr-avatar-presence-indicator-position-top: 5%;
   --emr-avatar-presence-indicator-position-end: 5%;
-  --emr-avatar-presence-indicator-online-bg: var(--color-green-500);
-  --emr-avatar-presence-indicator-offline-bg: var(--color-neutral-300);
-  --emr-avatar-presence-indicator-away-bg: var(--color-yellow-400);
+  --emr-avatar-presence-indicator-online-bg: #57cc99;
+  --emr-avatar-presence-indicator-offline-bg: var(--color-surface-variant);
+  --emr-avatar-presence-indicator-away-bg: #ffd60a;
   --emr-avatar-presence-indicator-outline: white solid 2px;
   --emr-avatar-inner-border: inset 0 0 2px var(--color-border);
 
