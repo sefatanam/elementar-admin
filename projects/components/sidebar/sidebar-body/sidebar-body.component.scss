@@ -2,7 +2,6 @@
 
 :host {
   --emr-sidebar-body-padding: --spacing(2);
-  --emr-sidebar-body-compact-padding: var(--emr-sidebar-body-padding);
   display: block;
   width: 100%;
   flex-grow: 1;
@@ -17,7 +16,7 @@
 
 :host-context(.emr-sidebar.compact) {
   overflow-y: hidden;
-  padding: var(--emr-sidebar-body-compact-padding);
+  padding: 0;
 }
 
 :host-context(.emr-sidebar.compact:hover) {
