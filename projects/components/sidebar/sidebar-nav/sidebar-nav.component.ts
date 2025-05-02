@@ -15,7 +15,7 @@ import {
 } from '../sidebar-nav-item/sidebar-nav-item.component';
 import { SIDEBAR_NAVIGATION } from '../types';
 import { SidebarNavStore } from '../sidebar.store';
-import { SidebarNavGroupComponent } from '@elementar-ui/components/sidebar';
+import { SidebarNavGroupComponent } from '../sidebar-nav-group/sidebar-nav-group.component';
 
 @Component({
   selector: 'emr-sidebar-nav',

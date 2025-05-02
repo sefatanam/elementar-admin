@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { SidebarNavGroupToggleComponent } from '../sidebar-nav-group-toggle/sidebar-nav-group-toggle.component';
 import { SIDEBAR_NAVIGATION_GROUP } from '../types';
-import { SidebarNavGroupMenuComponent } from '@elementar-ui/components/sidebar';
+import { SidebarNavGroupMenuComponent } from '../sidebar-nav-group-menu/sidebar-nav-group-menu.component';
 
 let nextId = 0;
 
