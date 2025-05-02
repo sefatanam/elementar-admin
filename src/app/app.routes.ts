@@ -4,7 +4,8 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadComponent: () => import('./overview/overview.component').then(c => c.OverviewComponent)
+    loadComponent: () => import('./overview/overview.component').then(c => c.OverviewComponent),
+    title: 'Overview'
   },
   {
     path: 'theme',
