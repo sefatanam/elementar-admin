@@ -116,5 +116,45 @@ export class OverviewComponent {
       imageUrl: 'assets/overview/slide-toggle.svg',
       name: 'Slide Toggle'
     },
+    {
+      routerLink: '/forms/pin-input',
+      imageUrl: 'assets/overview/pin-input.svg',
+      name: 'Pin Input'
+    },
+    {
+      routerLink: '/forms/button-toggle',
+      imageUrl: 'assets/overview/button-toggle.svg',
+      name: 'Button Toggle'
+    },
+    {
+      routerLink: '/components/popover',
+      imageUrl: 'assets/overview/popover.svg',
+      name: 'Popover'
+    },
+    {
+      routerLink: '/components/tooltip',
+      imageUrl: 'assets/overview/tooltip.svg',
+      name: 'Tooltip'
+    },
+    {
+      routerLink: '/components/menu',
+      imageUrl: 'assets/overview/menu.svg',
+      name: 'Menu'
+    },
+    {
+      routerLink: '/components/slider',
+      imageUrl: 'assets/overview/slider.svg',
+      name: 'Slider'
+    },
+    {
+      routerLink: '/components/layout',
+      imageUrl: 'assets/overview/layout.svg',
+      name: 'Layout'
+    },
+    {
+      routerLink: '/components/icon',
+      imageUrl: 'assets/overview/icons.svg',
+      name: 'Icon'
+    },
   ]);
 }
