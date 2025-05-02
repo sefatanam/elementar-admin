@@ -9,6 +9,7 @@
 
   .header {
     padding: 0 var(--emr-kanban-board-padding-x);
+    overflow: hidden;
 
     &-container {
       gap: var(--emr-kanban-board-column-gap);

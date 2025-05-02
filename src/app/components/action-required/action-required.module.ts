@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ActionRequiredRoutingModule } from './action-required-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

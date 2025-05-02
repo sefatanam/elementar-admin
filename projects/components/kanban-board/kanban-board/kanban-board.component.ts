@@ -1,10 +1,9 @@
 import {
-  AfterViewInit,
   Component,
-  contentChild,
+  contentChild, DestroyRef,
   ElementRef,
   inject,
-  input,
+  input, OnInit,
   output,
   Renderer2,
   signal,
@@ -27,6 +26,8 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import { PanelBodyComponent, PanelComponent, PanelHeaderComponent } from '@elementar-ui/components/panel';
 import { KanbanColumn, KanbanItem, KanbanItemSortedEvent, KanbanItemTransferredEvent } from '../types';
 import { KanbanItemDefDirective } from '../kanban-item-def.directive';
+import { fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'emr-kanban-board',
@@ -54,13 +55,12 @@ import { KanbanItemDefDirective } from '../kanban-item-def.directive';
     '[class.is-dragging-active]': 'isDraggingActive'
   }
 })
-export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanItem> implements AfterViewInit {
-  private _elementRef = inject(ElementRef)
+export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanItem> implements OnInit {
   protected _itemTplDef = contentChild.required(KanbanItemDefDirective);
   private _headerContainer = viewChild.required('headerContainer', { read: ElementRef });
   private _scrollContainer = viewChild.required('scrollContainer', { read: ElementRef });
-  private _scrollContainerContent = viewChild.required('scrollContainerContent', { read: ElementRef });
   private _renderer = inject(Renderer2);
+  private _destroyRef = inject(DestroyRef);
 
   columns = input<T[]>([]);
   colors = input<string[]>([]);
@@ -81,21 +81,14 @@ export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanIte
   protected isDraggingActive = false;
   private _autoScrollStarted = false;
 
-  ngAfterViewInit() {
-  }
-
-  protected itemMousedown(event: MouseEvent) {
-    const scrollContainerElement = this._scrollContainer().nativeElement as HTMLElement;
-    let targetElement = event.target as Element;
-
-    if (!targetElement.classList.contains('kanban-item')) {
-      targetElement = targetElement.closest('.kanban-item') as HTMLElement;
-    }
-
-    const targetRect = targetElement.getBoundingClientRect();
-    this._startContainerXOffset = targetRect.x - scrollContainerElement.getBoundingClientRect().x;
-    this._itemXOffset = event.clientX - targetRect.x;
-    this._itemWidth = targetRect.width;
+  ngOnInit() {
+    fromEvent(this._scrollContainer().nativeElement, 'scroll')
+      .pipe(
+        takeUntilDestroyed(this._destroyRef)
+      )
+      .subscribe((event: any) => {
+        this.onScroll(event);
+      });
   }
 
   onDropped(event: CdkDragDrop<K[]>) {
@@ -166,5 +159,19 @@ export class KanbanBoardComponent<T extends KanbanColumn<K>, K extends KanbanIte
 
   onDragEnded(event: CdkDragEnd) {
     this.isDraggingActive = false;
+  }
+
+  protected itemMousedown(event: MouseEvent) {
+    const scrollContainerElement = this._scrollContainer().nativeElement as HTMLElement;
+    let targetElement = event.target as Element;
+
+    if (!targetElement.classList.contains('kanban-item')) {
+      targetElement = targetElement.closest('.kanban-item') as HTMLElement;
+    }
+
+    const targetRect = targetElement.getBoundingClientRect();
+    this._startContainerXOffset = targetRect.x - scrollContainerElement.getBoundingClientRect().x;
+    this._itemXOffset = event.clientX - targetRect.x;
+    this._itemWidth = targetRect.width;
   }
 }

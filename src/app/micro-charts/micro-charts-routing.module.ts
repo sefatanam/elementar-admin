@@ -4,15 +4,18 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'line-chart',
-    loadChildren: () => import('./line-chart/line-chart.module').then(c => c.LineChartModule)
+    loadChildren: () => import('./line-chart/line-chart.module').then(c => c.LineChartModule),
+    title: 'Line Chart'
   },
   {
     path: 'bar-chart',
-    loadChildren: () => import('./bar-chart/bar-chart.module').then(c => c.BarChartModule)
+    loadChildren: () => import('./bar-chart/bar-chart.module').then(c => c.BarChartModule),
+    title: 'Bar Chart'
   },
   {
     path: 'pie-chart',
-    loadChildren: () => import('./pie-chart/pie-chart.module').then(c => c.PieChartModule)
+    loadChildren: () => import('./pie-chart/pie-chart.module').then(c => c.PieChartModule),
+    title: 'Pie Chart'
   }
 ];
 

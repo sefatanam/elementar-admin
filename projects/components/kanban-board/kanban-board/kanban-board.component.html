@@ -1,5 +1,5 @@
 <emr-panel class="h-full">
-  <emr-panel-header class="overflow-hidden header">
+  <emr-panel-header class="header">
     <div class="flex flex-nowrap h-full items-center header-container" #headerContainer>
       @for (column of columns(); track column; let index = $index) {
         <div class="h-full header-column relative flex gap-2 items-center justify-between flex-none">
@@ -38,8 +38,7 @@
   </emr-panel-header>
   <emr-panel-body class="relative overflow-hidden">
     <div #scrollContainer
-         class="scroll-container h-full absolute overflow-auto inset-0 flex body items-baseline"
-         (scroll)="onScroll($event)">
+         class="scroll-container h-full absolute overflow-auto inset-0 flex body items-baseline">
       <div #scrollContainerContent
            class="flex min-h-full flex-nowrap column" cdkDropListGroup>
         @for (column of columns(); track column) {

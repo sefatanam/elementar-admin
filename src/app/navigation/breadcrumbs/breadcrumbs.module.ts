@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { BreadcrumbsRoutingModule } from './breadcrumbs-routing.module';
 
-
 @NgModule({
   declarations: [],
   imports: [

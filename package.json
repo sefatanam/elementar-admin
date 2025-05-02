@@ -14,7 +14,8 @@
     "angular dashboard",
     "angular admin panel",
     "angular material components",
-    "angular admin template"
+    "angular admin template",
+    "angular ui"
   ],
   "scripts": {
     "ng": "ng",
