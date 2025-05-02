@@ -1,344 +1,279 @@
 import {
   Component,
   ElementRef,
-  ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  HostBinding,
   NgZone,
-  ChangeDetectorRef,
   Renderer2,
-  Input,
-  OnChanges,
-  SimpleChanges, inject, PLATFORM_ID
+  inject,
+  PLATFORM_ID,
+  signal,
+  computed,
+  effect,
+  input,
+  DestroyRef,
+  untracked,
+  viewChild,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
+import {
+  fromEvent,
+  map,
+  takeUntil,
+  switchMap,
+  tap,
+  merge,
+  debounceTime,
+  distinctUntilChanged,
+  Observable,
+  finalize,
+  filter,
+  Subscription
+} from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'emr-overlay-scrollbar',
-  imports: [],
+  exportAs: 'emrOverlayScrollbar',
   templateUrl: './overlay-scrollbar.component.html',
   styleUrl: './overlay-scrollbar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'emr-overlay-scrollbar'
+    'class': 'emr-overlay-scrollbar',
+    '[class.scrollbar-visible]': 'isVisible()',
+    '[class.scrollbar-interactive]': 'isInteractive()',
   }
 })
-export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnChanges {
-  private _platformId = inject(PLATFORM_ID);
+export class OverlayScrollbarComponent {
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly elRef = inject(ElementRef<HTMLElement>);
+  private readonly zone = inject(NgZone);
+  private readonly renderer = inject(Renderer2);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly router = inject(Router);
 
-  @ViewChild('scrollableContent', { static: true }) scrollableContentRef!: ElementRef<HTMLElement>;
-  @ViewChild('scrollTrack', { static: true }) scrollTrackRef!: ElementRef<HTMLElement>;
-  @ViewChild('scrollThumb', { static: true }) scrollThumbRef!: ElementRef<HTMLElement>;
+  readonly scrollableContentRef = viewChild.required<ElementRef<HTMLElement>>('scrollableContent');
+  readonly scrollTrackRef = viewChild.required<ElementRef<HTMLElement>>('scrollTrack');
+  readonly scrollThumbRef = viewChild.required<ElementRef<HTMLElement>>('scrollThumb');
 
-  @Input() scrollbarWidth: string = '8px'; // Ширина скроллбара
-  @Input() autoHide: boolean = true; // Автоматически скрывать скроллбар
+  readonly scrollbarWidth = input<string>('8px');
+  readonly autoHide = input<boolean>(true);
 
-  private scrollRatio: number = 1;
-  private isDragging: boolean = false;
-  private dragStartY: number = 0;
-  private dragStartScrollTop: number = 0;
-  private isHovering: boolean = false;
+  readonly isDragging = signal(false);
+  readonly isHovering = signal(false);
+  private readonly scrollTop = signal(0);
+  private readonly contentScrollHeight = signal(0);
+  private readonly contentClientHeight = signal(0);
+  private readonly trackClientHeight = signal(0);
+  private readonly showDueToActivity = signal(false);
+
+  readonly hasScroll = computed(() => this.contentScrollHeight() > this.contentClientHeight() + 1);
+  readonly scrollRatio = computed(() => this.hasScroll() ? this.contentClientHeight() / this.contentScrollHeight() : 1);
+
+  readonly minThumbHeight = 20;
+  readonly thumbHeight = computed(() => {
+    if (!this.hasScroll()) return 0;
+    const trackHeight = this.trackClientHeight();
+    const ratio = this.scrollRatio();
+    const calculated = trackHeight * ratio;
+    return Math.max(calculated, this.minThumbHeight);
+  });
+  readonly maxScrollTop = computed(() => Math.max(0, this.contentScrollHeight() - this.contentClientHeight()));
+  readonly maxThumbTop = computed(() => Math.max(0, this.trackClientHeight() - this.thumbHeight()));
+  readonly thumbTop = computed(() => {
+    if (!this.hasScroll()) return 0;
+    const maxScroll = this.maxScrollTop();
+    const currentScroll = this.scrollTop();
+    const maxThumb = this.maxThumbTop();
+    return maxScroll > 0 ? (currentScroll / maxScroll) * maxThumb : 0;
+  });
+  readonly isVisible = computed(() => {
+    if (!this.hasScroll()) return false;
+    if (!this.autoHide()) return true;
+    return this.isHovering() || this.isDragging() || this.showDueToActivity();
+  });
+  readonly isInteractive = computed(() => this.isHovering() || this.isDragging());
+
+  private isInitialized = signal(false);
+  private eventsSubscription: Subscription | null = null;
+  private observersSubscription: Subscription | null = null;
   private hideTimeout: any = null;
-  private isVisible: boolean = !this.autoHide; // Начальное состояние видимости
 
-  // Привязка класса к хосту для управления видимостью
-  @HostBinding('class.scrollbar-visible') get scrollbarVisible() {
-    return this.isVisible;
-  }
-  @HostBinding('class.scrollbar-interactive') get scrollbarInteractive() {
-    return this.isHovering || this.isDragging;
-  }
+  constructor() {
+    effect(() => {
+      this.scrollableContentRef();
+      this.scrollTrackRef();
+      this.scrollThumbRef();
 
-  // Привязка слушателей событий напрямую к хост-элементу не всегда надежна для mouseleave/enter,
-  // так как события могут всплывать от дочерних элементов. Используем Renderer2.
-  private unlistenMouseEnter!: () => void;
-  private unlistenMouseLeave!: () => void;
-
-  private resizeObserver!: ResizeObserver;
-  private mutationObserver!: MutationObserver;
-
-  // Слушатели для перетаскивания (глобальные, т.к. мышь может выйти за пределы элемента)
-  private boundOnMouseMove = this.onMouseMove.bind(this);
-  private boundOnMouseUp = this.onMouseUp.bind(this);
-
-  constructor(
-    private elRef: ElementRef<HTMLElement>,
-    private zone: NgZone,
-    private cdRef: ChangeDetectorRef,
-    private renderer: Renderer2
-  ) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (isPlatformServer(this._platformId)) {
-      return;
-    }
-
-    if (changes['autoHide']) {
-      this.isVisible = !this.autoHide;
-      this.updateVisibilityState(); // Обновить видимость сразу
-      this.cdRef.markForCheck(); // Пометить для проверки изменений
-    }
+      if (isPlatformBrowser(this.platformId) && !this.isInitialized()) {
+        this.initializeComponentLogic();
+        this.isInitialized.set(true);
+      }
+    });
+    this.setupStyleEffects();
+    this.destroyRef.onDestroy(() => this.cleanup());
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformServer(this._platformId)) {
-      return;
-    }
+  private initializeComponentLogic(): void {
+    this.updateDimensions();
+    this.setupObservers();
+    this.setupEventStreams();
+    this.setupRouteChanges();
+  }
 
-    const scrollableElement = this.scrollableContentRef.nativeElement;
+  private setupStyleEffects(): void {
+    effect(() => {
+      const width = this.scrollbarWidth();
+      const trackElement = this.scrollTrackRef().nativeElement;
+      const thumbElement = this.scrollThumbRef().nativeElement;
+      untracked(() => {
+        this.renderer.setStyle(trackElement, 'width', width);
+        this.renderer.setStyle(thumbElement, 'width', width);
+      });
+    });
+
+    effect(() => {
+      const height = this.thumbHeight();
+      const thumbElement = this.scrollThumbRef().nativeElement;
+      untracked(() => {
+        this.renderer.setStyle(thumbElement, 'height', `${height}px`);
+      });
+    });
+
+    effect(() => {
+      const top = this.thumbTop();
+      const thumbElement = this.scrollThumbRef().nativeElement;
+      untracked(() => {
+        this.renderer.setStyle(thumbElement, 'transform', `translateY(${top}px)`);
+      });
+    });
+  }
+
+  private setupObservers(): void {
+    const scrollableElement = this.scrollableContentRef().nativeElement;
     const hostElement = this.elRef.nativeElement;
 
-    // Используем NgZone.runOutsideAngular для событий, которые могут часто срабатывать,
-    // чтобы не запускать постоянно обнаружение изменений Angular.
+    const resize$ = new Observable<ResizeObserverEntry[]>(observer => {
+      const resizeObserver = new ResizeObserver(entries => this.zone.run(() => observer.next(entries)));
+      resizeObserver.observe(scrollableElement);
+      resizeObserver.observe(hostElement);
+      return () => resizeObserver.disconnect();
+    }).pipe(debounceTime(50));
+
+    const mutation$ = new Observable<MutationRecord[]>(observer => {
+      const mutationObserver = new MutationObserver(mutations => this.zone.run(() => observer.next(mutations)));
+      mutationObserver.observe(scrollableElement, { childList: true, subtree: true, characterData: true });
+      return () => mutationObserver.disconnect();
+    }).pipe(debounceTime(50));
+
+    this.observersSubscription = merge(resize$, mutation$)
+      .subscribe(() => {
+        this.zone.run(() => this.updateDimensions());
+      });
+  }
+
+  private setupEventStreams(): void {
+    const scrollableElement = this.scrollableContentRef().nativeElement;
+    const hostElement = this.elRef.nativeElement;
+    const thumbElement = this.scrollThumbRef().nativeElement;
+
+    const scroll$ = fromEvent(scrollableElement, 'scroll', { passive: true }).pipe(
+      tap(() => {
+        this.zone.run(() => this.scrollTop.set(scrollableElement.scrollTop));
+      }),
+      filter(() => this.autoHide()),
+      tap(() => this.zone.run(() => this.showDueToActivity.set(true))),
+      debounceTime(1500),
+      tap(() => {
+        untracked(() => {
+          if (!this.isHovering() && !this.isDragging()) {
+            this.zone.run(() => this.showDueToActivity.set(false));
+          }
+        })
+      })
+    );
+
+    const hostEnter$ = fromEvent<MouseEvent>(hostElement, 'mouseenter').pipe(
+      tap(() => this.zone.run(() => {
+        this.isHovering.set(true);
+        if (untracked(this.autoHide)) this.showDueToActivity.set(true);
+      }))
+    );
+    const hostLeave$ = fromEvent<MouseEvent>(hostElement, 'mouseleave').pipe(
+      tap(() => this.zone.run(() => {
+        this.isHovering.set(false);
+        if(untracked(this.autoHide) && !untracked(this.isDragging)){
+          this.scheduleHide();
+        }
+      }))
+    );
+
+    const thumbMouseDown$ = fromEvent<MouseEvent>(thumbElement, 'mousedown');
+    const mouseMove$ = fromEvent<MouseEvent>(document, 'mousemove');
+    const mouseUp$ = fromEvent<MouseEvent>(document, 'mouseup');
+
+    const thumbDrag$ = thumbMouseDown$.pipe(
+      tap(event => {
+        event.preventDefault();
+        event.stopPropagation();
+      }),
+      switchMap(startEvent => {
+        const startY = startEvent.clientY;
+        const startScrollTop = scrollableElement.scrollTop;
+        const initialTrackHeight = untracked(() => this.trackClientHeight());
+        const initialContentHeight = untracked(() => this.contentScrollHeight());
+
+        this.zone.run(() => this.isDragging.set(true));
+
+        return mouseMove$.pipe(
+          map(moveEvent => {
+            moveEvent.preventDefault();
+            const deltaY = moveEvent.clientY - startY;
+            const scrollDelta = initialTrackHeight > 0
+              ? (deltaY / initialTrackHeight) * initialContentHeight
+              : 0;
+            return startScrollTop + scrollDelta;
+          }),
+          distinctUntilChanged(),
+          tap(newScrollTop => {
+            this.renderer.setProperty(scrollableElement, 'scrollTop', newScrollTop);
+          }),
+          takeUntil(mouseUp$),
+          finalize(() => {
+            this.zone.run(() => {
+              this.isDragging.set(false);
+              untracked(() => {
+                if (this.autoHide() && !this.isHovering()) {
+                  this.scheduleHide();
+                }
+              })
+            });
+          })
+        );
+      })
+    );
+
     this.zone.runOutsideAngular(() => {
-      scrollableElement.addEventListener('scroll', this.onScroll.bind(this), { passive: true });
-
-      // Обработчики для autoHide
-      this.unlistenMouseEnter = this.renderer.listen(hostElement, 'mouseenter', this.onHostMouseEnter.bind(this));
-      this.unlistenMouseLeave = this.renderer.listen(hostElement, 'mouseleave', this.onHostMouseLeave.bind(this));
-
-      // Наблюдатели за размерами и контентом
-      this.resizeObserver = new ResizeObserver(this.updateScrollbar.bind(this));
-      this.resizeObserver.observe(scrollableElement);
-      this.resizeObserver.observe(hostElement); // Наблюдаем и за хостом
-
-      this.mutationObserver = new MutationObserver(this.updateScrollbar.bind(this));
-      this.mutationObserver.observe(scrollableElement, { childList: true, subtree: true, characterData: true });
+      this.eventsSubscription = merge(
+        scroll$,
+        hostEnter$,
+        hostLeave$,
+        thumbDrag$
+      ).subscribe();
     });
-
-    // Первоначальный расчет и установка стилей
-    this.updateScrollbar();
-    this.applyScrollbarStyles(); // Применяем стили на основе Input
-    this.updateVisibilityState(); // Устанавливаем начальную видимость
-    this.cdRef.detectChanges(); // Запускаем обнаружение изменений один раз
   }
 
-  ngOnDestroy(): void {
-    if (isPlatformServer(this._platformId)) {
-      return;
-    }
-
-    // Очистка слушателей и наблюдателей
-    const scrollableElement = this.scrollableContentRef?.nativeElement;
-    if (scrollableElement) {
-      // Удаляем слушатель скролла (если он был добавлен)
-      // this.zone не нужен здесь, т.к. мы внутри Angular контекста при уничтожении
-      scrollableElement.removeEventListener('scroll', this.onScroll.bind(this));
-    }
-
-    if (this.unlistenMouseEnter) this.unlistenMouseEnter();
-    if (this.unlistenMouseLeave) this.unlistenMouseLeave();
-
-    if (this.resizeObserver) {
-      this.resizeObserver.disconnect();
-    }
-    if (this.mutationObserver) {
-      this.mutationObserver.disconnect();
-    }
-
-    // Удаляем глобальные слушатели, если они остались активны
-    this.removeDragListeners();
-    this.clearHideTimeout(); // Очищаем таймаут скрытия
-  }
-
-  // --- Обработчики событий ---
-
-  private onScroll(): void {
-    this.updateThumbPosition();
-    if (this.autoHide) {
-      this.showScrollbarTemporarily();
-    }
-  }
-
-  private onHostMouseEnter(): void {
-    this.isHovering = true;
-    if (this.autoHide) {
-      this.clearHideTimeout(); // Отменяем скрытие, если оно было запланировано
-      this.isVisible = this.hasScroll(); // Показываем только если есть скролл
-      this.updateVisibilityState();
-    }
-    this.cdRef.markForCheck();
-  }
-
-  private onHostMouseLeave(): void {
-    this.isHovering = false;
-    if (this.autoHide && !this.isDragging) { // Не скрывать, если идет перетаскивание
-      this.hideScrollbarAfterDelay();
-    }
-    // Нужно запустить change detection вручную
-    this.cdRef.markForCheck();
-  }
-
-  // --- Логика перетаскивания ---
-
-  onThumbMouseDown(event: MouseEvent): void {
-    // Предотвращаем выделение текста при перетаскивании
-    event.preventDefault();
-    event.stopPropagation(); // Останавливаем всплытие, чтобы не сработали другие клики
-
-    this.isDragging = true;
-    this.dragStartY = event.clientY;
-    this.dragStartScrollTop = this.scrollableContentRef.nativeElement.scrollTop;
-
-    // Добавляем глобальные слушатели для отслеживания движения мыши вне компонента
-    // Делаем это внутри зоны, чтобы обработчики могли обновлять состояние Angular
+  private scheduleHide(): void {
+    this.clearHideTimeout();
     this.zone.runOutsideAngular(() => {
-      document.addEventListener('mousemove', this.boundOnMouseMove, { passive: false }); // passive: false чтобы использовать preventDefault если надо
-      document.addEventListener('mouseup', this.boundOnMouseUp, { passive: true });
-    });
-
-    // Обновляем состояние (например, класс для hover-эффекта во время перетаскивания)
-    this.zone.run(() => this.cdRef.markForCheck());
-  }
-
-  private onMouseMove(event: MouseEvent): void {
-    if (!this.isDragging) return;
-
-    // Предотвращаем стандартное поведение (например, выделение текста)
-    event.preventDefault();
-
-    const scrollableElement = this.scrollableContentRef.nativeElement;
-    const trackElement = this.scrollTrackRef.nativeElement;
-
-    const deltaY = event.clientY - this.dragStartY;
-    const trackHeight = trackElement.clientHeight;
-    const contentScrollHeight = scrollableElement.scrollHeight;
-
-    // Преобразуем смещение мыши в смещение скролла
-    const scrollDelta = (deltaY / trackHeight) * contentScrollHeight;
-    const newScrollTop = this.dragStartScrollTop + scrollDelta;
-
-    // Устанавливаем новое значение scrollTop
-    scrollableElement.scrollTop = newScrollTop;
-
-    // Обновление позиции ползунка не требуется явно, т.к. сработает событие 'scroll'
-    // Но если 'scroll' не срабатывает мгновенно, можно вызвать updateThumbPosition()
-    // this.updateThumbPosition(); // Раскомментировать если есть задержки
-  }
-
-  private onMouseUp(event: MouseEvent): void {
-    if (this.isDragging) {
-      this.isDragging = false;
-      this.removeDragListeners();
-
-      // Если мышь все еще над компонентом, не скрываем сразу
-      if (this.autoHide && !this.isHovering) {
-        this.hideScrollbarAfterDelay();
-      }
-
-      this.cdRef.markForCheck();
-    }
-  }
-
-  private removeDragListeners(): void {
-    document.removeEventListener('mousemove', this.boundOnMouseMove);
-    document.removeEventListener('mouseup', this.boundOnMouseUp);
-  }
-
-  private updateScrollbar(): void {
-    console.log('updateScrollbar');
-
-    const scrollableElement = this.scrollableContentRef.nativeElement;
-    const thumbElement = this.scrollThumbRef.nativeElement;
-    const trackElement = this.scrollTrackRef.nativeElement;
-
-    const clientHeight = scrollableElement.clientHeight;
-    const scrollHeight = scrollableElement.scrollHeight;
-    const trackHeight = trackElement.clientHeight; // Высота видимой части трека
-
-    // Рассчитываем соотношение видимой области к общей высоте контента
-    this.scrollRatio = clientHeight / scrollHeight;
-
-    // Устанавливаем высоту ползунка
-    // Минимальная высота ползунка для удобства
-    const minThumbHeight = 20; // px
-    const thumbHeight = Math.max(trackHeight * this.scrollRatio, minThumbHeight);
-
-    // Обновляем видимость скроллбара (показываем/скрываем трек)
-    const shouldBeVisible = this.hasScroll();
-
-    if (!this.autoHide || this.isHovering) {
-      this.isVisible = shouldBeVisible;
-    } else {
-      if (!shouldBeVisible) {
-        this.isVisible = false;
-      }
-    }
-
-    if (shouldBeVisible) {
-      thumbElement.style.height = `${thumbHeight}px`;
-      // Обновляем позицию ползунка
-      this.updateThumbPosition();
-    }
-
-    this.updateVisibilityState();
-    this.cdRef.markForCheck();
-  }
-
-  private updateThumbPosition(): void {
-    const scrollableElement = this.scrollableContentRef.nativeElement;
-    const thumbElement = this.scrollThumbRef.nativeElement;
-    const trackElement = this.scrollTrackRef.nativeElement;
-
-    const scrollTop = scrollableElement.scrollTop;
-    const scrollHeight = scrollableElement.scrollHeight;
-    const clientHeight = scrollableElement.clientHeight;
-    const trackHeight = trackElement.clientHeight;
-    const thumbHeight = thumbElement.offsetHeight; // Используем реальную высоту ползунка
-
-    // Максимальная позиция scrollTop
-    const maxScrollTop = scrollHeight - clientHeight;
-    // Максимальная позиция ползунка внутри трека
-    const maxThumbTop = trackHeight - thumbHeight;
-
-    // Рассчитываем позицию ползунка пропорционально
-    // Проверяем maxScrollTop > 0 чтобы избежать деления на ноль если скролла нет
-    const thumbTop = maxScrollTop > 0 ? (scrollTop / maxScrollTop) * maxThumbTop : 0;
-
-    // Применяем позицию через transform для лучшей производительности
-    thumbElement.style.transform = `translateY(${thumbTop}px)`;
-  }
-
-  private applyScrollbarStyles(): void {
-    const trackElement = this.scrollTrackRef?.nativeElement;
-    const thumbElement = this.scrollThumbRef?.nativeElement;
-
-    if (trackElement && thumbElement) {
-      // this.renderer.setStyle(trackElement, 'background-color', this.trackColor);
-      this.renderer.setStyle(trackElement, 'width', this.scrollbarWidth);
-      // this.renderer.setStyle(thumbElement, 'background-color', this.thumbColor);
-      this.renderer.setStyle(thumbElement, 'width', this.scrollbarWidth);
-    }
-  }
-
-  private hasScroll(): boolean {
-    const el = this.scrollableContentRef?.nativeElement;
-    // Проверяем, есть ли вертикальный скролл (с небольшим запасом в 1px)
-    return el ? el.scrollHeight > el.clientHeight + 1 : false;
-  }
-
-  // --- Логика AutoHide ---
-  private showScrollbarTemporarily(): void {
-    if (!this.autoHide || this.isHovering || this.isDragging) return; // Не нужно, если мышь над элементом или идет перетаскивание
-
-    this.clearHideTimeout();
-    this.isVisible = this.hasScroll(); // Показываем, только если есть скролл
-    this.updateVisibilityState();
-    this.hideScrollbarAfterDelay();
-
-    // Уведомляем Angular
-    this.zone.run(() => this.cdRef.markForCheck());
-  }
-
-  private hideScrollbarAfterDelay(): void {
-    this.clearHideTimeout();
-    this.zone.runOutsideAngular(() => { // Таймаут лучше выносить из зоны
       this.hideTimeout = setTimeout(() => {
-        this.isVisible = false;
-        this.updateVisibilityState();
-        // Уведомляем Angular после выполнения таймаута
-        this.zone.run(() => this.cdRef.markForCheck());
-      }, 1500); // Задержка перед скрытием (1.5 секунды)
+        untracked(() => {
+          if(!this.isHovering() && !this.isDragging()) {
+            this.zone.run(() => this.showDueToActivity.set(false));
+          }
+        });
+        this.hideTimeout = null;
+      }, 100);
     });
   }
 
@@ -349,6 +284,54 @@ export class OverlayScrollbarComponent implements AfterViewInit, OnDestroy, OnCh
     }
   }
 
-  private updateVisibilityState(): void {
+  private updateDimensions(): void {
+    const scrollableElement = this.scrollableContentRef().nativeElement;
+    const trackElement = this.scrollTrackRef().nativeElement;
+
+    if (scrollableElement && trackElement) {
+      const newScrollHeight = scrollableElement.scrollHeight;
+      const newClientHeight = scrollableElement.clientHeight;
+      const newTrackHeight = trackElement.clientHeight;
+      const newScrollTop = scrollableElement.scrollTop;
+
+      this.contentScrollHeight.set(newScrollHeight);
+      this.contentClientHeight.set(newClientHeight);
+      this.trackClientHeight.set(newTrackHeight);
+
+      if (this.scrollTop() !== newScrollTop) {
+        this.scrollTop.set(newScrollTop);
+      }
+    } else {
+      this.contentScrollHeight.set(0);
+      this.contentClientHeight.set(0);
+      this.trackClientHeight.set(0);
+      this.scrollTop.set(0);
+    }
+  }
+
+  private cleanup(): void {
+    this.clearHideTimeout();
+    if (this.eventsSubscription) {
+      this.eventsSubscription.unsubscribe();
+      this.eventsSubscription = null;
+    }
+    if (this.observersSubscription) {
+      this.observersSubscription.unsubscribe();
+      this.observersSubscription = null;
+    }
+  }
+
+  private setupRouteChanges() {
+    this.router.events
+      .pipe(
+        filter(event=> event instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => {
+        requestAnimationFrame(() => {
+          this.updateDimensions();
+        });
+      })
+    ;
   }
 }

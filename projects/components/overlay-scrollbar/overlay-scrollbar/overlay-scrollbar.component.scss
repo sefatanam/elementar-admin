@@ -3,6 +3,7 @@
 :host {
   --emr-overlay-scrollbar-thumb-bg: var(--color-neutral-300);
   --emr-overlay-scrollbar-thumb-hover-bg: var(--color-neutral-400);
+  --emr-overlay-scrollbar-thumb-active-bg: var(--color-neutral-400);
   --emr-overlay-scrollbar-width: 8px;
   --emr-overlay-scrollbar-scroll-track-bg: transparent;
 
@@ -51,7 +52,12 @@
     transition: background-color 0.2s ease-in-out;
   }
 
+  .scroll-thumb:hover {
+    background-color: var(--emr-overlay-scrollbar-thumb-hover-bg);
+  }
+
   .scroll-thumb:active {
+    background-color: var(--emr-overlay-scrollbar-thumb-active-bg);
   }
 
   &.scrollbar-visible {
@@ -61,13 +67,11 @@
   }
 
   &.scrollbar-interactive {
-    .scroll-thumb {
-      background-color: var(--emr-overlay-scrollbar-thumb-hover-bg);
-    }
   }
 }
 
 :host-context(html.dark) {
   --emr-overlay-scrollbar-thumb-bg: var(--color-neutral-700);
   --emr-overlay-scrollbar-thumb-hover-bg: var(--color-neutral-600);
+  --emr-overlay-scrollbar-thumb-active-bg: var(--color-neutral-600);
 }
