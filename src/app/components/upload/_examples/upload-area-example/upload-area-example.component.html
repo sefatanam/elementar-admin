@@ -1,6 +1,9 @@
 <emr-upload-area #uploadArea="emrUploadArea" (fileSelected)="onFileSelected($event)" class="mb-5">
+  <mat-icon emrUploadAreaIcon>attach_file</mat-icon>
   @if (!uploadArea.api.isDropActive) {
-    Drag & drop files here
+    Drag & drop <button class="text-primary cursor-pointer"
+                        emrUploadTrigger
+                        (fileSelected)="onFileSelected($event)">or choose file(s)</button> to upload
   } @else {
     <div class="font-medium">Drop files here</div>
   }

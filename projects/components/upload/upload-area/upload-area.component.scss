@@ -10,10 +10,11 @@
   --emr-upload-area-drop-active-border: 1px dashed var(--color-primary);
   --emr-upload-area-drop-active-color: var(--color-primary);
 
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  display: flex;
   color: var(--emr-upload-area-color);
   border-radius: var(--emr-upload-area-border-radius);
   border: var(--emr-upload-area-border);
@@ -24,5 +25,17 @@
   &.is-drop-active {
     border: var(--emr-upload-area-drop-active-border);
     color: var(--emr-upload-area-drop-active-color);
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+
+  .icon {
+    margin-bottom: --spacing(2);
+
+    &:empty {
+      display: none;
+    }
   }
 }
