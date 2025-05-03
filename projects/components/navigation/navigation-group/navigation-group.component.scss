@@ -1,8 +1,0 @@
-:host {
-  display: block;
-  border-radius: var(--emr-navigation-group-border-radius);
-}
-
-:host:has(.emr-navigation-group-toggle.is-active) {
-  background: var(--emr-navigation-group-active-bg);
-}

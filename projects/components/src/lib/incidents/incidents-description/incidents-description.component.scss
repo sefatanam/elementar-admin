@@ -1,0 +1,7 @@
+@reference 'tailwindcss';
+
+:host {
+  display: block;
+  font-size: var(--emr-incidents-description-font-size);
+  opacity: var(--emr-incidents-description-opacity);
+}

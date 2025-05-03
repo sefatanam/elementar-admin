@@ -443,7 +443,7 @@ html {
     --color-error-1000: #{mat.get-theme-color($m3-dark-theme, error, 10)};
 
     --mat-table-row-item-outline-color: var(--color-neutral-300);
-    --color-warn: var(--color-red-500);
+    --color-warn: theme(--color-red-500);
 
     @include mat.all-component-colors($m3-dark-theme);
     @include mat.system-level-colors($m3-dark-theme);

@@ -1,0 +1,6 @@
+@reference 'tailwindcss';
+
+:host {
+  position: absolute;
+  color: var(--emr-gauge-value-color);
+}

@@ -11,7 +11,7 @@
       "@app/*": [
         "./src/app/@app/*"
       ],
-      "@elementar-ui/components/*": ["./projects/components/*"],
+      "@elementar-ui/components/*": ["./projects/components/src/lib/*"],
       "@elementar-ui/components": ["./projects/components"],
     },
     "outDir": "./dist/out-tsc",
