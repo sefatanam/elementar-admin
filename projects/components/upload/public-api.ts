@@ -4,7 +4,11 @@ export * from './file/file.component';
 export * from './file-control/file-control.component';
 export * from './files-grid/files-grid.component';
 export * from './grid-file/grid-file.component';
+export * from './upload-container/upload-container.component';
+export * from './upload-max-file-size/upload-max-file-size.component';
+export * from './upload-allowed-types/upload-allowed-types.component';
 export * from './upload-trigger.directive';
 export * from './upload-area-icon.directive';
+export * from './upload-area-main-state.directive';
+export * from './upload-area-drop-state.directive';
 export * from './types';
-

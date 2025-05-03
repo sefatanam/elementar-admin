@@ -4,7 +4,7 @@ import {
   HostListener,
   inject, input,
   output,
-  Renderer2
+  Renderer2, signal,
 } from '@angular/core';
 import { UploadFileSelectedEvent } from '../types';
 
@@ -13,6 +13,8 @@ import { UploadFileSelectedEvent } from '../types';
   exportAs: 'emrUploadArea',
   templateUrl: './upload-area.component.html',
   styleUrl: './upload-area.component.scss',
+  imports: [
+  ],
   host: {
     'class': 'emr-upload-area',
     '[class.is-drop-active]': 'isDropActive'
@@ -43,6 +45,24 @@ export class UploadAreaComponent {
 
   @HostListener('dragenter', ['$event'])
   private _handleDragEnter(event: any) {
+    console.log(event);
+    // if (event.dataTransfer) {
+    //   const files: File[] = [];
+    //
+    //   if (files) {
+    //     for (let i = 0; i < event.dataTransfer.files.length; i++) {
+    //       files.push(event.dataTransfer.files[i]);
+    //     }
+    //   }
+    //
+    //   this.fileSelected.emit({
+    //     multiple: this.multiple(),
+    //     fileList: event.dataTransfer.files,
+    //     event,
+    //     files
+    //   });
+    // }
+
     this.isDropActive = true;
     event.preventDefault();
   }
