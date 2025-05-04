@@ -3,26 +3,26 @@
 :host {
   --emr-color-picker-bg: white;
   --emr-color-picker-border-radius: theme(--radius-md);
-  --emr-color-picker-margin-offset: calc(var(--spacing) * 2);
+  --emr-color-picker-margin-offset: --spacing(2);
   --emr-color-picker-border: 0 solid var(--color-neutral-200);
-  --emr-color-picker-padding: 0;
-  --emr-color-picker-gap: 0;
+  --emr-color-picker-padding: --spacing(3);
+  --emr-color-picker-gap: --spacing(2);
 
-  --emr-color-picker-saturation-width: 15rem;
-  --emr-color-picker-saturation-height: 8.75rem;
-  --emr-color-picker-saturation-pointer-size: calc(var(--spacing) * 7);
+  --emr-color-picker-saturation-width: 260px;
+  --emr-color-picker-saturation-height: 110px;
+  --emr-color-picker-saturation-pointer-size: --spacing(5);
   --emr-color-picker-saturation-pointer-shadow: theme(--shadow-md);
   --emr-color-picker-saturation-pointer-border: 2px solid white;
 
   --emr-color-picker-hue-width: var(--emr-color-picker-saturation-width);
-  --emr-color-picker-hue-height: calc(var(--spacing) * 7);
-  --emr-color-picker-hue-pointer-size: calc(var(--spacing) * 7);
+  --emr-color-picker-hue-height: --spacing(3);
+  --emr-color-picker-hue-pointer-size: --spacing(5);
   --emr-color-picker-hue-pointer-shadow: theme(--shadow-md);
   --emr-color-picker-hue-pointer-border: 2px solid white;
 
   --emr-color-picker-alpha-width: var(--emr-color-picker-saturation-width);
-  --emr-color-picker-alpha-height: calc(var(--spacing) * 7);
-  --emr-color-picker-alpha-pointer-size: calc(var(--spacing) * 7);
+  --emr-color-picker-alpha-height: --spacing(3);
+  --emr-color-picker-alpha-pointer-size: --spacing(5);
   --emr-color-picker-alpha-pointer-shadow: theme(--shadow-md);
   --emr-color-picker-alpha-pointer-border: 2px solid white;
 

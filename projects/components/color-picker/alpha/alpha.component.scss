@@ -6,7 +6,7 @@
   width: var(--emr-color-picker-alpha-width);
   height: var(--emr-color-picker-alpha-height);
   position: relative;
-  border-radius: 0 0 var(--emr-color-picker-border-radius) var(--emr-color-picker-border-radius);
+  border-radius: var(--emr-color-picker-border-radius);
   background-position: 0 0, 6px 6px;
   background-size: 12px 12px;
   background-image: repeating-linear-gradient(45deg,#dbdbdb 25%,transparent 25%,transparent 75%,#dbdbdb 75%,#dbdbdb),repeating-linear-gradient(45deg,#dbdbdb 25%,#fff 25%,#fff 75%,#dbdbdb 75%,#dbdbdb);

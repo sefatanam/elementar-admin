@@ -6,7 +6,7 @@
   position: relative;
   width: var(--emr-color-picker-saturation-width);
   height: var(--emr-color-picker-saturation-height);
-  border-radius: var(--emr-color-picker-border-radius) var(--emr-color-picker-border-radius) 0 0;
+  border-radius: var(--emr-color-picker-border-radius);
 
   &:before {
     content: '';

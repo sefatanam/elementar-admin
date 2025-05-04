@@ -7,7 +7,7 @@ import {
   model,
   OnInit, output, signal
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { ColorPickerControl } from '../helpers/control';
 import { UltColorPickerChangeFormat } from '../properties';
@@ -16,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SaturationComponent } from '../saturation/saturation.component';
 import { HueComponent } from '../hue/hue.component';
 import { AlphaComponent } from '../alpha/alpha.component';
+import { isValidHexColor } from '@elementar-ui/components/color-picker/helpers/is-valid-hex-color';
 
 @Component({
   selector: 'emr-color-picker',
@@ -23,7 +24,8 @@ import { AlphaComponent } from '../alpha/alpha.component';
   imports: [
     SaturationComponent,
     HueComponent,
-    AlphaComponent
+    AlphaComponent,
+    FormsModule
   ],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',
@@ -114,6 +116,16 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
         this.rawColorChange.emit(color);
       })
     ;
+  }
+
+  protected onHexColorChange(hexColor: string) {
+    if (this.control.value.toHexString() === hexColor) {
+      return;
+    }
+
+    if (isValidHexColor(hexColor)) {
+      this.control.setValueFrom(hexColor);
+    }
   }
 
   private _hex(color: Color) {
