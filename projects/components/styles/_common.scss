@@ -1,6 +1,5 @@
 @use "@angular/cdk/overlay-prebuilt";
 @use '@angular/material' as mat;
-@use 'material-symbols/outlined';
 
 $m3-light-theme: mat.define-theme((
   color: (
@@ -171,10 +170,11 @@ $m3-dark-theme: mat.define-theme((
 }
 
 .mat-icon {
-  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-family: 'Material Symbols Outlined', serif;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
 
   &.filled {
-    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+    font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
   }
 }
 
@@ -189,7 +189,7 @@ $m3-dark-theme: mat.define-theme((
 body {
   display: block;
   min-height: 100vh;
-  font-family: "Open Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: var(--text-md);
   line-height: var(--leading-normal);
   background: var(--color-background);
@@ -488,13 +488,21 @@ html {
   }
 }
 
-:root,
-html.dark {
+:root {
   --sys-body-large: 400 var(--text-md) / var(--leading-loose) var(--font-sans);
 }
 
+html.dark {
+  --sys-body-large: 400 var(--text-md) / var(--leading-loose) var(--font-sans);
+
+  .code {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+  }
+}
+
 @theme static {
-  --font-sans: "Open Sans", sans-serif;
+  --font-sans: "Open Sans";
 
   // primary
   --color-on-primary: var(--sys-on-primary);

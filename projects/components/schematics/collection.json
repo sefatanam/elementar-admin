@@ -11,6 +11,11 @@
       "description": "Sets up the project after dependencies have been installed",
       "factory": "./ng-add/setup-project",
       "schema": "./ng-add/schema.json"
+    },
+    "add-material-symbols-font": {
+      "description": "Adds the Material Symbols font link to index.html",
+      "factory": "./ng-add/add-material-icons-font#ngAdd",
+      "schema": "./ng-add/schema.json"
     }
   }
 }

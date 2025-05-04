@@ -5,7 +5,7 @@ import { NodePackageInstallTask, RunSchematicTask } from '@angular-devkit/schema
 import { Schema } from './schema';
 
 const DEPENDENCIES = {
-  '@elementar-ui/components': '^0.3.1',
+  '@elementar-ui/components': '^0.3.2',
   "@dicebear/collection": "^9.2.2",
   "@dicebear/core": "^9.2.2",
   "@iconify-json/circle-flags": "^1.2.4",
@@ -33,7 +33,6 @@ const DEPENDENCIES = {
   "emoji-toolkit": "^8.0.0",
   "iconify-icon": "^2.3.0",
   "libphonenumber-js": "^1.11.15",
-  "material-symbols": "^0.27.1",
   "uuid": "^11.0.3",
   "emojibase-data": "^16.0.2"
 };
@@ -99,6 +98,7 @@ export function ngAdd(options: Schema): Rule {
     context.addTask(new RunSchematicTask('ng-add-setup-project', options), [
       context.addTask(new NodePackageInstallTask()),
     ]);
+    context.addTask(new RunSchematicTask('add-material-symbols-font', options));
     return tree;
   };
 }
