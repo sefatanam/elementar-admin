@@ -1,22 +1,40 @@
-// src/my-schematic/index.ts
 import { Rule, SchematicContext, Tree, SchematicsException } from '@angular-devkit/schematics';
-import { getWorkspace } from '@schematics/angular/utility/workspace';
-import { JsonValue } from '@angular-devkit/core'; // Полезно для типизации
-import { Schema } from './schema';
+import { getWorkspace, ProjectDefinition } from '@schematics/angular/utility/workspace';
+import { JSDOM } from 'jsdom';
 
-export default function ngAdd(options: Schema): Rule {
+export function ngAdd(options: { project?: string }): Rule {
   return async (tree: Tree, context: SchematicContext) => {
 
     const workspace = await getWorkspace(tree);
-    const projectName = options.project || workspace.extensions['defaultProject'] as string;
+
+    let projectName: string | undefined = options.project;
 
     if (!projectName) {
-      throw new SchematicsException('Could not determine project name. Please specify it using the --project option.');
+      projectName = workspace.extensions['defaultProject'] as string | undefined;
+      if(projectName) {
+        context.logger.debug(`Project name not specified, using default project: "${projectName}"`);
+      }
     }
 
-    const project = workspace.projects.get(projectName);
+    if (!projectName) {
+      const projectNames = Array.from(workspace.projects.keys());
+      if (projectNames.length > 0) {
+        projectName = projectNames[0];
+        context.logger.info(`Project name not specified and no default project found. Using the first project found: "${projectName}"`);
+      }
+    }
+
+    if (!projectName) {
+      throw new SchematicsException(
+        'Could not determine the target project. ' +
+        'Please specify the project name using the --project option, set a default project, ' +
+        'or ensure at least one project exists in angular.json.'
+      );
+    }
+
+    const project: ProjectDefinition | undefined = workspace.projects.get(projectName);
     if (!project) {
-      throw new SchematicsException(`Project "${projectName}" not found in workspace.`);
+      throw new SchematicsException(`Project "${projectName}" not found in workspace configuration.`);
     }
 
     const buildTarget = project.targets.get('build');
@@ -26,7 +44,7 @@ export default function ngAdd(options: Schema): Rule {
     }
 
     const indexPath = buildTarget.options['index'];
-    context.logger.info(`Found index.html: ${indexPath}`);
+    context.logger.info(`Targeting index.html: ${indexPath} for project "${projectName}"`);
 
     const indexContentBuffer = tree.read(indexPath);
     if (!indexContentBuffer) {
@@ -34,17 +52,9 @@ export default function ngAdd(options: Schema): Rule {
     }
     const indexContent = indexContentBuffer.toString('utf-8');
 
-    let JSDOM;
-    try {
-      JSDOM = (await import('jsdom')).JSDOM;
-    } catch (e) {
-      context.logger.error(`❌ Failed to load jsdom. `
-        + `Make sure 'jsdom' is installed as a dependency in your schematics project: `
-        + `'npm install --save jsdom @types/jsdom'`);
-      throw new SchematicsException(`Error loading jsdom: ${e}`);
-    }
 
     try {
+      // Используем JSDOM напрямую, так как он импортирован статически
       const dom = new JSDOM(indexContent);
       const document = dom.window.document;
       const head = document.querySelector('head');
@@ -78,8 +88,6 @@ export default function ngAdd(options: Schema): Rule {
 
     } catch (e) {
       context.logger.error(`❌ Error parsing or modifying ${indexPath}: ${e instanceof Error ? e.message : e}`);
-      // Optionally re-throw if the update is critical
-      // throw new SchematicsException(`Error processing ${indexPath}: ${e}`);
       return tree;
     }
 

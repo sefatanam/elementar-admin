@@ -4,6 +4,9 @@
   "lib": {
     "entryFile": "index.ts"
   },
+  "allowedNonPeerDependencies": [
+    "jsdom"
+  ],
   "assets": [
     "styles"
   ]
