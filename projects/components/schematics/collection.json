@@ -12,9 +12,9 @@
       "factory": "./ng-add/setup-project",
       "schema": "./ng-add/schema.json"
     },
-    "add-material-symbols-font": {
-      "description": "Adds the Material Symbols font link to index.html",
-      "factory": "./ng-add/add-material-icons-font#ngAdd",
+    "ng-add-fonts": {
+      "description": "Adds font links to index.html",
+      "factory": "./ng-add/add-fonts#ngAdd",
       "schema": "./ng-add/schema.json"
     }
   }

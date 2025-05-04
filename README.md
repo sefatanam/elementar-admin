@@ -26,10 +26,10 @@
 
 ## Install
 
-If you don't have a project yet, just create a new project:
+If you don't have a project yet, just create a new project (sass styles are mandatory):
 
 ```bash
-ng new elementar-project-name
+ng new elementar-project-name --style=scss 
 ```
 
 Go to directory `elementar-project-name` (or your project folder name) and run the command:

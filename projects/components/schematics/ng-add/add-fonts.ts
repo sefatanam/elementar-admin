@@ -2,7 +2,7 @@ import { Rule, SchematicContext, Tree, SchematicsException } from '@angular-devk
 import { getWorkspace, ProjectDefinition } from '@schematics/angular/utility/workspace';
 import { JSDOM } from 'jsdom';
 
-export function ngAdd(options: { project?: string }): Rule {
+export function ngAdd(options: { project?: string }): Rule { // Переименовал функцию для ясности
   return async (tree: Tree, context: SchematicContext) => {
 
     const workspace = await getWorkspace(tree);
@@ -54,37 +54,57 @@ export function ngAdd(options: { project?: string }): Rule {
 
 
     try {
-      // Используем JSDOM напрямую, так как он импортирован статически
       const dom = new JSDOM(indexContent);
       const document = dom.window.document;
       const head = document.querySelector('head');
 
       if (!head) {
-        context.logger.warn(`⚠️ <head> tag not found in ${indexPath}. Skipping link addition.`);
+        context.logger.warn(`⚠️ <head> tag not found in ${indexPath}. Skipping link additions.`);
         return tree;
       }
 
-      const linkHref = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block";
-      const linkRel = "stylesheet";
+      let changed = false; // Флаг для отслеживания, были ли внесены изменения
 
-      const existingLink = head.querySelector(`link[rel="${linkRel}"][href="${linkHref}"]`);
+      const symbolsLinkHref = "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block";
+      const symbolsLinkRel = "stylesheet";
+      const existingSymbolsLink = head.querySelector(`link[rel="${symbolsLinkRel}"][href="${symbolsLinkHref}"]`);
 
-      if (existingLink) {
+      if (!existingSymbolsLink) {
+        const newSymbolsLinkElement = document.createElement('link');
+        newSymbolsLinkElement.setAttribute('rel', symbolsLinkRel);
+        newSymbolsLinkElement.setAttribute('href', symbolsLinkHref);
+        head.appendChild(newSymbolsLinkElement);
+        head.appendChild(document.createTextNode('\n')); // Добавляем перенос строки
+        context.logger.info(`✅ Adding Material Symbols link to ${indexPath}`);
+        changed = true;
+      } else {
         context.logger.info(`ℹ️ Material Symbols link already exists in ${indexPath}. Skipping.`);
-        return tree;
       }
 
-      const newLinkElement = document.createElement('link');
-      newLinkElement.setAttribute('rel', linkRel);
-      newLinkElement.setAttribute('href', linkHref);
+      const openSansLinkHref = "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap";
+      const openSansLinkRel = "stylesheet";
+      const existingOpenSansLink = head.querySelector(`link[rel="${openSansLinkRel}"][href="${openSansLinkHref}"]`);
 
-      head.appendChild(newLinkElement);
-      head.appendChild(document.createTextNode('\n'));
+      if (!existingOpenSansLink) {
+        const newOpenSansLinkElement = document.createElement('link');
+        newOpenSansLinkElement.setAttribute('rel', openSansLinkRel);
+        newOpenSansLinkElement.setAttribute('href', openSansLinkHref);
+        head.appendChild(newOpenSansLinkElement);
+        head.appendChild(document.createTextNode('\n')); // Добавляем перенос строки
+        context.logger.info(`✅ Adding Open Sans font link to ${indexPath}`);
+        changed = true;
+      } else {
+        context.logger.info(`ℹ️ Open Sans font link already exists in ${indexPath}. Skipping.`);
+      }
 
-      context.logger.info(`✅ Adding Material Symbols link to ${indexPath}`);
+      if (changed) {
+        const updatedContent = dom.serialize();
+        tree.overwrite(indexPath, updatedContent);
+        context.logger.info(`✅ Successfully updated ${indexPath}`);
+      } else {
+        context.logger.info(`✅ No changes needed for ${indexPath}.`);
+      }
 
-      const updatedContent = dom.serialize();
-      tree.overwrite(indexPath, updatedContent);
 
     } catch (e) {
       context.logger.error(`❌ Error parsing or modifying ${indexPath}: ${e instanceof Error ? e.message : e}`);
