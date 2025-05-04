@@ -1,4 +1,4 @@
-import { Component, input, numberAttribute } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, numberAttribute } from '@angular/core';
 import { UploadFileState } from '../types';
 
 @Component({
@@ -6,8 +6,10 @@ import { UploadFileState } from '../types';
   exportAs: 'emrFile',
   templateUrl: './file.component.html',
   styleUrl: './file.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'emr-file'
+    'class': 'emr-file',
+    '[class.has-error]': "state() === 'error'"
   }
 })
 export class FileComponent {

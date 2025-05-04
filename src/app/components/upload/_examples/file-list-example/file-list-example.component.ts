@@ -3,13 +3,14 @@ import { MatIcon } from '@angular/material/icon';
 import { FileComponent, FileControlComponent, FileListComponent } from '@elementar-ui/components/upload';
 
 export interface File {
-  name: string,
-  state: 'uploaded' | 'uploading' | 'error',
-  processing?: boolean,
-  errorMessage?: string,
-  remainingTime?: string,
-  size?: string,
-  progress?: number
+  name: string;
+  state: 'uploaded' | 'uploading' | 'error';
+  processing?: boolean;
+  errorMessage?: string;
+  remainingTime?: string;
+  size?: string;
+  progress?: number;
+  type: string;
 }
 
 @Component({
@@ -28,7 +29,8 @@ export class FileListExampleComponent {
     {
       name: 'Annual Report.docx',
       state: 'uploaded',
-      processing: false
+      processing: false,
+      type: 'doc'
     },
     {
       name: 'Workflow.pdf',
@@ -36,12 +38,14 @@ export class FileListExampleComponent {
       processing: false,
       remainingTime: '(remaining time: 00:2:01)',
       size: '11MB',
-      progress: 60
+      progress: 60,
+      type: 'pdf'
     },
     {
       name: 'Financials.xlsx',
       state: 'error',
-      errorMessage: 'An error occurred'
+      errorMessage: 'An error occurred',
+      type: 'xls'
     }
   ];
 }

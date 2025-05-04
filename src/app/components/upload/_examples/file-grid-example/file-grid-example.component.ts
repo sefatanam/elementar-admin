@@ -1,12 +1,34 @@
 import { Component } from '@angular/core';
-import { File } from '../file-list-example/file-list-example.component';
-import { FilesGridComponent, GridFileComponent } from '@elementar-ui/components/upload';
+
+export interface File {
+  name: string;
+  state: 'uploaded' | 'uploading' | 'error';
+  processing?: boolean;
+  errorMessage?: string;
+  remainingTime?: string;
+  size?: string;
+  progress?: number;
+  type: string;
+}
+
+import {
+  FileIconDirective,
+  FilesGridComponent,
+  GridFileComponent,
+  GridFileControlDirective
+} from '@elementar-ui/components/upload';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-file-grid-example',
   imports: [
     FilesGridComponent,
-    GridFileComponent
+    GridFileComponent,
+    MatIcon,
+    GridFileControlDirective,
+    MatIconButton,
+    FileIconDirective
   ],
   templateUrl: './file-grid-example.component.html',
   styleUrl: './file-grid-example.component.scss'
@@ -16,7 +38,8 @@ export class FileGridExampleComponent {
     {
       name: 'Annual Report.docx',
       state: 'uploaded',
-      processing: false
+      processing: false,
+      type: 'doc'
     },
     {
       name: 'Workflow.pdf',
@@ -24,12 +47,14 @@ export class FileGridExampleComponent {
       processing: false,
       remainingTime: '(remaining time: 00:2:01)',
       size: '11MB',
-      progress: 60
+      progress: 60,
+      type: 'pdf'
     },
     {
       name: 'Financials.xlsx',
       state: 'error',
-      errorMessage: 'An error occurred'
+      errorMessage: 'An error occurred',
+      type: 'xls'
     }
   ];
 

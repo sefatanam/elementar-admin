@@ -1,6 +1,4 @@
-import { Component, input, numberAttribute, output } from '@angular/core';
-import { MatIcon } from '@angular/material/icon';
-import { MatIconButton } from '@angular/material/button';
+import { ChangeDetectionStrategy, Component, input, numberAttribute } from '@angular/core';
 import { UploadFileState } from '../types';
 import { GaugeComponent, GaugeValueComponent } from '@elementar-ui/components/gauge';
 
@@ -8,15 +6,15 @@ import { GaugeComponent, GaugeValueComponent } from '@elementar-ui/components/ga
   selector: 'emr-grid-file',
   exportAs: 'emrGridFile',
   imports: [
-    MatIcon,
-    MatIconButton,
     GaugeValueComponent,
     GaugeComponent
   ],
   templateUrl: './grid-file.component.html',
   styleUrl: './grid-file.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    'class': 'emr-grid-file'
+    'class': 'emr-grid-file',
+    '[class.has-error]': "state() === 'error'"
   }
 })
 export class GridFileComponent {
@@ -29,10 +27,4 @@ export class GridFileComponent {
   errorMessage = input();
   remainingTime = input();
   state = input<UploadFileState>('uploading');
-
-  readonly deleted = output<void>();
-
-  delete(): void {
-    this.deleted.emit();
-  }
 }

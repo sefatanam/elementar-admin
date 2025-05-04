@@ -4,7 +4,7 @@ import {
   HostListener,
   inject, input,
   output,
-  Renderer2, signal,
+  Renderer2,
 } from '@angular/core';
 import { UploadFileSelectedEvent } from '../types';
 

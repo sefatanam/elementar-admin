@@ -1,21 +1,24 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-file-padding: calc(var(--spacing) * 4) 0;
-  --emr-file-controls-gap: calc(var(--spacing) * 1.5);
-  --emr-file-progress-margin: calc(var(--spacing) * 2) 0 0 0;
-  --emr-file-progress-bg: var(--color-surface-container-high);
-  --emr-file-progress-height: calc(var(--spacing) * 1);
+  --emr-file-padding: --spacing(4);
+  --emr-file-border-radius: theme(--radius-2xl);
+  --emr-file-bg: var(--color-surface-container);
+  --emr-file-error-bg: var(--color-error-200);
+  --emr-file-controls-gap: --spacing(1.5);
+  --emr-file-progress-margin: --spacing(2) 0 0 0;
+  --emr-file-progress-bg: var(--color-surface-container-highest);
+  --emr-file-progress-height: --spacing(1);
   --emr-file-progress-border-radius: theme(--radius-lg);
   --emr-file-progress-bar-bg: var(--color-primary);
   --emr-file-control-color: var(--color-neutral-500);
   --emr-file-control-hover-color: var(--color-primary);
-  --emr-file-control-font-size: var(--text-xl);
-  --emr-file-name-font-size: var(--text-sm);
-  --emr-file-info-font-size: var(--text-xs);
-  --emr-file-info-color: var(--color-neutral-500);
-  --emr-file-error-font-size: var(--text-xs);
-  --emr-file-error-color: theme(--color-red-500);
+  --emr-file-control-font-size: theme(--text-xl);
+  --emr-file-name-font-size: theme(--text-sm);
+  --emr-file-info-font-size: theme(--text-xs);
+  --emr-file-info-color: var(--color-neutral-600);
+  --emr-file-error-font-size: theme(--text-xs);
+  --emr-file-error-color: var(--color-error-500);
 
   display: flex;
   align-items: center;
@@ -23,6 +26,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding: var(--emr-file-padding);
+  border-radius: var(--emr-file-border-radius);
+  background: var(--emr-file-bg);
 
   .name {
     font-size: var(--emr-file-name-font-size);
@@ -61,6 +66,10 @@
   .error {
     font-size: var(--emr-file-error-font-size);
     color: var(--emr-file-error-color);
+  }
+
+  &.has-error {
+    background: var(--emr-file-error-bg);
   }
 }
 

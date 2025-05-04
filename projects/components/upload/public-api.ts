@@ -11,4 +11,6 @@ export * from './upload-trigger.directive';
 export * from './upload-area-icon.directive';
 export * from './upload-area-main-state.directive';
 export * from './upload-area-drop-state.directive';
+export * from './file-icon.directive';
+export * from './grid-file-control.directive';
 export * from './types';
