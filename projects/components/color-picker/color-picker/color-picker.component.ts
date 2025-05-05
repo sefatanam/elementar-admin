@@ -20,7 +20,8 @@ import { TinyColor } from '@ctrl/tinycolor';
   imports: [
     FormsModule,
     AlphaComponent,
-    SaturationComponent
+    SaturationComponent,
+    HueComponent
   ],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',
@@ -87,13 +88,17 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
     this._setColor(this.color() || 'red');
   }
 
-  private _setColor(color: string) {
-    let tinyColor = new TinyColor(color);
-    this._color.set(tinyColor);
-  }
-
   protected _handleContextMenu(event: PointerEvent) {
     event.preventDefault();
     event.stopPropagation();
+  }
+
+  protected onHueColorChange(color: TinyColor) {
+
+  }
+
+  private _setColor(color: string) {
+    let tinyColor = new TinyColor(color);
+    this._color.set(tinyColor);
   }
 }

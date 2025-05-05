@@ -1,5 +1,4 @@
 import {
-  booleanAttribute,
   ChangeDetectionStrategy,
   Component, ElementRef,
   inject, input,
@@ -8,6 +7,7 @@ import {
   viewChild
 } from '@angular/core';
 import { BaseComponent } from '../base.component';
+import { TinyColor } from '@ctrl/tinycolor';
 
 @Component({
   selector: 'emr-hue',
@@ -23,47 +23,42 @@ export class HueComponent extends BaseComponent implements OnChanges {
   private _renderer = inject(Renderer2);
   readonly pointer = viewChild.required<ElementRef>('pointer');
 
-  hue = input.required<any>();
-  color = input.required<any>();
-  isVertical = input(false, {
-    transform: booleanAttribute
-  });
+  tinyColor = input.required<TinyColor>();
 
-  readonly colorChange = output<any>();
-  readonly hueChange = output<any>();
+  readonly colorChange = output<TinyColor>();
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes['hue'] && changes['hue'].previousValue !== changes['hue'].currentValue) {
-      this.changePointerPosition(changes['hue'].currentValue);
-      this._setPointerBgColor();
+    if (changes['tinyColor'] && changes['tinyColor'].previousValue !== changes['tinyColor'].currentValue) {
+      this.changePointerPosition(changes['tinyColor'].currentValue);
+      this._setPointerBgColor(changes['tinyColor'].currentValue);
     }
   }
 
   // @ts-ignore
   public movePointer({ x, y, height, width }): void {
-    // const hue = this.isVertical() ? (y / height) * 360 : (x / width) * 360;
-    // this.changePointerPosition(hue);
-    // const color = this.color().getHsva();
-    // const newColor = new Color().setHsva(hue, color.saturation, color.value, color.alpha);
-    // const newHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
-    // const pointerHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
-    // this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', pointerHueColor.toRgbString());
-    // this.hueChange.emit(newHueColor);
-    // this.colorChange.emit(newColor);
+    let h = (x / width) * 360;
+
+    if (h >= 360) {
+      h = 359;
+    }
+
+    const newColor = new TinyColor(`hsv(${h}, 100%, 100%)`).setAlpha(1);
+    this.changePointerPosition(newColor);
+    this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
+    this.colorChange.emit(newColor);
   }
 
   /**
    * hue value is in range from 0 to 360°
    */
-  private changePointerPosition(hue: number): void {
-    const x = hue / 360 * 100;
-    const orientation = this.isVertical() ? 'top' : 'left';
-    this._renderer.setStyle(this.pointer().nativeElement, orientation, `${x}%`);
+  private changePointerPosition(tinyColor: TinyColor): void {
+    const x = tinyColor.toHsl().h / 360 * 100;
+    this._renderer.setStyle(this.pointer().nativeElement, 'left', `${x}%`);
   }
 
-  private _setPointerBgColor() {
-    // const hsva = this.hue().getHsva();
-    // const newHueColor = new Color().setHsva(hsva.hue, 100, 100);
-    // this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', newHueColor.toRgbString());
+  private _setPointerBgColor(tinyColor: TinyColor) {
+    const hsv = tinyColor.toHsv();
+    const newColor = new TinyColor(`hsv(${hsv.h}, 100%, 100%)`).setAlpha(1);
+    this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
   }
 }

@@ -5,5 +5,6 @@
 <!--         class="h-10 mt-2 px-3 focus:outline-none w-full">-->
 <!--</div>-->
 <emr-saturation [tinyColor]="_tinyColor()"/>
-<!--<emr-hue [hue]="_hue()" [color]="_tinyColor()"/>-->
-<emr-alpha [color]="_tinyColor()"/>
+<emr-hue [tinyColor]="_tinyColor()"
+         (colorChange)="onHueColorChange($event)"/>
+<emr-alpha [tinyColor]="_tinyColor()"/>

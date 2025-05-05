@@ -1,5 +1,5 @@
 import {
-  booleanAttribute, ChangeDetectionStrategy,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject, input,
@@ -29,32 +29,29 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
   private _pointer = viewChild.required<ElementRef>('pointer');
   private _pointerBg = viewChild.required<ElementRef>('pointerBg');
 
-  color = input.required<TinyColor>();
-  isVertical = input(false, {
-    transform: booleanAttribute
-  });
+  tinyColor = input.required<TinyColor>();
 
   readonly colorChange = output<any>();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['color'] && changes['color'].previousValue !== changes['color'].currentValue) {
-      this.changePointerPosition(this.color().getAlpha());
+    if (changes['tinyColor'] && changes['tinyColor'].previousValue !== changes['tinyColor'].currentValue) {
+      this.changePointerPosition(this.tinyColor().getAlpha());
       this._setPointerBgColor();
     }
   }
 
   // @ts-ignore
   movePointer({ x, y, height, width }): void {
-    const alpha = this.isVertical() ? y / height : x / width;
+    const alpha = x / width;
     this.changePointerPosition(alpha);
-    const newColor = this.color().clone().setAlpha(alpha);
+    const newColor = this.tinyColor().clone().setAlpha(alpha);
     this._renderer.setStyle(this._pointerBg().nativeElement, 'background-color', newColor.toRgbString());
     this.colorChange.emit(newColor);
   }
 
   get gradient(): string {
-    const rgba = this.color().toRgb();
-    const orientation = this.isVertical() ? 'bottom' : 'right';
+    const rgba = this.tinyColor().toRgb();
+    const orientation = 'right';
     return `linear-gradient(to ${orientation}, rgba(${rgba.r}, ${rgba.g}, ${rgba.b}, 0) 0%, rgb(${rgba.r}, ${rgba.g}, ${rgba.b}) 100%)`;
   }
 
@@ -63,13 +60,13 @@ export class AlphaComponent extends BaseComponent implements OnChanges {
    */
   private changePointerPosition(alpha: number): void {
     const x = alpha * 100;
-    const orientation = this.isVertical() ? 'top' : 'left';
+    const orientation = 'left';
     this._renderer.setStyle(this._pointer().nativeElement, orientation, `${x}%`);
   }
 
   private _setPointerBgColor() {
     this._renderer.setStyle(
-      this._pointerBg().nativeElement, 'background-color', this.color().toRgbString()
+      this._pointerBg().nativeElement, 'background-color', this.tinyColor().toRgbString()
     );
   }
 }
