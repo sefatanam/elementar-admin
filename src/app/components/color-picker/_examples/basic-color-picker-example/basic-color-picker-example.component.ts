@@ -12,5 +12,5 @@ import { ColorPickerComponent } from '@elementar-ui/components/color-picker';
   styleUrl: './basic-color-picker-example.component.scss'
 })
 export class BasicColorPickerExampleComponent {
-  color = 'red';
+  color = 'green';
 }

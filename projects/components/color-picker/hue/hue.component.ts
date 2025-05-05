@@ -8,7 +8,6 @@ import {
   viewChild
 } from '@angular/core';
 import { BaseComponent } from '../base.component';
-import { Color } from '../helpers/color';
 
 @Component({
   selector: 'emr-hue',
@@ -24,34 +23,33 @@ export class HueComponent extends BaseComponent implements OnChanges {
   private _renderer = inject(Renderer2);
   readonly pointer = viewChild.required<ElementRef>('pointer');
 
-  hue = input.required<Color>();
-  color = input.required<Color>();
+  hue = input.required<any>();
+  color = input.required<any>();
   isVertical = input(false, {
     transform: booleanAttribute
   });
 
-  readonly colorChange = output<Color>();
-  readonly hueChange = output<Color>();
+  readonly colorChange = output<any>();
+  readonly hueChange = output<any>();
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['hue'] && changes['hue'].previousValue !== changes['hue'].currentValue) {
-      const hsva = this.hue().getHsva();
-      this.changePointerPosition(hsva.hue);
+      this.changePointerPosition(changes['hue'].currentValue);
       this._setPointerBgColor();
     }
   }
 
   // @ts-ignore
   public movePointer({ x, y, height, width }): void {
-    const hue = this.isVertical() ? (y / height) * 360 : (x / width) * 360;
-    this.changePointerPosition(hue);
-    const color = this.color().getHsva();
-    const newColor = new Color().setHsva(hue, color.saturation, color.value, color.alpha);
-    const newHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
-    const pointerHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
-    this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', pointerHueColor.toRgbString());
-    this.hueChange.emit(newHueColor);
-    this.colorChange.emit(newColor);
+    // const hue = this.isVertical() ? (y / height) * 360 : (x / width) * 360;
+    // this.changePointerPosition(hue);
+    // const color = this.color().getHsva();
+    // const newColor = new Color().setHsva(hue, color.saturation, color.value, color.alpha);
+    // const newHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
+    // const pointerHueColor = new Color().setHsva(hue, 100, 100, color.alpha);
+    // this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', pointerHueColor.toRgbString());
+    // this.hueChange.emit(newHueColor);
+    // this.colorChange.emit(newColor);
   }
 
   /**
@@ -64,8 +62,8 @@ export class HueComponent extends BaseComponent implements OnChanges {
   }
 
   private _setPointerBgColor() {
-    const hsva = this.hue().getHsva();
-    const newHueColor = new Color().setHsva(hsva.hue, 100, 100);
-    this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', newHueColor.toRgbString());
+    // const hsva = this.hue().getHsva();
+    // const newHueColor = new Color().setHsva(hsva.hue, 100, 100);
+    // this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', newHueColor.toRgbString());
   }
 }

@@ -1,31 +1,26 @@
 import {
   booleanAttribute,
   ChangeDetectionStrategy,
-  Component, DestroyRef,
+  Component, computed, effect,
   forwardRef,
-  inject, input,
-  model,
+  input,
   OnInit, output, signal
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { ColorPickerControl } from '../helpers/control';
 import { UltColorPickerChangeFormat } from '../properties';
-import { Color } from '../helpers/color';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SaturationComponent } from '../saturation/saturation.component';
 import { HueComponent } from '../hue/hue.component';
 import { AlphaComponent } from '../alpha/alpha.component';
-import { isValidHexColor } from '@elementar-ui/components/color-picker/helpers/is-valid-hex-color';
+import { TinyColor } from '@ctrl/tinycolor';
 
 @Component({
   selector: 'emr-color-picker',
   exportAs: 'emrColorPicker',
   imports: [
-    SaturationComponent,
-    HueComponent,
+    FormsModule,
     AlphaComponent,
-    FormsModule
+    SaturationComponent
   ],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',
@@ -39,49 +34,41 @@ import { isValidHexColor } from '@elementar-ui/components/color-picker/helpers/i
   ],
   host: {
     'class': 'emr-color-picker',
-    '[class.is-disabled]': 'disabled()',
+    '[class.is-disabled]': '_disabled()',
     '(contextmenu)': '_handleContextMenu($event)'
   }
 })
 export class ColorPickerComponent implements OnInit, ControlValueAccessor {
-  private _destroyRef = inject(DestroyRef);
-
-  controlColor = model<string>('', {
-    alias: 'color',
-  });
-  controlDisabled = input(false, {
+  color = input<string>('');
+  disabled = input(false, {
     alias: 'disabled',
     transform: booleanAttribute
   });
   changeFormat = input<UltColorPickerChangeFormat>('hex-alpha');
 
   readonly colorChange = output<string>();
-  readonly rawColorChange = output<Color>();
+  readonly rawColorChange = output<any>();
 
-  protected color = signal(this.controlColor());
-  protected disabled = signal(this.controlDisabled());
-  readonly control = new ColorPickerControl();
-  private _formatMap: Record<UltColorPickerChangeFormat, string> = {
-    'hex': '_hex',
-    'hex-alpha': '_hexAlpha',
-    'rgb': '_rgb',
-    'rgb-alpha': '_rgbAlpha',
-    'hsl': 'hsl',
-    'hsl-alpha': '_hslAlpha',
-    'hsv': '_hsv',
-    'hsv-alpha': '_hsvAlpha',
-  };
+  protected _color = signal<TinyColor | null>(null);
+  protected _disabled = signal(false);
+  protected _tinyColor = computed<TinyColor>(() => {
+    return this._color() as TinyColor;
+  });
 
-  protected _handleContextMenu(event: PointerEvent) {
-    event.preventDefault();
-    event.stopPropagation();
+  constructor() {
+    effect(() => {
+      this._setColor(this.color());
+    });
+    effect(() => {
+      this._disabled.set(this.disabled());
+    });
   }
 
   onChange: any = () => {};
   onTouched: any = () => {};
 
-  writeValue(value: string) {
-    this.color.set(value);
+  writeValue(color: string) {
+    this._setColor(color || 'red');
   }
 
   registerOnChange(fn: any) {
@@ -93,70 +80,20 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: BooleanInput) {
-    this.disabled.set(coerceBooleanProperty(isDisabled));
+    this._disabled.set(coerceBooleanProperty(isDisabled));
   }
 
   ngOnInit() {
-    if (this.color()) {
-      this.control.setValueFrom(this.color());
-    }
-
-    const self: any = this;
-    this.control
-      .valueChanges
-      .pipe(
-        takeUntilDestroyed(this._destroyRef)
-      )
-      .subscribe(color => {
-        const method = this._formatMap[this.changeFormat()];
-        const result = self[method](color);
-        this.onChange(result);
-        this.onTouched(result);
-        this.colorChange.emit(result);
-        this.rawColorChange.emit(color);
-      })
-    ;
+    this._setColor(this.color() || 'red');
   }
 
-  protected onHexColorChange(hexColor: string) {
-    if (this.control.value.toHexString() === hexColor) {
-      return;
-    }
-
-    if (isValidHexColor(hexColor)) {
-      this.control.setValueFrom(hexColor);
-    }
+  private _setColor(color: string) {
+    let tinyColor = new TinyColor(color);
+    this._color.set(tinyColor);
   }
 
-  private _hex(color: Color) {
-    return color.toHexString();
-  }
-
-  private _hexAlpha(color: Color) {
-    return color.toHexString(true);
-  }
-
-  private _rgb(color: Color) {
-    return color.toRgbString();
-  }
-
-  private _rgbAlpha(color: Color) {
-    return color.toRgbaString();
-  }
-
-  private _hsl(color: Color) {
-    return color.toHslString();
-  }
-
-  private _hslAlpha(color: Color) {
-    return color.toHslaString();
-  }
-
-  private _hsv(color: Color) {
-    return color.toHsvString();
-  }
-
-  private _hsvAlpha(color: Color) {
-    return color.toHsvaString();
+  protected _handleContextMenu(event: PointerEvent) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

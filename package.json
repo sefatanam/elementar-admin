@@ -43,6 +43,7 @@
     "@angular/platform-server": "^19.2.9",
     "@angular/router": "^19.2.9",
     "@angular/ssr": "^19.2.10",
+    "@ctrl/tinycolor": "^4.1.0",
     "@dicebear/collection": "^9.2.2",
     "@dicebear/core": "^9.2.2",
     "@iconify-json/circle-flags": "^1.2.4",
