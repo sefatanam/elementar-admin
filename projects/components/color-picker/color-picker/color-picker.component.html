@@ -1,10 +1,14 @@
+<emr-saturation [colorFromHue]="_colorFromHue()"
+                [tinyColor]="_tinyColor()"
+                (colorChange)="onSaturationColorChange($event)"/>
+<emr-hue [tinyColor]="_tinyColor()"
+         (colorChange)="onHueColorChange($event)"/>
+<emr-alpha [colorFromHue]="_colorFromHue()"
+           [tinyColor]="_tinyColor()"
+           (alphaChange)="onAlphaChange($event)"/>
 <!--<div class="relative h-12 bg-surface-container focus:bg-surface-container-high rounded-lg">-->
 <!--  <div class="text-4xs absolute start-3 top-1">HEX</div>-->
 <!--  <input type="text" [ngModel]="control.value.toHexString()"-->
 <!--         (ngModelChange)="onHexColorChange($event)"-->
 <!--         class="h-10 mt-2 px-3 focus:outline-none w-full">-->
 <!--</div>-->
-<emr-saturation [tinyColor]="_tinyColor()"/>
-<emr-hue [tinyColor]="_tinyColor()"
-         (colorChange)="onHueColorChange($event)"/>
-<emr-alpha [tinyColor]="_tinyColor()"/>

@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
-  Component, computed,
+  Component,
   ElementRef,
-  inject, input,
+  inject,
+  input, model,
+  OnInit,
   output,
   Renderer2,
   SimpleChanges,
@@ -21,19 +23,14 @@ import { TinyColor } from '@ctrl/tinycolor';
     'class': 'emr-saturation'
   }
 })
-export class SaturationComponent extends BaseComponent {
+export class SaturationComponent extends BaseComponent implements OnInit {
   private _renderer = inject(Renderer2);
   readonly pointer = viewChild.required<ElementRef>('pointer');
 
-  tinyColor = input.required<TinyColor>();
+  tinyColor = model.required<TinyColor>();
+  colorFromHue = input<TinyColor | undefined | null>();
 
-  readonly backgroundColor = computed(() => {
-    if (!this.tinyColor()) {
-      return '';
-    }
-    const hsl = this.tinyColor().toHsl();
-    return `hsl(${hsl.h},${hsl.s * 100}%,50%)`;
-  });
+  private tmpColor!: TinyColor;
 
   readonly colorChange = output<any>();
 
@@ -42,14 +39,40 @@ export class SaturationComponent extends BaseComponent {
   }
 
   ngOnInit(): void {
-    this._renderer.setStyle(this.elementRef.nativeElement, 'background-color', this.backgroundColor());
+    this.tmpColor = this.tinyColor();
+    this._renderer.setStyle(
+      this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(this.tinyColor())
+    );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['tinyColor'] && changes['tinyColor'].previousValue !== changes['tinyColor'].currentValue) {
-      const hsv = this.tinyColor().toHsv();
+      this.tmpColor = changes['tinyColor'].currentValue;
+      const hsv = this.tmpColor.toHsv();
       this.changePointerPosition(hsv.s * 100, hsv.v * 100);
-      this._setPointerBgColor()
+      this._setPointerBgColor(this.tmpColor);
+    }
+
+    if (changes['colorFromHue'] && changes['colorFromHue'].previousValue !== changes['colorFromHue'].currentValue) {
+      if (!changes['colorFromHue'].currentValue || !this.tinyColor()) {
+        return;
+      }
+
+      const oldColorHsv = this.tmpColor.toHsv();
+      const newColorHsv = changes['colorFromHue'].currentValue.toHsv();
+      const newColor = new TinyColor({
+        h: newColorHsv.h,
+        s: oldColorHsv.s,
+        v: oldColorHsv.v,
+        a: 1,
+        format: 'hsv'
+      });
+      this.tmpColor = newColor;
+      this._renderer.setStyle(
+        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(newColor)
+      );
+      this._setPointerBgColor(newColor);
+      this.colorChange.emit(newColor);
     }
   }
 
@@ -58,10 +81,28 @@ export class SaturationComponent extends BaseComponent {
     const saturation = (x * 100) / width;
     const bright = -((y * 100) / height) + 100;
     this.changePointerPosition(saturation, bright);
-    const hsv = this.tinyColor().toHsv();
-    const newColor = new TinyColor(`hsv(${hsv.h}, ${saturation}, ${bright})`).setAlpha(1);
-    this._renderer.setStyle(this.pointer().nativeElement, 'backgroundColor', newColor.toRgbString());
+    const hsv = this.tmpColor.toHsv();
+    const newColor = new TinyColor({
+      h: hsv.h,
+      s: saturation > 0 ? saturation : 0.01,
+      v: bright > 0 ? bright : 0.01,
+      a: 1,
+      format: 'hsv'
+    });
+    this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
+    this.tmpColor = newColor;
     this.colorChange.emit(newColor);
+  }
+
+  private getBackgroundColor(tinyColor: TinyColor) {
+    const hsl = tinyColor.toHsl();
+    return new TinyColor({
+      h: hsl.h,
+      s: 1,
+      l: 0.5,
+      a: 1,
+      format: 'hsl'
+    }).toRgbString();
   }
 
   private changePointerPosition(x: number, y: number): void {
@@ -70,8 +111,7 @@ export class SaturationComponent extends BaseComponent {
     this._renderer.setStyle(pointer.nativeElement, 'left', `${x}%`);
   }
 
-  private _setPointerBgColor() {
-    const newColor = this.tinyColor().clone().setAlpha(1);
-    this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
+  private _setPointerBgColor(tinyColor: TinyColor) {
+    this._renderer.setStyle(this.pointer().nativeElement, 'background-color', tinyColor.toRgbString());
   }
 }

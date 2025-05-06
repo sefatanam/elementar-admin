@@ -48,28 +48,37 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
   changeFormat = input<UltColorPickerChangeFormat>('hex-alpha');
 
   readonly colorChange = output<string>();
-  readonly rawColorChange = output<any>();
+  readonly rawColorChange = output<TinyColor>();
+
+  private tmpColor!: TinyColor;
 
   protected _color = signal<TinyColor | null>(null);
+  protected _colorFromHue = signal<TinyColor | undefined | null>(null);
   protected _disabled = signal(false);
   protected _tinyColor = computed<TinyColor>(() => {
     return this._color() as TinyColor;
   });
+  protected alpha = signal(1);
 
   constructor() {
     effect(() => {
-      this._setColor(this.color());
+      // this._setColor(this.color());
     });
     effect(() => {
       this._disabled.set(this.disabled());
     });
   }
 
+  ngOnInit() {
+    this._setColor(this.color() || 'red');
+    this.tmpColor = this._tinyColor().clone();
+  }
+
   onChange: any = () => {};
   onTouched: any = () => {};
 
   writeValue(color: string) {
-    this._setColor(color || 'red');
+    // this._setColor(color || 'red');
   }
 
   registerOnChange(fn: any) {
@@ -84,8 +93,10 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
     this._disabled.set(coerceBooleanProperty(isDisabled));
   }
 
-  ngOnInit() {
-    this._setColor(this.color() || 'red');
+  protected onSaturationColorChange(tinyColor: TinyColor) {
+    this.tmpColor = tinyColor.clone();
+    this.colorChange.emit(this.tmpColor.clone().setAlpha(this.alpha()).toRgbString());
+    // this.rawColorChange.emit(tinyColor.clone().setAlpha(this.alpha()));
   }
 
   protected _handleContextMenu(event: PointerEvent) {
@@ -93,8 +104,16 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
     event.stopPropagation();
   }
 
-  protected onHueColorChange(color: TinyColor) {
+  protected onAlphaChange(alpha: number) {
+    this.alpha.set(alpha);
+    const newColor = this.tmpColor.clone();
+    newColor.setAlpha(alpha);
+    console.log(newColor);
+    this.colorChange.emit(newColor.toRgbString());
+  }
 
+  protected onHueColorChange(color: TinyColor) {
+    this._colorFromHue.set(color);
   }
 
   private _setColor(color: string) {

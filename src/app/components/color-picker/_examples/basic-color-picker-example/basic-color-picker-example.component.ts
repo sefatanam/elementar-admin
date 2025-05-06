@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ColorPickerComponent } from '@elementar-ui/components/color-picker';
+import { ColorPickerComponent, ColorPickerThumbnailComponent } from '@elementar-ui/components/color-picker';
 
 @Component({
   selector: 'app-basic-color-picker-example',
   imports: [
     FormsModule,
-    ColorPickerComponent
+    ColorPickerComponent,
+    ColorPickerThumbnailComponent
   ],
   templateUrl: './basic-color-picker-example.component.html',
   styleUrl: './basic-color-picker-example.component.scss'
