@@ -69,7 +69,7 @@ export class SaturationComponent extends BaseComponent implements OnInit {
       });
       this.tmpColor = newColor;
       this._renderer.setStyle(
-        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(newColor)
+        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(changes['colorFromHue'].currentValue)
       );
       this._setPointerBgColor(newColor);
       this.colorChange.emit(newColor);
@@ -78,19 +78,27 @@ export class SaturationComponent extends BaseComponent implements OnInit {
 
   // @ts-ignore
   movePointer({ x, y, height, width }): void {
-    const saturation = (x * 100) / width;
-    const bright = -((y * 100) / height) + 100;
-    this.changePointerPosition(saturation, bright);
+    const saturationX = (x * 100) / width;
+    const brightX = -((y * 100) / height) + 100;
+    this.changePointerPosition(saturationX, brightX);
     const hsv = this.tmpColor.toHsv();
+
+    const normalizedX = Math.max(0, Math.min(x / width, 1));
+    const normalizedY = Math.max(0, Math.min(y / height, 1));
+
+    const saturation = normalizedX;
+    const value = 1 - normalizedY; // Y=0 (верх) это Value=1, Y=height (низ) это Value=0
+
+    // Убедимся, что hue в пределах 0-360
+    const validHue = ((hsv.h % 360) + 360) % 360;
     const newColor = new TinyColor({
       h: hsv.h,
-      s: saturation > 0 ? saturation : 0.01,
-      v: bright > 0 ? bright : 0.01,
+      s: saturation,
+      v: value,
       a: 1,
       format: 'hsv'
     });
     this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
-    this.tmpColor = newColor;
     this.colorChange.emit(newColor);
   }
 
