@@ -14,11 +14,9 @@ import {
   SidebarNavItemBadgeDirective,
   SidebarNavGroupToggleComponent,
   SidebarNavGroupMenuComponent,
-  SidebarNavItemIconDirective
-} from '@elementar-ui/components/sidebar';
-import {
+  SidebarNavItemIconDirective,
   SidebarNavGroupToggleIconDirective
-} from '@elementar-ui/components/sidebar/sidebar-nav-group-toggle-icon.directive';
+} from '@elementar-ui/components/sidebar';
 import { OrderByPipe } from '@elementar-ui/components/core';
 
 @Component({
