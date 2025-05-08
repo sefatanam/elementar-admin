@@ -34,25 +34,24 @@
   .helper-text {
     position: absolute;
     z-index: 1;
-    top: var(-h-5);
+    top: --spacing(5);
     inset-inline-start: 50%;
     background-color: var(--color-neutral-950);
     color: white;
     border-radius: theme(--radius-lg);
-    padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
-    font-size: var(--text-sm);
+    padding: --spacing(2) --spacing(3);
+    font-size: theme(--text-xs);
     opacity: 90%;
-    --tw-translate-x: -50%;
     width: max-content;
     display: flex;
     align-items: center;
-    gap: calc(var(--spacing) * 2);
-    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    gap: --spacing(2);
+    transform: translateX(-50%);
   }
 
   .controls {
-    margin-top: calc(var(--spacing) * 3);
-    margin-bottom: calc(var(--spacing) * 3);
+    margin-top: --spacing(3);
+    margin-bottom: --spacing(3);
   }
 
   &.loading {
