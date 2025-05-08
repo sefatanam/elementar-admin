@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, ElementRef,
   inject, input,
   OnChanges, output,
@@ -20,6 +20,7 @@ import { TinyColor } from '@ctrl/tinycolor';
   }
 })
 export class HueComponent extends BaseComponent implements OnChanges {
+  private cdr = inject(ChangeDetectorRef);
   private _renderer = inject(Renderer2);
   readonly pointer = viewChild.required<ElementRef>('pointer');
 

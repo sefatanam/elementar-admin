@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-color-picker-bg: white;
+  --emr-color-picker-bg: var(--color-surface-container);
   --emr-color-picker-border-radius: theme(--radius-md);
   --emr-color-picker-margin-offset: --spacing(2);
   --emr-color-picker-border: 0 solid var(--color-neutral-200);

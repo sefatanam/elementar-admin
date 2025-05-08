@@ -1,10 +1,10 @@
 import {
   booleanAttribute,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component, computed, effect,
-  forwardRef,
-  input,
-  OnInit, output, signal
+  forwardRef, inject,
+  input, OnChanges,
+  OnInit, output, signal, SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -39,7 +39,9 @@ import { TinyColor } from '@ctrl/tinycolor';
     '(contextmenu)': '_handleContextMenu($event)'
   }
 })
-export class ColorPickerComponent implements OnInit, ControlValueAccessor {
+export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAccessor {
+  private cdr = inject(ChangeDetectorRef);
+
   color = input<string>('');
   disabled = input(false, {
     alias: 'disabled',
@@ -51,34 +53,34 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
   readonly rawColorChange = output<TinyColor>();
 
   private tmpColor!: TinyColor;
+  protected hexColor!: string;
 
-  protected _color = signal<TinyColor | null>(null);
+  protected _color = signal<TinyColor>(new TinyColor('red'));
   protected _colorFromHue = signal<TinyColor | undefined | null>(null);
   protected _disabled = signal(false);
-  protected _tinyColor = computed<TinyColor>(() => {
-    return this._color() as TinyColor;
-  });
   protected alpha = signal(1);
 
-  constructor() {
-    effect(() => {
-      // this._setColor(this.color());
-    });
-    effect(() => {
-      this._disabled.set(this.disabled());
-    });
+  ngOnInit() {
+    if (this.color()) {
+      this._setColor(this.color());
+    }
   }
 
-  ngOnInit() {
-    this._setColor(this.color() || 'red');
-    this.tmpColor = this._tinyColor().clone();
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['color'] && changes['color'].previousValue !== changes['color'].currentValue) {
+      this._setColor(changes['color'].currentValue);
+    }
+
+    if (changes['disabled'] && changes['disabled'].previousValue !== changes['disabled'].currentValue) {
+      this._disabled.set(coerceBooleanProperty(changes['disabled'].currentValue));
+    }
   }
 
   onChange: any = () => {};
   onTouched: any = () => {};
 
   writeValue(color: string) {
-    // this._setColor(color || 'red');
+    this._setColor(color);
   }
 
   registerOnChange(fn: any) {
@@ -95,8 +97,11 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
 
   protected onSaturationColorChange(tinyColor: TinyColor) {
     this.tmpColor = tinyColor.clone();
-    this.colorChange.emit(this.tmpColor.clone().setAlpha(this.alpha()).toRgbString());
-    // this.rawColorChange.emit(tinyColor.clone().setAlpha(this.alpha()));
+    const newColor = tinyColor.clone().setAlpha(this.alpha());
+    this.rawColorChange.emit(newColor);
+    this.colorChange.emit(newColor.toRgbString());
+    this.onChange(newColor.toRgbString());
+    this._setHexColor(newColor);
   }
 
   protected _handleContextMenu(event: PointerEvent) {
@@ -108,16 +113,69 @@ export class ColorPickerComponent implements OnInit, ControlValueAccessor {
     this.alpha.set(alpha);
     const newColor = this.tmpColor.clone();
     newColor.setAlpha(alpha);
-    console.log(newColor);
+    this.rawColorChange.emit(newColor.clone().setAlpha(this.alpha()));
     this.colorChange.emit(newColor.toRgbString());
+    this.onChange(newColor.toRgbString());
   }
 
   protected onHueColorChange(color: TinyColor) {
     this._colorFromHue.set(color);
   }
 
-  private _setColor(color: string) {
-    let tinyColor = new TinyColor(color);
-    this._color.set(tinyColor);
+  protected onHexColorChange(color: string) {
+    if (!color.startsWith('#')) {
+      return;
+    }
+
+    if (color.length === 4 || color.length === 7) {
+      const hexColor = new TinyColor(color);
+
+      if (!hexColor.isValid || hexColor.equals(this._color())) {
+        return;
+      }
+
+      this._setColor(color, false);
+    }
+  }
+
+  protected onHexColorBlur() {
+    if (!this.hexColor.trim()) {
+      this.hexColor = this.tmpColor.toHexString();
+    }
+  }
+
+  protected _setHexColor(tinyColor: TinyColor) {
+    if (!tinyColor.isValid) {
+      return;
+    }
+
+    const hexColor = new TinyColor(this.hexColor);
+
+    if (hexColor.isValid && hexColor.equals(tinyColor)) {
+      return;
+    }
+
+    this.hexColor = tinyColor.toHexString();
+  }
+
+  private _setColor(color: string, isSetHexColor = true) {
+    if (!color) {
+      color = 'red';
+    }
+
+    let newColor = new TinyColor(color);
+
+    if (!newColor.isValid) {
+      return;
+    }
+
+    if (!newColor.equals(this._color())) {
+      this._color.set(newColor);
+      this.tmpColor = this._color().clone();
+
+      if (isSetHexColor) {
+        this.hexColor = this.tmpColor.toHexString();
+      }
+    }
   }
 }

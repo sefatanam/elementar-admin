@@ -31,6 +31,7 @@ export class SaturationComponent extends BaseComponent implements OnInit {
   colorFromHue = input<TinyColor | undefined | null>();
 
   private tmpColor!: TinyColor;
+  private pointerColor!: TinyColor;
 
   readonly colorChange = output<any>();
 
@@ -46,20 +47,33 @@ export class SaturationComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['tinyColor'] && changes['tinyColor'].previousValue !== changes['tinyColor'].currentValue) {
-      this.tmpColor = changes['tinyColor'].currentValue;
+    if (changes['tinyColor']) {
+      const prevColor = changes['tinyColor'].previousValue;
+      const currentColor = changes['tinyColor'].currentValue;
+
+      if (prevColor?.equals(currentColor)) {
+        return;
+      }
+
+      this.tmpColor = currentColor.clone();
       const hsv = this.tmpColor.toHsv();
+      this._renderer.setStyle(
+        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(this.tmpColor)
+      );
       this.changePointerPosition(hsv.s * 100, hsv.v * 100);
       this._setPointerBgColor(this.tmpColor);
     }
 
-    if (changes['colorFromHue'] && changes['colorFromHue'].previousValue !== changes['colorFromHue'].currentValue) {
-      if (!changes['colorFromHue'].currentValue || !this.tinyColor()) {
+    if (changes['colorFromHue']) {
+      const prevColor = changes['colorFromHue'].previousValue;
+      const currentColor = changes['colorFromHue'].currentValue;
+
+      if (!currentColor || prevColor?.equals(currentColor)) {
         return;
       }
 
-      const oldColorHsv = this.tmpColor.toHsv();
-      const newColorHsv = changes['colorFromHue'].currentValue.toHsv();
+      const oldColorHsv = this.pointerColor ? this.pointerColor.toHsv() : this.tmpColor.toHsv();
+      const newColorHsv = currentColor.toHsv();
       const newColor = new TinyColor({
         h: newColorHsv.h,
         s: oldColorHsv.s,
@@ -79,8 +93,8 @@ export class SaturationComponent extends BaseComponent implements OnInit {
   // @ts-ignore
   movePointer({ x, y, height, width }): void {
     const saturationX = (x * 100) / width;
-    const brightX = -((y * 100) / height) + 100;
-    this.changePointerPosition(saturationX, brightX);
+    const bright = -((y * 100) / height) + 100;
+    this.changePointerPosition(saturationX, bright);
     const hsv = this.tmpColor.toHsv();
 
     const normalizedX = Math.max(0, Math.min(x / width, 1));
@@ -92,13 +106,14 @@ export class SaturationComponent extends BaseComponent implements OnInit {
     // Убедимся, что hue в пределах 0-360
     const validHue = ((hsv.h % 360) + 360) % 360;
     const newColor = new TinyColor({
-      h: hsv.h,
+      h: validHue,
       s: saturation,
       v: value,
       a: 1,
       format: 'hsv'
     });
     this._renderer.setStyle(this.pointer().nativeElement, 'background-color', newColor.toRgbString());
+    this.pointerColor = newColor;
     this.colorChange.emit(newColor);
   }
 
