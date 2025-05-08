@@ -24,5 +24,5 @@ import {
   styleUrl: './input-with-color-picker-example.component.scss'
 })
 export class InputWithColorPickerExampleComponent {
-  color = '#526BD6FF';
+  color = '#526BD6';
 }

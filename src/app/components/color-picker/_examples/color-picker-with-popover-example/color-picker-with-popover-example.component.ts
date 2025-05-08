@@ -4,13 +4,15 @@ import {
   ColorPickerThumbnailComponent,
   ColorPickerTriggerForDirective
 } from '@elementar-ui/components/color-picker';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-color-picker-with-popover-example',
   imports: [
     ColorPickerThumbnailComponent,
     ColorPickerComponent,
-    ColorPickerTriggerForDirective
+    ColorPickerTriggerForDirective,
+    FormsModule
   ],
   templateUrl: './color-picker-with-popover-example.component.html',
   styleUrl: './color-picker-with-popover-example.component.scss'

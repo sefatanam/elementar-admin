@@ -4,7 +4,7 @@
           [emrColorPickerTriggerFor]="colorPicker"
           class="cursor-pointer"></button>
   <ng-template #colorPicker>
-    <emr-color-picker [(color)]="color"/>
+    <emr-color-picker [(ngModel)]="color"/>
   </ng-template>
 </div>
 <p>

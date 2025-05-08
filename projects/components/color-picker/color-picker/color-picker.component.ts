@@ -1,14 +1,14 @@
 import {
   booleanAttribute,
   ChangeDetectionStrategy, ChangeDetectorRef,
-  Component, computed, effect,
+  Component,
   forwardRef, inject,
   input, OnChanges,
   OnInit, output, signal, SimpleChanges
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
-import { UltColorPickerChangeFormat } from '../properties';
+import { ColorPickerResultFormat } from '../properties';
 import { SaturationComponent } from '../saturation/saturation.component';
 import { HueComponent } from '../hue/hue.component';
 import { AlphaComponent } from '../alpha/alpha.component';
@@ -36,6 +36,7 @@ import { TinyColor } from '@ctrl/tinycolor';
   host: {
     'class': 'emr-color-picker',
     '[class.is-disabled]': '_disabled()',
+    '[class.as-dropdown]': 'asDropdown()',
     '(contextmenu)': '_handleContextMenu($event)'
   }
 })
@@ -44,10 +45,15 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
 
   color = input<string>('');
   disabled = input(false, {
-    alias: 'disabled',
     transform: booleanAttribute
   });
-  changeFormat = input<UltColorPickerChangeFormat>('hex-alpha');
+  asDropdown = input(true, {
+    transform: booleanAttribute
+  });
+  showOpacity = input(true, {
+    transform: booleanAttribute
+  });
+  resultFormat = input<ColorPickerResultFormat>('rgb');
 
   readonly colorChange = output<string>();
   readonly rawColorChange = output<TinyColor>();
@@ -99,8 +105,7 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
     this.tmpColor = tinyColor.clone();
     const newColor = tinyColor.clone().setAlpha(this.alpha());
     this.rawColorChange.emit(newColor);
-    this.colorChange.emit(newColor.toRgbString());
-    this.onChange(newColor.toRgbString());
+    this.emitEvent(newColor);
     this._setHexColor(newColor);
   }
 
@@ -114,8 +119,7 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
     const newColor = this.tmpColor.clone();
     newColor.setAlpha(alpha);
     this.rawColorChange.emit(newColor.clone().setAlpha(this.alpha()));
-    this.colorChange.emit(newColor.toRgbString());
-    this.onChange(newColor.toRgbString());
+    this.emitEvent(newColor);
   }
 
   protected onHueColorChange(color: TinyColor) {
@@ -177,5 +181,20 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
         this.hexColor = this.tmpColor.toHexString();
       }
     }
+  }
+
+  private emitEvent(newColor: TinyColor) {
+    let format = newColor.toRgbString();
+
+    if (this.resultFormat() === 'hex') {
+      format = newColor.toHexString();
+    } else if (this.resultFormat() === 'hsl') {
+      format = newColor.toHslString();
+    } else if (this.resultFormat() === 'hsv') {
+      format = newColor.toHsvString();
+    }
+
+    this.colorChange.emit(format);
+    this.onChange(format);
   }
 }

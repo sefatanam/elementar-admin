@@ -6,7 +6,8 @@
   --emr-color-picker-margin-offset: --spacing(2);
   --emr-color-picker-border: 0 solid var(--color-neutral-200);
   --emr-color-picker-padding: --spacing(3);
-  --emr-color-picker-gap: --spacing(2);
+  --emr-color-picker-gap: --spacing(2.5);
+  --emr-color-picker-as-dropdown-shadow: theme(--shadow-lg);
 
   --emr-color-picker-saturation-width: 260px;
   --emr-color-picker-saturation-height: 110px;
@@ -38,6 +39,10 @@
 
   &.is-disabled {
     pointer-events: none;
+  }
+
+  &.as-dropdown {
+    box-shadow: var(--emr-color-picker-as-dropdown-shadow);
   }
 
   @keyframes emr-color-picker-animation {
@@ -77,3 +82,6 @@
   transform-origin: left;
 }
 
+:host-context(html.dark) {
+
+}

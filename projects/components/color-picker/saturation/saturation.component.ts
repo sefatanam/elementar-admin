@@ -135,6 +135,7 @@ export class SaturationComponent extends BaseComponent implements OnInit {
   }
 
   private _setPointerBgColor(tinyColor: TinyColor) {
+    this.pointerColor = tinyColor;
     this._renderer.setStyle(this.pointer().nativeElement, 'background-color', tinyColor.toRgbString());
   }
 }

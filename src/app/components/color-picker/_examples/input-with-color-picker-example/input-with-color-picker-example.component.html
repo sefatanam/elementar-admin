@@ -1,10 +1,11 @@
 <mat-form-field class="w-1/2">
   <mat-label>Color</mat-label>
-  <input type="text" [(ngModel)]="color" matInput placeholder="Select color">
+  <input type="text" [ngModel]="color" readonly matInput placeholder="Select color">
   <button emr-color-picker-thumbnail [color]="color"
-          [emrColorPickerTriggerFor]="colorPicker" matSuffix class="mr-2 cursor-pointer"></button>
+          [emrColorPickerTriggerFor]="colorPicker"
+          matSuffix class="mr-2 cursor-pointer"></button>
   <ng-template #colorPicker>
-    <emr-color-picker [(color)]="color"/>
+    <emr-color-picker [(ngModel)]="color" resultFormat="hex" [showOpacity]="false"/>
   </ng-template>
 </mat-form-field>
 <p>

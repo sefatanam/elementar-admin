@@ -3,9 +3,11 @@
                 (colorChange)="onSaturationColorChange($event)"/>
 <emr-hue [tinyColor]="_color()"
          (colorChange)="onHueColorChange($event)"/>
-<emr-alpha [colorFromHue]="_colorFromHue()"
-           [tinyColor]="_color()"
-           (alphaChange)="onAlphaChange($event)"/>
+@if (showOpacity()) {
+  <emr-alpha [colorFromHue]="_colorFromHue()"
+             [tinyColor]="_color()"
+             (alphaChange)="onAlphaChange($event)"/>
+}
 <div class="relative h-12 bg-surface-container-highest has-[:focus]:bg-surface-container-lowest rounded-lg">
   <div class="text-4xs absolute start-3 top-1">HEX</div>
   <input type="text" maxlength="7"
