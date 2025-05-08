@@ -13,6 +13,8 @@ import { SaturationComponent } from '../saturation/saturation.component';
 import { HueComponent } from '../hue/hue.component';
 import { AlphaComponent } from '../alpha/alpha.component';
 import { TinyColor } from '@ctrl/tinycolor';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'emr-color-picker',
@@ -21,7 +23,9 @@ import { TinyColor } from '@ctrl/tinycolor';
     FormsModule,
     AlphaComponent,
     SaturationComponent,
-    HueComponent
+    HueComponent,
+    MatIconButton,
+    MatIcon
   ],
   templateUrl: './color-picker.component.html',
   styleUrl: './color-picker.component.scss',
@@ -101,6 +105,18 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
     this._disabled.set(coerceBooleanProperty(isDisabled));
   }
 
+  protected async copyToClipboard(event: MouseEvent, hexInput: HTMLInputElement) {
+    event.preventDefault();
+    event.stopPropagation();
+    const color = new TinyColor(this.hexColor);
+
+    if (color.isValid) {
+      await navigator.clipboard.writeText(color.toHexString());
+    }
+
+    hexInput.blur();
+  }
+
   protected onSaturationColorChange(tinyColor: TinyColor) {
     this.tmpColor = tinyColor.clone();
     const newColor = tinyColor.clone().setAlpha(this.alpha());
@@ -139,6 +155,7 @@ export class ColorPickerComponent implements OnInit, OnChanges, ControlValueAcce
       }
 
       this._setColor(color, false);
+      this.emitEvent(hexColor);
     }
   }
 

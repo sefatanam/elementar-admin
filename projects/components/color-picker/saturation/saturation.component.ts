@@ -47,23 +47,6 @@ export class SaturationComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['tinyColor']) {
-      const prevColor = changes['tinyColor'].previousValue;
-      const currentColor = changes['tinyColor'].currentValue;
-
-      if (prevColor?.equals(currentColor)) {
-        return;
-      }
-
-      this.tmpColor = currentColor.clone();
-      const hsv = this.tmpColor.toHsv();
-      this._renderer.setStyle(
-        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(this.tmpColor)
-      );
-      this.changePointerPosition(hsv.s * 100, hsv.v * 100);
-      this._setPointerBgColor(this.tmpColor);
-    }
-
     if (changes['colorFromHue']) {
       const prevColor = changes['colorFromHue'].previousValue;
       const currentColor = changes['colorFromHue'].currentValue;
@@ -87,6 +70,23 @@ export class SaturationComponent extends BaseComponent implements OnInit {
       );
       this._setPointerBgColor(newColor);
       this.colorChange.emit(newColor);
+    }
+
+    if (changes['tinyColor']) {
+      const prevColor = changes['tinyColor'].previousValue;
+      const currentColor = changes['tinyColor'].currentValue;
+
+      if (prevColor?.equals(currentColor)) {
+        return;
+      }
+
+      this.tmpColor = currentColor.clone();
+      const hsv = this.tmpColor.toHsv();
+      this._renderer.setStyle(
+        this.elementRef.nativeElement, 'background-color', this.getBackgroundColor(this.tmpColor)
+      );
+      this.changePointerPosition(hsv.s * 100, hsv.v * 100);
+      this._setPointerBgColor(this.tmpColor);
     }
   }
 

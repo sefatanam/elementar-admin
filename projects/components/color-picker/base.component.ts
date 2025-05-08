@@ -64,7 +64,7 @@ export abstract class BaseComponent {
 
   private calculate(event: MouseEvent | TouchEvent): void {
     if (!event.type.includes('touch')) {
-      event.preventDefault();
+      // event.preventDefault();
     }
 
     if (!this.requestAnimationFrame) {
