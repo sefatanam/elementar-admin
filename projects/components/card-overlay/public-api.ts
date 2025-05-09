@@ -1,2 +1,2 @@
-export * from './card-overlay/card-overlay.component';
-export * from './card-overlay-container.directive';
+export * from './src/card-overlay/card-overlay.component';
+export * from './src/card-overlay-container.directive';

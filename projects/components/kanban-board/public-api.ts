@@ -1,3 +1,3 @@
-export * from './kanban-board/kanban-board.component';
-export * from './kanban-item-def.directive';
-export * from './types';
+export * from './src/kanban-board/kanban-board.component';
+export * from './src/kanban-item-def.directive';
+export * from './src/types';

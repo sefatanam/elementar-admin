@@ -1,1 +1,1 @@
-export * from './overlay-scrollbar/overlay-scrollbar.component';
+export * from './src/overlay-scrollbar/overlay-scrollbar.component';

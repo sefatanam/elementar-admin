@@ -10,13 +10,11 @@ import {
   SidebarNavGroupToggleComponent,
   SidebarNavHeadingComponent,
   SidebarNavItemComponent,
-  SidebarNavItemIconDirective
+  SidebarNavItemIconDirective,
+  SidebarNavGroupToggleIconDirective
 } from '@elementar-ui/components/sidebar';
 import { v7 as uuid } from 'uuid';
 import { MatIcon } from '@angular/material/icon';
-import {
-  SidebarNavGroupToggleIconDirective
-} from '@elementar-ui/components/sidebar/sidebar-nav-group-toggle-icon.directive';
 
 @Component({
   selector: 'app-basic-sidebar-example',

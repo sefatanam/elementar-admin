@@ -1,2 +1,1 @@
-
-export * from './screen-loader/screen-loader.component';
+export * from './src/screen-loader/screen-loader.component';

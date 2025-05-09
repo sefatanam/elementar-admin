@@ -1,2 +1,2 @@
-export * from './content-fade/content-fade.component';
-export * from './types';
+export * from './src/content-fade/content-fade.component';
+export * from './src/types';

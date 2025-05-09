@@ -1,5 +1,4 @@
-
-export * from './skeleton/skeleton.component';
-export * from './skeleton-circle/skeleton-circle.component';
-export * from './skeleton-line/skeleton-line.component';
-export * from './skeleton-block/skeleton-block.component';
+export * from './src/skeleton/skeleton.component';
+export * from './src/skeleton-circle/skeleton-circle.component';
+export * from './src/skeleton-line/skeleton-line.component';
+export * from './src/skeleton-block/skeleton-block.component';

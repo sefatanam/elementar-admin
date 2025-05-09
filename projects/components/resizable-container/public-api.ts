@@ -1,2 +1,1 @@
-
-export * from './resizable-container/resizable-container.component';
+export * from './src/resizable-container/resizable-container.component';

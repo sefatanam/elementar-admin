@@ -1,2 +1,1 @@
-export * from './pin-input/pin-input.component';
-
+export * from './src/pin-input/pin-input.component';

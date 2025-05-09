@@ -1,2 +1,2 @@
-export * from './marquee/marquee.component';
-export * from './marquee-item.directive';
+export * from './src/marquee/marquee.component';
+export * from './src/marquee-item.directive';

@@ -1,1 +1,1 @@
-export * from './action-required/action-required.component';
+export * from './src/action-required/action-required.component';

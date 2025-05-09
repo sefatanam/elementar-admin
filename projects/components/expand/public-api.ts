@@ -1,2 +1,1 @@
-export * from './expand/expand.component';
-
+export * from './src/expand/expand.component';

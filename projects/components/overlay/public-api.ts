@@ -1,2 +1,2 @@
-export * from './types';
-export * from './position-manager';
+export * from './src/types';
+export * from './src/position-manager';

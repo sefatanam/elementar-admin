@@ -1,1 +1,1 @@
-export * from './page-loading-bar/page-loading-bar.component';
+export * from './src/page-loading-bar/page-loading-bar.component';

@@ -1,3 +1,3 @@
-export * from './image-resizer/image-resizer.component';
-export * from './image-resizer-image.directive';
-export * from './types';
+export * from './src/image-resizer/image-resizer.component';
+export * from './src/image-resizer-image.directive';
+export * from './src/types';

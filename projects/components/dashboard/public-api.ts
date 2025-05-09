@@ -1,2 +1,2 @@
-export * from './dashboard/dashboard.component';
-export * from './types';
+export * from './src/dashboard/dashboard.component';
+export * from './src/types';

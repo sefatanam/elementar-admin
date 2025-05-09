@@ -1,2 +1,2 @@
-export * from './thumbnail-maker/thumbnail-maker.component';
-export * from './types';
+export * from './src/thumbnail-maker/thumbnail-maker.component';
+export * from './src/types';

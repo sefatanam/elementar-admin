@@ -1,1 +1,1 @@
-export * from './brand-colors/brand-colors.component';
+export * from './src/brand-colors/brand-colors.component';

@@ -1,2 +1,2 @@
-export * from './emoji-picker/emoji-picker.component';
-export * from './emoji-picker-trigger-for.directive';
+export * from './src/emoji-picker/emoji-picker.component';
+export * from './src/emoji-picker-trigger-for.directive';
