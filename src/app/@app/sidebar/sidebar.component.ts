@@ -195,7 +195,19 @@ export class SidebarComponent implements OnInit {
           type: 'link',
           name: 'Phone Input',
           link: '/forms/phone-input'
-        }
+        },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Timezone Select',
+          link: '/forms/timezone-select'
+        },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Country Select',
+          link: '/forms/country-select'
+        },
       ]
     },
     {
