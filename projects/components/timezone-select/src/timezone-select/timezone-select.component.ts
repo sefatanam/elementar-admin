@@ -17,7 +17,7 @@ import {
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FocusMonitor } from '@angular/cdk/a11y';
-import { FilterTimezonesPipe } from '@elementar-ui/components/timezone-select/src/filter-timezones.pipe';
+import { FilterTimezonesPipe } from '../filter-timezones.pipe';
 
 let nextId = 0;
 
