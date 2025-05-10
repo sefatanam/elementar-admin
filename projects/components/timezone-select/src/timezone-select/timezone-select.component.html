@@ -1,4 +1,4 @@
-<mat-select>
+<mat-select [(ngModel)]="_value">
   @for (timezoneGroup of timezoneGroups(); track timezoneGroup.name) {
     <div class="px-4 font-bold text-on-surface-container my-4">{{ timezoneGroup.name }}</div>
     <div>

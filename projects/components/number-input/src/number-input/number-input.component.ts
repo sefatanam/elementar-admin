@@ -4,7 +4,7 @@ import {
   Component,
   contentChild,
   DoCheck,
-  ElementRef,
+  ElementRef, forwardRef,
   inject, Input, input,
   numberAttribute,
   OnDestroy, Optional,
@@ -16,8 +16,6 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import { DecreaseControlDirective } from '../decrease-control.directive';
 import { IncreaseControlDirective } from '../increase-control.directive';
-// import { NumberInputPrefixDirective } from '../number-input-prefix.directive';
-// import { NumberInputSuffixDirective } from '../number-input-suffix.directive';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { MatRipple } from '@angular/material/core';
@@ -30,15 +28,15 @@ import { NgTemplateOutlet } from '@angular/common';
     MatRipple,
     NgTemplateOutlet
   ],
-  templateUrl: './number-input.component.html',
-  styleUrl: './number-input.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: MatFormFieldControl,
-      useExisting: NumberInputComponent
+      useExisting: forwardRef(() => NumberInputComponent),
     }
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './number-input.component.html',
+  styleUrl: './number-input.component.scss',
   host: {
     'class': 'emr-number-input',
     '[class.floating]': 'shouldLabelFloat',
@@ -59,8 +57,6 @@ export class NumberInputComponent implements MatFormFieldControl<any>, ControlVa
   private _input = viewChild.required<ElementRef>('input');
   readonly _decreaseControlRef = contentChild<DecreaseControlDirective>(DecreaseControlDirective);
   readonly _increaseControlRef = contentChild<IncreaseControlDirective>(IncreaseControlDirective);
-  // readonly _prefixRef = contentChild<NumberInputPrefixDirective>(NumberInputPrefixDirective);
-  // readonly _suffixRef = contentChild<NumberInputSuffixDirective>(NumberInputSuffixDirective);
 
   min = input(undefined, {
     transform: numberAttribute
