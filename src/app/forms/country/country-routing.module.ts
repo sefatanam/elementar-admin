@@ -4,8 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    title: 'Country Select',
-    loadComponent: () => import('./overview/overview.component').then(c => c.OverviewComponent)
+    title: 'Country',
+    loadComponent: () => import('./overview/overview.component').then(m => m.OverviewComponent),
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CountrySelectRoutingModule { }
+export class CountryRoutingModule { }

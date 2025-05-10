@@ -15,5 +15,5 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './basic-timezone-select-example.component.scss'
 })
 export class BasicTimezoneSelectExampleComponent {
-  selectedTimezone = model('');
+  selectedTimezone = model(null);
 }

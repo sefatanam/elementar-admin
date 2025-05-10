@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CountrySelectRoutingModule } from './country-select-routing.module';
+import { CountryRoutingModule } from './country-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    CountrySelectRoutingModule
+    CountryRoutingModule
   ]
 })
-export class CountrySelectModule { }
+export class CountryModule { }

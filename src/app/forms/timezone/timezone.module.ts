@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TimezoneSelectRoutingModule } from './timezone-select-routing.module';
+import { TimezoneRoutingModule } from './timezone-routing.module';
 
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    TimezoneSelectRoutingModule
+    TimezoneRoutingModule
   ]
 })
-export class TimezoneSelectModule { }
+export class TimezoneModule { }

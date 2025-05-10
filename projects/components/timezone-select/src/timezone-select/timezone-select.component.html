@@ -1,9 +1,18 @@
-<mat-select [(ngModel)]="_value">
-  @for (timezoneGroup of timezoneGroups(); track timezoneGroup.name) {
-    <div class="px-4 font-bold text-on-surface-container my-4">{{ timezoneGroup.name }}</div>
+<mat-select #select="matSelect"
+            [value]="_value"
+            [aria-describedby]="userAriaDescribedBy"
+            [disabled]="disabled"
+            (closed)="onSelectClosed()">
+  <div class="px-3 py-3 rounded-t sticky -top-2 z-1 bg-[var(--mat-select-panel-background-color)]">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchTerm"
+           class="w-full bg-surface-container-highest rounded-lg text-sm focus:outline-none
+                  focus:bg-surface-container-lowest focus:shadow-sm h-12 px-3">
+  </div>
+  @for (timezoneGroup of timezoneGroups() | filterTimezones:searchTerm(); track timezoneGroup.name) {
+    <div class="px-4 font-bold text-on-surface-container my-4" i18n>{{ timezoneGroup.name }}</div>
     <div>
       @for (timezone of timezoneGroup.timezones; track timezone) {
-        <mat-option [value]="timezone.id">{{ timezone.id }}</mat-option>
+        <mat-option [value]="timezone.id" (click)="onModelChange(timezone.id)">{{ timezone.id }}</mat-option>
       }
     </div>
   }

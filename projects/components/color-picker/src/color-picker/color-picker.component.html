@@ -8,7 +8,8 @@
              [tinyColor]="_color()"
              (alphaChange)="onAlphaChange($event)"/>
 }
-<div class="relative h-12 bg-surface-container-highest has-[:focus]:bg-surface-container-lowest rounded-lg">
+<div class="relative h-12 bg-surface-container-highest
+            has-[:focus]:bg-surface-container-lowest has-[:focus]:shadow-sm rounded-lg">
   <div class="text-4xs absolute start-3 top-1">HEX</div>
   <input #hexInput
          type="text" maxlength="7"

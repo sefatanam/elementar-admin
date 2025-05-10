@@ -199,14 +199,14 @@ export class SidebarComponent implements OnInit {
         {
           key: uuid(),
           type: 'link',
-          name: 'Timezone Select',
-          link: '/forms/timezone-select'
+          name: 'Timezone',
+          link: '/forms/timezone'
         },
         {
           key: uuid(),
           type: 'link',
-          name: 'Country Select',
-          link: '/forms/country-select'
+          name: 'Country',
+          link: '/forms/country'
         },
       ]
     },

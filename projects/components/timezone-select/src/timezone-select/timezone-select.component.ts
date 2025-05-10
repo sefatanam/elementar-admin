@@ -5,23 +5,21 @@ import {
   inject,
   input,
   LOCALE_ID, model,
-  OnInit,
-  signal, untracked
+  OnInit, Renderer2,
+  signal, untracked, viewChild
 } from '@angular/core';
 import { TimezoneGroup, TimezoneUtils } from '../timezone-utils';
 import { MatOption, MatSelect } from '@angular/material/select';
 import {
-  AbstractControl,
-  ControlValueAccessor, FormGroupDirective, FormsModule,
-  NG_VALUE_ACCESSOR,
-  NgControl, NgForm
+  ControlValueAccessor, FormsModule,
+  NgControl
 } from '@angular/forms';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FocusMonitor } from '@angular/cdk/a11y';
+import { FilterTimezonesPipe } from '@elementar-ui/components/timezone-select/src/filter-timezones.pipe';
 
 let nextId = 0;
-
 
 @Component({
   selector: 'emr-timezone-select',
@@ -30,6 +28,7 @@ let nextId = 0;
     MatSelect,
     MatOption,
     FormsModule,
+    FilterTimezonesPipe
   ],
   providers: [
     {
@@ -42,21 +41,15 @@ let nextId = 0;
   templateUrl: './timezone-select.component.html',
   styleUrl: './timezone-select.component.scss',
   host: {
-    'class': 'emr-timezone-select'
+    'class': 'emr-timezone-select',
+    '[id]': 'id',
   }
 })
-// @ts-ignore
 export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>, ControlValueAccessor {
+  private selectRef = viewChild.required<MatSelect>('select');
   protected localeId = inject(LOCALE_ID);
-  private _parentForm = inject(NgForm, {
-    optional: true,
-  });
-  private _parentFormGroup = inject(FormGroupDirective, {
-    optional: true,
-  });
-  protected timezoneGroups = signal<TimezoneGroup[]>(
-    TimezoneUtils.getLocalizedAll(this.localeId, true)
-  );
+  protected renderer = inject(Renderer2);
+  protected timezoneGroups = signal<TimezoneGroup[]>([]);
   ngControl = inject(NgControl, { optional: true, self: true });
   readonly stateChanges = new Subject<void>();
   readonly touched = signal(false);
@@ -64,6 +57,7 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
   readonly controlType = 'emr-timezone-select';
   readonly id = `emr-timezone-select-${nextId++}`;
   readonly _userAriaDescribedBy = input<string>('', { alias: 'aria-describedby' });
+  readonly locale = input<string>(this.localeId);
   readonly _placeholder = input<string>('', { alias: 'placeholder' });
   readonly _required = input<boolean, unknown>(false, {
     alias: 'required',
@@ -83,12 +77,14 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
   private readonly _focusMonitor = inject(FocusMonitor);
   private readonly _elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
+  protected searchTerm = model('');
+
   get focused(): boolean {
     return this._focused();
   }
 
   get empty() {
-    return this._value()?.trim() === '';
+    return !this._value() || this._value()?.trim() === '';
   }
 
   get shouldLabelFloat() {
@@ -122,7 +118,6 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
 
   constructor() {
     if (this.ngControl != null) {
-      // @ts-ignore
       this.ngControl.valueAccessor = this;
     }
 
@@ -138,7 +133,13 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
   }
 
   ngOnInit() {
-    // console.log(this.timezoneGroups());
+    const locale = this.locale() || this.localeId;
+    this.timezoneGroups.set(TimezoneUtils.getLocalizedAll(locale, true));
+    const formFieldElement = this._elementRef.nativeElement.closest('.mat-mdc-form-field');
+
+    if (formFieldElement) {
+      this.renderer.addClass(formFieldElement, 'mat-mdc-form-field-type-mat-select');
+    }
   }
 
   ngOnDestroy() {
@@ -160,35 +161,12 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
     }
   }
 
-  autoFocusNext(control: AbstractControl, nextElement?: HTMLInputElement): void {
-    if (!control.errors && nextElement) {
-      this._focusMonitor.focusVia(nextElement, 'program');
-    }
-  }
-
-  autoFocusPrev(control: AbstractControl, prevElement: HTMLInputElement): void {
-    if (control.value.length < 1) {
-      this._focusMonitor.focusVia(prevElement, 'program');
-    }
+  onContainerClick(event: MouseEvent) {
+    this._focused.set(true);
+    this.selectRef().onContainerClick();
   }
 
   setDescribedByIds(ids: string[]) {
-    // const controlElement = this._elementRef.nativeElement.querySelector(
-    //   '.example-tel-input-container',
-    // )!;
-    // controlElement.setAttribute('aria-describedby', ids.join(' '));
-  }
-
-  onContainerClick() {
-    // if (this.parts.controls.subscriber.valid) {
-    //   this._focusMonitor.focusVia(this.subscriberInput(), 'program');
-    // } else if (this.parts.controls.exchange.valid) {
-    //   this._focusMonitor.focusVia(this.subscriberInput(), 'program');
-    // } else if (this.parts.controls.area.valid) {
-    //   this._focusMonitor.focusVia(this.exchangeInput(), 'program');
-    // } else {
-    //   this._focusMonitor.focusVia(this.areaInput(), 'program');
-    // }
   }
 
   writeValue(timezone: string | null): void {
@@ -207,9 +185,14 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
     this._disabledByCva.set(isDisabled);
   }
 
-  _handleInput(control: AbstractControl, nextElement?: HTMLInputElement): void {
-    this.autoFocusNext(control, nextElement);
-    this.onChange(this.value);
+  protected onSelectClosed() {
+    this._focused.set(false);
+    this.searchTerm.set('');
+  }
+
+  protected onModelChange(value: string) {
+    this._value.set(value);
+    this.onChange(value);
   }
 
   private _updateValue(value: string | null) {

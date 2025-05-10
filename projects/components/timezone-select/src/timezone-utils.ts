@@ -117,7 +117,6 @@ export class TimezoneUtils {
 
     for (const id of ianaTimezoneIds) {
       const mainName = TimezoneUtils._getSingleLocalizedName(id, locale, timeZoneNameStyle, currentDate);
-
       const tzObject: LocalizedTimezone = {
         id: id,
         name: mainName || id,
@@ -133,5 +132,33 @@ export class TimezoneUtils {
       localizedTimezones.sort((a, b) => a.name.localeCompare(b.name));
       return localizedTimezones;
     }
+  }
+
+  private static readonly ianaGroupToRegionCodeMap: Record<string, string> = {
+    'America': '019',     // Americas (UN M49)
+    'Europe': '150',      // Europe (UN M49)
+    'Asia': '142',        // Asia (UN M49)
+    'Africa': '002',       // Africa (UN M49)
+    'Australia': 'AU',     // Australia (ISO 3166-1 alpha-2) - для группы IANA 'Australia'
+    'Pacific': '009',     // Oceania (UN M49) - для группы IANA 'Pacific'
+    'Antarctica': 'AQ',   // Antarctica (ISO 3166-1 alpha-2)
+  };
+
+  private static _getLocalizedRegionDisplayName(
+    ianaGroupName: string,
+    locale: string
+  ): string {
+    const regionCode = TimezoneUtils.ianaGroupToRegionCodeMap[ianaGroupName];
+    if (regionCode && typeof Intl.DisplayNames === 'function') {
+      try {
+        const displayNameService = new Intl.DisplayNames(locale, { type: 'region' });
+        return displayNameService.of(regionCode) || ianaGroupName; // Фоллбэк, если .of() вернет undefined/пусто
+      } catch (e) {
+        // Ошибка (например, старая среда без поддержки этого кода для региона)
+        // console.warn(`Could not get display name for region code ${regionCode} in locale ${locale}:`, e);
+        return ianaGroupName; // Фоллбэк
+      }
+    }
+    return ianaGroupName; // Фоллбэк, если нет сопоставления или Intl.DisplayNames не поддерживается
   }
 }

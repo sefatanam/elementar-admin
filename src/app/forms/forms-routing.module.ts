@@ -55,12 +55,12 @@ const routes: Routes = [
     loadChildren: () => import('./number-input/number-input.module').then(m => m.NumberInputModule)
   },
   {
-    path: 'country-select',
-    loadChildren: () => import('./country-select/country-select.module').then(m => m.CountrySelectModule)
+    path: 'country',
+    loadChildren: () => import('./country/country.module').then(m => m.CountryModule)
   },
   {
-    path: 'timezone-select',
-    loadChildren: () => import('./timezone-select/timezone-select.module').then(m => m.TimezoneSelectModule)
+    path: 'timezone',
+    loadChildren: () => import('./timezone/timezone.module').then(m => m.TimezoneModule)
   },
 ];
 
