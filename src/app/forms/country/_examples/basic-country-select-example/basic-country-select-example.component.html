@@ -1,0 +1,8 @@
+<mat-form-field class="w-1/2">
+  <mat-label>Country</mat-label>
+  <emr-country-select [(ngModel)]="country"></emr-country-select>
+</mat-form-field>
+
+<p>
+  Selected country: {{ country() }}
+</p>

@@ -18,6 +18,8 @@ import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { FilterTimezonesPipe } from '../filter-timezones.pipe';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 let nextId = 0;
 
@@ -28,7 +30,9 @@ let nextId = 0;
     MatSelect,
     MatOption,
     FormsModule,
-    FilterTimezonesPipe
+    FilterTimezonesPipe,
+    MatIcon,
+    MatIconButton
   ],
   providers: [
     {
@@ -46,6 +50,8 @@ let nextId = 0;
   }
 })
 export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>, ControlValueAccessor {
+  private searchInput = viewChild.required<ElementRef<HTMLInputElement>>('searchInput');
+
   private selectRef = viewChild.required<MatSelect>('select');
   protected localeId = inject(LOCALE_ID);
   protected renderer = inject(Renderer2);
@@ -162,6 +168,10 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
   }
 
   onContainerClick(event: MouseEvent) {
+    if (this.disabled) {
+      return;
+    }
+
     this._focused.set(true);
     this.selectRef().onContainerClick();
   }
@@ -183,6 +193,16 @@ export class TimezoneSelectComponent implements OnInit, MatFormFieldControl<any>
 
   setDisabledState(isDisabled: boolean): void {
     this._disabledByCva.set(isDisabled);
+  }
+
+  protected onSelectOpened(): void {
+    setTimeout(() => {
+      this.searchInput().nativeElement.focus();
+    });
+  }
+
+  protected clearSearch() {
+    this.searchTerm.set('');
   }
 
   protected onSelectClosed() {

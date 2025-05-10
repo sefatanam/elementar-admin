@@ -501,6 +501,12 @@ html.dark {
   }
 }
 
+.emr-country-select-panel,
+.emr-timezone-select-panel {
+  padding-top: 0 !important;
+}
+
+
 @theme static {
   --font-sans: "Open Sans";
 

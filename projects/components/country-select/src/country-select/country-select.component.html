@@ -1,0 +1,60 @@
+<mat-select
+  #matSelect
+  panelClass="emr-country-select-panel"
+  [value]="value"
+  (selectionChange)="onSelectionChange($event)"
+  (opened)="onSelectOpened()"
+  (closed)="onSelectClosed()"
+  [placeholder]="placeholder"
+  [required]="isRequiredSignal()"
+  [disabled]="isDisabledSignal()">
+  <mat-select-trigger class="select-trigger">
+    @let selectedCountry = selectedCountryDisplay();
+    @if (selectedCountry) {
+      <div class="flex items-center gap-2">
+        <span class="text-xl">{{ selectedCountry.flag }}</span>
+        {{ selectedCountry.name }} ({{ selectedCountry.code }})
+      </div>
+    }
+
+    @if (!selectedCountryDisplay() && placeholder) {
+      <div class="placeholder-text">
+        {{ placeholder }}
+      </div>
+    }
+  </mat-select-trigger>
+
+  <div class="px-3 py-3 rounded-t sticky top-0 z-1 bg-[var(--mat-select-panel-background-color)]">
+    <input #searchInput
+           type="text" placeholder="Search..." autocomplete="off" [formControl]="searchCtrl"
+           class="w-full bg-surface-container-highest rounded-lg text-sm focus:outline-none
+                  focus:bg-surface-container-lowest focus:shadow-sm h-12 px-3">
+    @if (searchCtrl.value) {
+      <div class="absolute end-4 top-1/2 -translate-y-1/2">
+        <button
+          mat-icon-button
+          (click)="clearSearch($event)"
+          class="clear-button"
+          type="button"
+          aria-label="Clear search">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+
+  @for (country of filteredCountries(); track country.code) {
+    <mat-option [value]="country.code">
+      <div class="flex items-center gap-2 h-full">
+        <span class="text-xl">{{ country.flag }}</span>
+        {{ country.name }} <span class="text-neutral-500">({{ country.code }})</span>
+      </div>
+    </mat-option>
+  } @empty {
+    @if (searchCtrl.value) {
+      <div class="text-sm px-4 py-3">
+        <span i18n>Country not found</span>.
+      </div>
+    }
+  }
+</mat-select>
