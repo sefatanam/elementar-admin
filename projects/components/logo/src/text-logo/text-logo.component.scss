@@ -1,0 +1,7 @@
+@reference 'tailwindcss';
+
+:host {
+  font-size: theme(--text-3xl);
+  font-weight: 800;
+  color: var(--color-primary);
+}

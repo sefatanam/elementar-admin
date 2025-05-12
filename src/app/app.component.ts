@@ -18,7 +18,8 @@ import { SidebarComponent } from '@app/sidebar/sidebar.component';
 import { MatAnchor, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTooltip } from '@angular/material/tooltip';
-import { LogoComponent } from '@elementar-ui/components/logo';
+import { LogoComponent, TextLogoComponent } from '@elementar-ui/components/logo';
+import { SplashScreenComponent } from '@elementar-ui/components/splash-screen';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,9 @@ import { LogoComponent } from '@elementar-ui/components/logo';
     MatTooltip,
     RouterLink,
     MatIconButton,
-    LogoComponent
+    LogoComponent,
+    SplashScreenComponent,
+    TextLogoComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
