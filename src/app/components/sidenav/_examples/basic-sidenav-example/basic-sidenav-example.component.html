@@ -1,0 +1,15 @@
+<mat-sidenav-container class="h-[600px] border border-default" (backdropClick)="close('backdrop')">
+  <mat-sidenav #sidenav [mode]="mode.value || 'over'" (keydown.escape)="close('escape')" disableClose class="p-5">
+    <p><button mat-button (click)="close('toggle button')">Close</button></p>
+  </mat-sidenav>
+  <mat-sidenav-content class="p-5">
+    <p><button mat-button (click)="sidenav.open()">Open</button></p>
+    <p>Closed due to: {{ reason }}</p>
+    <mat-radio-group [formControl]="mode" class="mt-10">
+      <label>Mode:</label>
+      <mat-radio-button value="over">Over</mat-radio-button>
+      <mat-radio-button value="side">Side</mat-radio-button>
+      <mat-radio-button value="push">Push</mat-radio-button>
+    </mat-radio-group>
+  </mat-sidenav-content>
+</mat-sidenav-container>

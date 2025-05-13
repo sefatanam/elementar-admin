@@ -1,0 +1,11 @@
+<button mat-flat-button (click)="drawer.open()">Open Drawer</button>
+
+<emr-drawer #drawer="emrDrawer">
+  <emr-panel class="w-[460px]">
+    <emr-panel-header class="px-5 py-3">Header</emr-panel-header>
+    <emr-panel-body class="p-5">
+      <button mat-flat-button (click)="drawer.close()">Close Drawer</button>
+    </emr-panel-body>
+    <emr-panel-footer class="px-5 py-3">Footer</emr-panel-footer>
+  </emr-panel>
+</emr-drawer>

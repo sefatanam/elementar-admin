@@ -242,6 +242,14 @@ const routes: Routes = [
     path: 'kanban-board',
     loadChildren: () => import('./kanban-board/kanban-board.module').then(m => m.KanbanBoardModule)
   },
+  {
+    path: 'sidenav',
+    loadChildren: () => import('./sidenav/sidenav.module').then(m => m.SidenavModule)
+  },
+  {
+    path: 'drawer',
+    loadChildren: () => import('./drawer/drawer.module').then(m => m.DrawerModule)
+  },
 ];
 
 @NgModule({

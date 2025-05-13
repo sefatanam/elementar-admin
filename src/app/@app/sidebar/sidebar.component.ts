@@ -570,6 +570,18 @@ export class SidebarComponent implements OnInit {
           name: 'Kanban Board',
           link: '/components/kanban-board'
         },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Sidenav',
+          link: '/components/sidenav'
+        },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Drawer',
+          link: '/components/drawer'
+        },
       ]
     },
     {

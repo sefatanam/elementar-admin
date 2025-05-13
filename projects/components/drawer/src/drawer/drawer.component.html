@@ -1,0 +1,14 @@
+@if (showBackdrop()) {
+  <div
+    class="drawer-backdrop"
+    [class.open]="_isOpen()"
+    (click)="close()">
+  </div>
+}
+<div
+  class="drawer-container"
+  [class.open]="_isOpen()">
+  <div class="drawer-content">
+    <ng-content/>
+  </div>
+</div>
