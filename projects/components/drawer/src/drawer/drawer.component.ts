@@ -1,4 +1,17 @@
-import { Component, input, output, ChangeDetectionStrategy, effect, ElementRef, inject, Renderer2, WritableSignal, signal, computed, Signal } from '@angular/core';
+import {
+  Component,
+  input,
+  output,
+  ChangeDetectionStrategy,
+  effect,
+  ElementRef,
+  inject,
+  Renderer2,
+  WritableSignal,
+  signal,
+  computed,
+  Signal
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Component({
@@ -8,8 +21,7 @@ import { DOCUMENT } from '@angular/common';
   styleUrl: './drawer.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[class.host-active-backdrop]': '_isOpen() && showBackdrop()',
-    '[class.host-active-no-backdrop]': '_isOpen() && !showBackdrop()',
+    '[class.no-backdrop]': '_isOpen() && !showBackdrop()',
     '(document:keydown.escape)': 'onKeydownHandler($event)',
     '(document:click)': 'onDocumentClickHandler($event)'
   }
