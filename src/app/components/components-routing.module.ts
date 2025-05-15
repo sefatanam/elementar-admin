@@ -250,6 +250,10 @@ const routes: Routes = [
     path: 'drawer',
     loadChildren: () => import('./drawer/drawer.module').then(m => m.DrawerModule)
   },
+  {
+    path: 'comparison-slider',
+    loadChildren: () => import('./comparison-slider/comparison-slider.module').then(m => m.ComparisonSliderModule)
+  },
 ];
 
 @NgModule({

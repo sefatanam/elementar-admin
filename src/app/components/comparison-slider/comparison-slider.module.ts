@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ComponentsRoutingModule } from './components-routing.module';
+import { ComparisonSliderRoutingModule } from './comparison-slider-routing.module';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    ComponentsRoutingModule
+    ComparisonSliderRoutingModule
   ]
 })
-export class ComponentsModule { }
+export class ComparisonSliderModule { }

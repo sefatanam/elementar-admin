@@ -1,0 +1,29 @@
+<div
+  #sliderContainer
+  class="comparison-slider-container"
+  (mousedown)="onContainerClick($event)">
+  <div class="image-wrapper before-image-slot">
+    <ng-content select="[emrComparisonSliderBeforeImage]"/>
+  </div>
+  <div class="image-wrapper after-image-slot" [style.clipPath]="afterImageClipStyle()">
+    <ng-content select="[emrComparisonSliderAfterImage]"/>
+  </div>
+  <div
+    #handle
+    class="slider-handle"
+    [style.left]="handleLeftStyle()"
+    (mousedown)="onMouseDown($event)"
+    (touchstart)="onTouchStart($event)"
+    role="slider"
+    aria-orientation="horizontal"
+    [attr.aria-valuenow]="sliderPosition()"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [attr.aria-label]="'Image comparison slider control'">
+    <div class="handle-line"></div>
+    <div class="handle-grip">
+      <mat-icon>chevron_backward</mat-icon>
+      <mat-icon>chevron_forward</mat-icon>
+    </div>
+  </div>
+</div>

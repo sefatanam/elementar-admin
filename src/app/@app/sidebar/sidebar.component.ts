@@ -582,6 +582,12 @@ export class SidebarComponent implements OnInit {
           name: 'Drawer',
           link: '/components/drawer'
         },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Comparison Slider',
+          link: '/components/comparison-slider'
+        },
       ]
     },
     {
