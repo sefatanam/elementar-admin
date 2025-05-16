@@ -17,7 +17,7 @@
   --emr-tab-panel-nav-padding: calc(var(--spacing) * 2.5);
   --emr-tab-panel-nav-gap: calc(var(--spacing) * 3);
   --emr-tab-panel-item-text-font-size: var(--text-xs);
-  --emr-tab-panel-item-icon-font-size: var(--text-2xl);
+  --emr-tab-panel-item-icon-font-size: theme(--text-2xl);
 
   // compact state
   --emr-tab-panel-compact-width: --spacing(14);

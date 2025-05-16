@@ -7,7 +7,7 @@
   --emr-navigation-item-bg: transparent;
   --emr-navigation-item-height: --spacing(12);
   --emr-navigation-item-padding: 0 --spacing(4);
-  --emr-navigation-item-font-size: var(--text-sm);
+  --emr-navigation-item-font-size: theme(--text-sm);
   --emr-navigation-item-border-radius: calc(infinity * 1px);
   --emr-navigation-item-border-width: 1px;
   --emr-navigation-item-border-color: transparent;
@@ -17,7 +17,7 @@
   --emr-navigation-item-active-bg: var(--color-secondary-container);
   --emr-navigation-item-hover-color: var(--color-on-secondary-fixed);
   --emr-navigation-item-active-color: var(--color-on-secondary-fixed);
-  --emr-navigation-item-icon-font-size: var(--text-2xl);
+  --emr-navigation-item-icon-font-size: theme(--text-2xl);
   --emr-navigation-item-icon-color: var(--color-secondary-700);
   --emr-navigation-item-icon-width: 27px;
   --emr-navigation-item-hover-icon-color: var(--color-secondary-800);

@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    --emr-icon-size: var(--text-xl);
+    --emr-icon-size: theme(--text-xl);
     border-radius: calc(infinity * 1px);
 
     &:hover {
@@ -35,7 +35,7 @@
     mat-icon {
       width: calc(var(--spacing) * 6);
       height: calc(var(--spacing) * 6);
-      font-size: var(--text-xl);
+      font-size: theme(--text-xl);
       line-height: 1.25;
     }
 

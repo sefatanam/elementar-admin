@@ -28,7 +28,7 @@
 
   &[emr-segmented-size="lg"] {
     --emr-segmented-button-height: calc(calc(var(--spacing) * 14) - calc(var(--spacing) * 2));
-    --emr-segmented-button-font-size: var(--text-sm);
+    --emr-segmented-button-font-size: theme(--text-sm);
     --emr-segmented-button-padding: 0 calc(var(--spacing) * 4);
     --emr-segmented-button-gap: calc(var(--spacing) * 1.5);
   }

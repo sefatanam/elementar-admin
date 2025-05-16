@@ -1,9 +1,5 @@
 export interface Country {
-  name: string;
-  iso2: string;
-  dialCode: string;
-  priority: number;
-  areaCodes?: string[];
-  flagClass: string;
-  placeHolder?: string;
+  name: string; // English name of the country
+  shortCode: string; // lowercase ISO 3166-1 alpha-2 code
+  phoneCode: string; // International phone code with '+'
 }

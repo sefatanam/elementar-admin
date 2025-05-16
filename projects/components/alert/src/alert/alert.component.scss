@@ -9,7 +9,7 @@
   --emr-alert-padding: --spacing(4);
   --emr-alert-gap: --spacing(3.5);
   --emr-alert-border-width: 1px;
-  --emr-alert-font-size: var(--text-sm);
+  --emr-alert-font-size: theme(--text-sm);
   --emr-alert-thumbnail-bg: white;
   --emr-alert-thumbnail-border-radius: theme(--radius-lg);
   --emr-alert-thumbnail-size: --spacing(10);

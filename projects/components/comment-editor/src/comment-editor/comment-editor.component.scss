@@ -28,7 +28,7 @@
       mat-icon {
         width: calc(var(--spacing) * 6);
         height: calc(var(--spacing) * 6);
-        font-size: var(--text-xl);
+        font-size: theme(--text-xl);
         line-height: 1.25;
       }
 

@@ -12,14 +12,14 @@
   --emr-command-bar-border-radius: calc(infinity * 1px);
   --emr-command-bar-command-height: calc(var(--spacing) * 10);
   --emr-command-bar-command-padding: 0 calc(var(--spacing) * 3.5);
-  --emr-command-bar-command-font-size: var(--text-sm);
+  --emr-command-bar-command-font-size: theme(--text-sm);
   --emr-command-bar-command-color: var(--color-neutral-200);
   --emr-command-bar-command-hover-color: var(--color-neutral-100);
   --emr-command-bar-command-hover-bg: var(--color-neutral-800);
   --emr-command-bar-value-color: var(--color-neutral-200);
   --emr-command-bar-command-gap: calc(var(--spacing) * 3);
   --emr-command-bar-content-padding: 0 calc(var(--spacing) * 4);
-  --emr-command-bar-font-size: var(--text-sm);
+  --emr-command-bar-font-size: theme(--text-sm);
   --emr-command-bar-divider-width: 1px;
   --emr-command-bar-divider-height: calc(var(--spacing) * 6);
   --emr-command-bar-divider-bg: var(--color-neutral-600);

@@ -18,13 +18,13 @@
   --emr-incident-border-start: calc(var(--spacing) * 1) solid var(--color-neutral-900);
   --emr-incident-close-color: var(--color-neutral-500);
   --emr-incident-close-hover-color: var(--color-neutral-900);
-  --emr-incident-title-font-size: var(--text-sm);
+  --emr-incident-title-font-size: theme(--text-sm);
   --emr-incident-title-font-weight: 500;
-  --emr-incident-details-font-size: var(--text-sm);
+  --emr-incident-details-font-size: theme(--text-sm);
   --emr-incident-details-color: var(--color-neutral-500);
   --emr-incidents-title-font-size: var(--text-base);
   --emr-incidents-title-font-weight: 500;
-  --emr-incidents-description-font-size: var(--text-sm);
+  --emr-incidents-description-font-size: theme(--text-sm);
   --emr-incidents-description-opacity: 80%;
 
   display: contents;

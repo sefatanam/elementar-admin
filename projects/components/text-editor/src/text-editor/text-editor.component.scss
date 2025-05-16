@@ -79,7 +79,7 @@
           float: left;
           height: 0;
           pointer-events: none;
-          font-size: var(--text-sm);
+          font-size: theme(--text-sm);
         }
 
         &.ProseMirror-focused {
@@ -94,7 +94,7 @@
           float: left;
           height: 0;
           pointer-events: none;
-          font-size: var(--text-sm);
+          font-size: theme(--text-sm);
         }
       }
 

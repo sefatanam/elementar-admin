@@ -7,7 +7,7 @@
   --emr-sidebar-nav-item-bg: transparent;
   --emr-sidebar-nav-item-height: --spacing(12);
   --emr-sidebar-nav-item-padding: 0 --spacing(4);
-  --emr-sidebar-nav-item-font-size: var(--text-sm);
+  --emr-sidebar-nav-item-font-size: theme(--text-sm);
   --emr-sidebar-nav-item-border-radius: calc(infinity * 1px);
   --emr-sidebar-nav-item-border-width: 1px;
   --emr-sidebar-nav-item-border-color: transparent;
@@ -17,7 +17,7 @@
   --emr-sidebar-nav-item-active-bg: var(--color-secondary-container);
   --emr-sidebar-nav-item-hover-color: var(--color-secondary-800);
   --emr-sidebar-nav-item-active-color: var(--color-secondary-950);
-  --emr-sidebar-nav-item-icon-font-size: var(--text-2xl);
+  --emr-sidebar-nav-item-icon-font-size: theme(--text-2xl);
   --emr-sidebar-nav-item-icon-color: var(--color-secondary-700);
   --emr-sidebar-nav-item-icon-width: 27px;
   --emr-sidebar-nav-item-hover-icon-color: var(--color-secondary-800);

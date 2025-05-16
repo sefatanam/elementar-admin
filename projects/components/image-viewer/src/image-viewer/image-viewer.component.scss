@@ -122,7 +122,7 @@
     &-body {
       position: relative;
       flex-grow: 1;
-      font-size: var(--text-sm);
+      font-size: theme(--text-sm);
       color: var(--color-neutral-600);
       line-height: var(--leading-relaxed);
 

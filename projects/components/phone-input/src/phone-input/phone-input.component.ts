@@ -26,7 +26,7 @@ import {
   parsePhoneNumberFromString,
 } from 'libphonenumber-js';
 import { Subject } from 'rxjs';
-import { CountryCode, Examples } from '../data/country-code';
+import { CountryCode } from '../data/country-code';
 import { Country } from '../model/country.model';
 import { PhoneNumberFormat } from '../model/phone-number-format.model';
 import { phoneValidator } from '../phone.validator';
@@ -155,14 +155,6 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
 
   private _previousFormattedNumber?: string;
 
-  static getPhoneNumberPlaceHolder(countryISOCode: any): string | undefined {
-    try {
-      return getExampleNumber(countryISOCode, Examples)?.number.toString();
-    } catch (e) {
-      return e as any;
-    }
-  };
-
   onTouched = () => {}
   propagateChange = (_: any) => {}
 
@@ -202,17 +194,16 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
 
   ngOnInit() {
     if (this.onlyCountries().length) {
-      this.allCountries = this.allCountries.filter((c) => this.onlyCountries().includes(c.iso2));
+      this.allCountries = this.allCountries.filter((c) => this.onlyCountries().includes(c.shortCode));
     }
 
     if (this.preferredCountries().length) {
-      this.preferredCountries().forEach((iso2) => {
+      this.preferredCountries().forEach((shortCode: string) => {
         const preferredCountry = this.allCountries
           .filter((c) => {
-            return c.iso2 === iso2
+            return c.shortCode === shortCode
           })
-          .shift()
-        ;
+          .shift();
 
         if (preferredCountry) {
           this.preferredCountriesInDropDown.push(preferredCountry);
@@ -226,7 +217,7 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     if (!this.selectedCountry) {
-      this.selectedCountry = this.allCountries.find((country) => country.iso2 === this.defaultSelectedCountryCode()) as Country;
+      this.selectedCountry = this.allCountries.find((country) => country.shortCode === this.defaultSelectedCountryCode()) as Country;
     }
 
     this.countryChanged.emit(this.selectedCountry);
@@ -264,7 +255,7 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
     try {
       this.numberInstance = parsePhoneNumberFromString(
         this.phoneNumber.toString(),
-        this.selectedCountry.iso2.toUpperCase() as CC,
+        this.selectedCountry.shortCode.toUpperCase() as CC,
       );
       this.formatAsYouTypeIfEnabled();
       this.value = this.numberInstance?.number;
@@ -274,7 +265,7 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
           this.phoneNumber = this.formattedPhoneNumber;
         }
         if (
-          this.selectedCountry.iso2 !== this.numberInstance.country &&
+          this.selectedCountry.shortCode !== this.numberInstance.country &&
           this.numberInstance.country
         ) {
           this.selectedCountry = this.getCountry(this.numberInstance.country);
@@ -301,16 +292,15 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
     }
 
     this.selectedCountry = country;
-    this._placeholder = this.selectedCountry.placeHolder;
     this.countryChanged.emit(this.selectedCountry);
     this.onPhoneNumberChange();
     el.focus();
   }
 
-  public getCountry(code: CC): Country {
-    return (this.allCountries.find((c) => c.iso2 === code.toLowerCase()) || {
+  public getCountry(shortCode: CC): Country {
+    return (this.allCountries.find((c) => c.shortCode === shortCode.toLowerCase()) || {
       name: 'UN',
-      iso2: 'UN',
+      shortCode: 'UN',
       dialCode: undefined,
       priority: 0,
       areaCodes: undefined,
@@ -328,18 +318,7 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
   }
 
   protected fetchCountryData(): void {
-    this.countryCodeData.allCountries.forEach((c) => {
-      const country: Country = {
-        name: c[0].toString(),
-        iso2: c[1].toString(),
-        dialCode: c[2].toString(),
-        priority: +c[3] || 0,
-        areaCodes: (c[4] as string[]) || undefined,
-        flagClass: c[1].toString().toUpperCase(),
-        placeHolder: ''
-      };
-      this.allCountries.push(country);
-    });
+    this.allCountries = this.countryCodeData.allCountries;
   }
 
   registerOnChange(fn: any): void {
@@ -421,7 +400,7 @@ export class PhoneInputComponent implements OnInit, DoCheck, OnDestroy {
       return
     }
 
-    const asYouType: AsYouType = new AsYouType(this.selectedCountry.iso2.toUpperCase() as CC);
+    const asYouType: AsYouType = new AsYouType(this.selectedCountry.shortCode.toUpperCase() as CC);
 
     // To avoid caret positioning we apply formatting only if the caret is at the end:
     if (!this.phoneNumber) {
