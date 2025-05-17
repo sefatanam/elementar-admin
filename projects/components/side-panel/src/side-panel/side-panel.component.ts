@@ -3,7 +3,6 @@ import {
   computed,
   signal,
   TemplateRef,
-  ViewEncapsulation,
   contentChildren,
   effect,
   input
@@ -11,24 +10,29 @@ import {
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule, TooltipPosition } from '@angular/material/tooltip';
 import { SidePanelTabConfig, PanelPosition } from '../side-panel.types';
 import { SidePanelTabComponent } from '../side-panel-tab/side-panel-tab.component';
 
 @Component({
   selector: 'emr-side-panel',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule
+  ],
   templateUrl: './side-panel.component.html',
   styleUrl: './side-panel.component.scss',
   host: {
     '[style.width.px]': 'hostWidth()',
     '[class.panel-open]': 'isOpen()',
     '[class.position-right]': 'isPositionRight()',
-    '[class.flex-row-reverse]': 'isPositionRight()',
   }
 })
 export class SidePanelComponent {
-  position = input<PanelPosition>('left');
+  position = input<PanelPosition>('right');
 
   readonly panelContentWidthPx = 300;
   readonly buttonStripWidthPx = 56;
@@ -41,6 +45,9 @@ export class SidePanelComponent {
   });
 
   isPositionRight = computed(() => this.position() === 'right');
+  tooltipPosition = computed<TooltipPosition>(() => {
+    return this.position() === 'left' ? 'right' : 'left';
+  });
 
   private projectedTabsQuery = contentChildren(SidePanelTabComponent);
 

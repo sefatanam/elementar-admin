@@ -1,14 +1,16 @@
-<div class="button-strip p-2 bg-neutral-100 dark:bg-neutral-800 flex flex-col space-y-2 z-10 shadow shrink-0">
+<div class="button-strip p-2 flex flex-col space-y-2 z-10">
   @for (tab of internalTabs(); track tab.id) {
     <button
       mat-icon-button
       [attr.aria-label]="tab.label"
-      [class.bg-primary-500]="isOpen() && activeTabId() === tab.id"
-      [class.text-white]="isOpen() && activeTabId() === tab.id"
-      [class.dark:bg-primary-700]="isOpen() && activeTabId() === tab.id"
+      [matTooltip]="tab.label"
+      [matTooltipPosition]="tooltipPosition()"
+      matTooltipShowDelay="500"
+      [class.!bg-primary-500]="activeTabId() === tab.id"
+      [class.!text-white]="activeTabId() === tab.id"
+      [class.dark:bg-primary-700]="activeTabId() === tab.id"
       (click)="toggleTab(tab.id)"
-      class="transition-colors"
-    >
+      class="transition-colors">
       @if (isTemplateRef(tab.icon)) {
         <ng-container [ngTemplateOutlet]="tab.icon"></ng-container>
       } @else if (typeof tab.icon === 'string' && tab.icon) {
@@ -21,10 +23,9 @@
 </div>
 
 <div
-  class="panel-content-wrapper absolute top-0 h-full bg-white dark:bg-neutral-900 shadow-lg z-5 overflow-y-auto"
+  class="panel-content-wrapper absolute bg-surface-container-lowest z-5 rounded-2xl"
   [class.open]="isOpen()"
-  [style.width.px]="panelContentWidthPx"
->
+  [style.width.px]="panelContentWidthPx">
   @if (isOpen() && activeTabId()) {
     <div class="panel-inner-content p-4 h-full">
       <div class="flex justify-between items-center mb-4">
