@@ -3,13 +3,16 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'emr-side-panel-tab',
+  exportAs: 'emrSidePanelTab',
   standalone: true,
-  imports: [CommonModule],
-  template: `<ng-template #contentTemplate><ng-content></ng-content></ng-template>`,
-  styles: [':host { display: none; }']
+  templateUrl: './side-panel-tab.component.html',
+  styleUrl: './side-panel-tab.component.scss',
+  host: {
+    'class': 'emr-side-panel-tab',
+  },
 })
 export class SidePanelTabComponent {
-  id = input.required<string>();
+  tabId = input.required<string>();
   label = input.required<string>();
   icon = input<string | TemplateRef<any> | undefined>();
 

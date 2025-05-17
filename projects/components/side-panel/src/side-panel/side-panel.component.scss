@@ -1,44 +1,68 @@
+@reference 'tailwindcss';
+
 :host {
-  --emr-side-panel-content-inset-y: 0;
-  --emr-side-panel-button-strip-width: 3.5rem;
-  --emr-side-panel-content-actual-width: 300px;
+  --emr-side-panel-button-strip-width: --spacing(14);
+  --emr-side-panel-content-width: 320px;
+  --emr-side-panel-offset-y: 0;
+  --emr-side-panel-content-bg: var(--color-surface-container-lowest);
+  --emr-side-panel-content-border-radius: theme(--radius-2xl);
+  --emr-side-panel-transition-timing: 0.2s;
+  --emr-side-panel-button-active-bg: var(--color-secondary-fixed);
+  --emr-side-panel-button-active-color: var(--color-on-secondary-fixed);
 
   display: block;
   position: relative;
   height: 100%;
   overflow: hidden;
-  transition: width 0.3s ease-in-out;
+  width: var(--emr-side-panel-button-strip-width);
+  transition: width var(--emr-side-panel-transition-timing) ease-in-out;
+
+  &.panel-open {
+    flex: none;
+
+    .button {
+      &.is-active {
+        background: var(--emr-side-panel-button-active-bg);
+        color: var(--emr-side-panel-button-active-color);
+      }
+    }
+  }
+
+  &.panel-open {
+    width: calc(var(--emr-side-panel-button-strip-width) + var(--emr-side-panel-content-width));
+  }
 
   .button-strip {
     position: absolute;
-    top: var(--emr-side-panel-content-inset-y);
+    top: var(--emr-side-panel-offset-y);
     left: 0;
-    bottom: var(--emr-side-panel-content-inset-y);
+    bottom: var(--emr-side-panel-offset-y);
     width: var(--emr-side-panel-button-strip-width);
     z-index: 10;
   }
 
-  .panel-content-wrapper {
+  .wrapper {
     position: absolute;
-    top: var(--emr-side-panel-content-inset-y);
-    width: var(--emr-side-panel-content-actual-width);
-    bottom: var(--emr-side-panel-content-inset-y);
-
+    top: var(--emr-side-panel-offset-y);
+    bottom: var(--emr-side-panel-offset-y);
+    width: var(--emr-side-panel-content-width);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     left: var(--emr-side-panel-button-strip-width);
     transform: translateX(-100%);
-
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s;
+    transition: opacity var(--emr-side-panel-transition-timing) ease-in-out, transform var(--emr-side-panel-transition-timing) ease-in-out, visibility 0s linear var(--emr-side-panel-transition-timing);
     z-index: 5;
+    border-radius: var(--emr-side-panel-content-border-radius);
+    overflow: hidden;
 
     &.open {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
       transform: translateX(0);
-      transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0s;
+      background: var(--emr-side-panel-content-bg);
+      transition: opacity var(--emr-side-panel-transition-timing) ease-in-out, transform var(--emr-side-panel-transition-timing) ease-in-out, visibility 0s linear 0s;
     }
   }
 
@@ -48,7 +72,7 @@
       right: 0;
     }
 
-    .panel-content-wrapper {
+    .wrapper {
       left: auto;
       right: var(--emr-side-panel-button-strip-width);
       transform: translateX(100%);
@@ -59,7 +83,7 @@
     }
   }
 
-  .panel-inner-content {
+  .inner-content {
     width: 100%;
     height: 100%;
   }
