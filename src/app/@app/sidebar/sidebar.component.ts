@@ -111,6 +111,12 @@ export class SidebarComponent implements OnInit {
           name: 'Rail Navigation',
           link: '/navigation/rail-nav'
         },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Side Panel',
+          link: '/navigation/side-panel'
+        },
       ]
     },
     {

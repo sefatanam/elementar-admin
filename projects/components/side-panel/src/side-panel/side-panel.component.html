@@ -1,0 +1,45 @@
+<div class="button-strip p-2 bg-neutral-100 dark:bg-neutral-800 flex flex-col space-y-2 z-10 shadow shrink-0">
+  @for (tab of internalTabs(); track tab.id) {
+    <button
+      mat-icon-button
+      [attr.aria-label]="tab.label"
+      [class.bg-primary-500]="isOpen() && activeTabId() === tab.id"
+      [class.text-white]="isOpen() && activeTabId() === tab.id"
+      [class.dark:bg-primary-700]="isOpen() && activeTabId() === tab.id"
+      (click)="toggleTab(tab.id)"
+      class="transition-colors"
+    >
+      @if (isTemplateRef(tab.icon)) {
+        <ng-container [ngTemplateOutlet]="tab.icon"></ng-container>
+      } @else if (typeof tab.icon === 'string' && tab.icon) {
+        <mat-icon>{{ tab.icon }}</mat-icon>
+      } @else {
+        <span class="text-sm">{{ tab.label.substring(0, 2) }}</span>
+      }
+    </button>
+  }
+</div>
+
+<div
+  class="panel-content-wrapper absolute top-0 h-full bg-white dark:bg-neutral-900 shadow-lg z-5 overflow-y-auto"
+  [class.open]="isOpen()"
+  [style.width.px]="panelContentWidthPx"
+>
+  @if (isOpen() && activeTabId()) {
+    <div class="panel-inner-content p-4 h-full">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold dark:text-white">
+          {{ activeTabLabel() }}
+        </h3>
+        <button mat-icon-button (click)="closePanel()" aria-label="Close panel" class="dark:text-white">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      @if (selectedTabContent(); as content) {
+        <ng-container [ngTemplateOutlet]="content"></ng-container>
+      } @else if (activeTabId() && !selectedTabContent()) {
+        <p class="dark:text-neutral-400">Контент для этой вкладки не найден.</p>
+      }
+    </div>
+  }
+</div>

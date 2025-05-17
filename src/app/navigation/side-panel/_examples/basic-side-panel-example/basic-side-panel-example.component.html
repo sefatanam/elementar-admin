@@ -1,0 +1,38 @@
+<div class="h-[700px] border border-default rounded-2xl overflow-hidden">
+  <emr-layout>
+    <emr-layout-header>
+      <div class="h-14 px-5 flex items-center border-b border-b-default">Header</div>
+    </emr-layout-header>
+    <emr-layout-body>
+      <div class="absolute inset-5 p-5 border border-default rounded-2xl">
+        Body content
+      </div>
+    </emr-layout-body>
+    <emr-layout-aside>
+      <emr-side-panel>
+        <emr-side-panel-tab id="t1" label="Инфо" icon="info">
+          <div class="p-4 bg-blue-50 dark:bg-blue-900 rounded h-full">
+            <p class="dark:text-blue-200">Это содержимое первой вкладки (левая панель).</p>
+          </div>
+        </emr-side-panel-tab>
+        <emr-side-panel-tab id="t2" label="Список" icon="list">
+          <div class="p-4 bg-green-50 dark:bg-green-900 rounded h-full">
+            <h4 class="text-lg font-bold dark:text-green-200">Вкладка номер два (левая панель)</h4>
+          </div>
+        </emr-side-panel-tab>
+        <emr-side-panel-tab id="t4" label="Кастом" [icon]="customIconTpl">
+          <div class="p-4 bg-purple-50 dark:bg-purple-900 rounded h-full">
+            <p class="dark:text-purple-200">Вкладка с кастомной SVG иконкой (левая).</p>
+          </div>
+        </emr-side-panel-tab>
+      </emr-side-panel>
+    </emr-layout-aside>
+  </emr-layout>
+</div>
+
+<ng-template #customIconTpl>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+    <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 7.815-6.666ZM15 6.75a2.25 2.25 0 1 0 0 4.5 2.25 2.25 0 0 0 0-4.5Z" clip-rule="evenodd" />
+    <path d="M5.26 17.242a.75.75 0 1 0-.897-1.203 5.243 5.243 0 0 0-2.05 5.022.75.75 0 0 0 .897 1.203A3.743 3.743 0 0 1 5.26 17.242Z" />
+  </svg>
+</ng-template>

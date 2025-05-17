@@ -18,6 +18,10 @@ const routes: Routes = [
     path: 'rail-nav',
     loadChildren: () => import('./rail-nav/rail-nav.module').then(m => m.RailNavModule)
   },
+  {
+    path: 'side-panel',
+    loadChildren: () => import('./side-panel/side-panel.module').then(m => m.SidePanelModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,74 @@
+:host {
+  display: flex;
+  position: relative;
+  height: 100%;
+  overflow: hidden; // Важно, чтобы обрезать выезжающую панель
+
+  --button-strip-width: 3.5rem; // 56px
+  --panel-content-actual-width: 300px; // Ширина контента панели
+
+  transition: width 0.3s ease-in-out;
+
+  .button-strip {
+    width: var(--button-strip-width);
+    height: 100%;
+    flex-shrink: 0;
+    position: relative; // Для z-index
+    z-index: 10; // Кнопки поверх выезжающей панели
+  }
+
+  .panel-content-wrapper {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: var(--panel-content-actual-width); // Фиксированная ширина
+
+    // Начальное (скрытое) состояние
+    opacity: 0;
+    visibility: hidden; // Скрываем полностью
+    pointer-events: none;
+    transform: translateX(-100%); // Для левой панели, выезжает справа
+    left: var(--button-strip-width); // Позиционируется сразу ЗА кнопками (с точки зрения DOM порядка)
+
+    transition-property: transform, opacity, visibility; // Добавляем visibility в transition
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    // Добавляем задержку для visibility, чтобы она срабатывала после начала/конца transform/opacity
+    // transition-delay: 0s, 0s, 0.3s; // opacity, transform, visibility (при закрытии)
+    // При открытии: transition-delay: 0s, 0s, 0s;
+    // Проще управлять этим через разные transition для .open
+
+    z-index: 5; // Ниже чем button-strip, чтобы выезжала "из-под"
+
+    &.open {
+      opacity: 1;
+      visibility: visible; // Показываем
+      pointer-events: auto;
+      transform: translateX(0); // Выезжает на свое место
+      // transition-delay: 0s; // Убираем задержку для visibility при открытии
+    }
+  }
+
+  // Стили для правой позиции панели
+  &.position-right {
+    .panel-content-wrapper {
+      left: auto; // Сбрасываем left
+      right: var(--button-strip-width); // Позиционируется слева ОТ кнопок (с точки зрения DOM порядка)
+      transform: translateX(100%); // Начальное состояние - справа, выезжает слева
+
+      &.open {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  .panel-inner-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  button[mat-icon-button] {
+    mat-icon {
+    }
+  }
+}
