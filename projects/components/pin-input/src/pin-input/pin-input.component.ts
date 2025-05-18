@@ -166,7 +166,7 @@ export class PinInputComponent implements ControlValueAccessor, OnInit {
     }
 
     if (event.key === 'Delete' || event.key === 'Backspace' || event.key === 'Tab') {
-      this.onChange(this.form.value.value.join(''));
+      this.onChange(+this.form.value.value.join(''));
       return;
     }
 
@@ -189,6 +189,6 @@ export class PinInputComponent implements ControlValueAccessor, OnInit {
         }
       }
     });
-    this.onChange(this.form.value.value.join(''));
+    this.onChange(+this.form.value.value.join(''));
   }
 }
