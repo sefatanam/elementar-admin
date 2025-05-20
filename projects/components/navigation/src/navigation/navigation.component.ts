@@ -35,7 +35,7 @@ export class NavigationComponent implements OnChanges {
   readonly _items = contentChildren(NavigationItemComponent, { descendants: true });
 
   activeKey = input<any>();
-  theme = input();
+  appearance = input();
 
   readonly itemClicked = output<NavigationItem>();
 
@@ -70,8 +70,8 @@ export class NavigationComponent implements OnChanges {
       this.api.activateItem(changes['activeKey'].currentValue);
     }
 
-    if (changes['theme']) {
-      this._renderer.setAttribute(this._elementRef.nativeElement, 'data-theme', changes['theme'].currentValue);
+    if (changes['appearance']) {
+      this._renderer.setAttribute(this._elementRef.nativeElement, 'data-appearance', changes['appearance'].currentValue);
     }
   }
 
