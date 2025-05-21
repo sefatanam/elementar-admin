@@ -1,0 +1,13 @@
+<div class="signature-pad-wrapper">
+  <canvas #signatureCanvas
+          [style.width.px]="width()"
+          [style.height.px]="height()"
+          class="signature-canvas">
+    Your browser does not support the HTML canvas tag.
+  </canvas>
+
+  <div class="controls">
+    <button type="button" (click)="clear()">Clear</button>
+    <button type="button" (click)="save()">Save Signature</button>
+  </div>
+</div>

@@ -116,7 +116,7 @@ export class SidebarComponent implements OnInit {
           type: 'link',
           name: 'Side Panel',
           link: '/navigation/side-panel'
-        },
+        }
       ]
     },
     {
@@ -220,7 +220,7 @@ export class SidebarComponent implements OnInit {
       type: 'group',
       icon: 'grid_view',
       name: 'Components',
-      badge: 23,
+      badge: 63,
       children: [
         {
           key: uuid(),
@@ -593,6 +593,12 @@ export class SidebarComponent implements OnInit {
           type: 'link',
           name: 'Comparison Slider',
           link: '/components/comparison-slider'
+        },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Signature Pad',
+          link: '/components/signature-pad'
         },
       ]
     },

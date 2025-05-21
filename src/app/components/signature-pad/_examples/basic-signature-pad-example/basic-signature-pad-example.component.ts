@@ -1,0 +1,14 @@
+import { Component } from '@angular/core';
+import { SignaturePadComponent } from '@elementar-ui/components/signature-pad';
+
+@Component({
+  selector: 'app-basic-signature-pad-example',
+  imports: [
+    SignaturePadComponent
+  ],
+  templateUrl: './basic-signature-pad-example.component.html',
+  styleUrl: './basic-signature-pad-example.component.scss'
+})
+export class BasicSignaturePadExampleComponent {
+
+}
