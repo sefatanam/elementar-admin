@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --no-hmr",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build": "ng build",

@@ -1,29 +1,42 @@
+@reference 'tailwindcss';
+
 :host {
   display: block;
-  font-family: sans-serif;
+  position: relative;
+  width: max-content;
+  height: max-content;
+  background: var(--color-surface-container-lowest);
 
-  .signature-pad-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
-    width: fit-content;
-    margin: auto;
+  canvas {
+    width: 500px;
+    height: 250px;
+    z-index: 1;
+    position: relative;
   }
 
-  .signature-canvas {
-    border: 1px solid #000;
-    cursor: crosshair;
-    touch-action: none;
-    width: 400px;
-    height: 200px;
+  .emr-brand-colors {
+    --emr-brand-colors-color-size: --spacing(5);
+    --emr-brand-colors-gap: --spacing(2);
+    position: absolute;
+    top: --spacing(3);
+    right: --spacing(3);
+    z-index: 2;
   }
 
-  .controls {
-    display: flex;
-    gap: 10px;
+  .clear-button {
+    position: absolute;
+    top: --spacing(1);
+    left: --spacing(1);
+    z-index: 2;
+  }
+
+  .line {
+    position: absolute;
+    height: 1px;
+    z-index: 0;
+    background: var(--color-surface-container-highest);
+    left: 40px;
+    right: 40px;
+    bottom: 50px;
   }
 }

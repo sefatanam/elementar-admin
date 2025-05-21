@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { SignaturePadComponent } from '@elementar-ui/components/signature-pad';
 
 @Component({
@@ -10,5 +10,14 @@ import { SignaturePadComponent } from '@elementar-ui/components/signature-pad';
   styleUrl: './basic-signature-pad-example.component.scss'
 })
 export class BasicSignaturePadExampleComponent {
+  signature = signal('');
 
+  onSignatureSaved(signature: string) {
+    console.log(signature);
+    this.signature.set(signature);
+  }
+
+  onSignatureCleared() {
+    this.signature.set('');
+  }
 }

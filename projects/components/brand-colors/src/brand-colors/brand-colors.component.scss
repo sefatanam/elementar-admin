@@ -1,22 +1,26 @@
 @reference 'tailwindcss';
 
 :host {
+  --emr-brand-colors-color-size: --spacing(6);
+  --emr-brand-colors-gap: --spacing(3);
+
   display: inline-flex;
   flex-wrap: wrap;
-  gap: calc(var(--spacing) * 3.5);
-  min-height: calc(var(--spacing) * 8);
+  gap: var(--emr-brand-colors-gap);
+  min-height: --spacing(8);
 
   .color {
-    --emr-brand-colors-item-color: transparent;
-    width: calc(var(--spacing) * 6);
-    height: calc(var(--spacing) * 6);
+    --color: transparent;
+    width: var(--emr-brand-colors-color-size);
+    height: var(--emr-brand-colors-color-size);
     border-radius: calc(infinity * 1px);
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     position: relative;
-    background: var(--emr-brand-colors-item-color);
-    line-height: 1;
+    background: var(--color);
+    line-height: 0;
+    flex: none;
     cursor: pointer;
     color: white;
     display: flex;
@@ -28,10 +32,24 @@
       scale: 1.05;
     }
 
+    &:active {
+      scale: 0.95;
+    }
+
     &.is-selected {
-      outline-offset: 2px;
-      outline-color: var(--emr-brand-colors-item-color);
-      outline-style: solid;
+      &:before {
+        content: '';
+        position: absolute;
+        border-radius: calc(infinity * 1px);
+        background: #fff;
+        width: --spacing(3);
+        height: --spacing(3);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        box-shadow: theme(--shadow-sm);
+      }
     }
   }
 
