@@ -11,6 +11,8 @@ import {
   OnDestroy,
   Renderer2
 } from '@angular/core';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 interface Point {
   x: number;
@@ -20,7 +22,10 @@ interface Point {
 @Component({
   selector: 'emr-signature-pad',
   standalone: true,
-  imports: [],
+  imports: [
+    MatIconButton,
+    MatIcon
+  ],
   templateUrl: './signature-pad.component.html',
   styleUrl: './signature-pad.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +50,7 @@ export class SignaturePadComponent implements OnDestroy {
   private memoryContext = signal<CanvasRenderingContext2D | null>(null);
 
   private isDrawing = signal(false);
-  private currentPoints = signal<Point[]>([]); // Массив точек текущего штриха
+  private currentPoints = signal<Point[]>([]);
 
   private boundWindowMouseMove!: (event: MouseEvent | TouchEvent) => void;
   private boundWindowMouseUp!: (event: MouseEvent | TouchEvent) => void;
@@ -155,7 +160,6 @@ export class SignaturePadComponent implements OnDestroy {
     if (!coords) return;
 
     this.isDrawing.set(true);
-    // Используем update для добавления в массив
     this.currentPoints.update(points => [...points, coords]);
     this.addGlobalPointerListeners();
   }
@@ -171,7 +175,6 @@ export class SignaturePadComponent implements OnDestroy {
     const coords = this.getCoordinates(event);
     if (!coords) return;
 
-    // Используем update для добавления в массив
     this.currentPoints.update(points => [...points, coords]);
 
     mainCtx.clearRect(0, 0, this.width(), this.height());
@@ -285,11 +288,8 @@ export class SignaturePadComponent implements OnDestroy {
       console.warn('Memory canvas not available for saving.');
       return;
     }
-    // Добавим проверку, не пуст ли холст, перед сохранением
     if (this.isCanvasEffectivelyBlank(memCanvas)) {
       console.warn('Canvas is effectively empty or contains only background. Nothing to save.');
-      // Можно также эмитировать пустую строку или null, если это требуется
-      // this.signatureSaved.emit('');
       return;
     }
     const dataUrl = memCanvas.toDataURL('image/png');
@@ -298,22 +298,13 @@ export class SignaturePadComponent implements OnDestroy {
 
   private isCanvasEffectivelyBlank(canvas: HTMLCanvasElement): boolean {
     if (!canvas) return true;
-    // Простейший способ: если нет сохраненных точек (после очистки) и текущий путь пуст
-    // Это не совсем точно, так как memCanvas может быть не пустым после clear() -> save()
-    // Более точная проверка - это анализ пикселей.
-    // Для данного случая, если массив currentPoints пуст И memCanvas не содержит ничего кроме фона.
-
-    // Проверка: создаем временный холст с фоном и сравниваем их dataURL
     const tempCanvas = document.createElement('canvas');
     tempCanvas.width = canvas.width;
     tempCanvas.height = canvas.height;
     const tempCtx = tempCanvas.getContext('2d');
-    if (!tempCtx) return true; // Не удалось создать контекст для проверки
-
+    if (!tempCtx) return true;
     tempCtx.fillStyle = this.backgroundColor();
     tempCtx.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
-
-    // Если холст содержит только цвет фона, его DataURL будет таким же, как у свежесозданного холста с фоном
     return canvas.toDataURL() === tempCanvas.toDataURL();
   }
 
