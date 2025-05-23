@@ -6,6 +6,9 @@ import { PlaygroundComponent } from '@meta/playground/playground.component';
 import {
   BasicNotificationsExampleComponent
 } from '../_examples/basic-notifications-example/basic-notifications-example.component';
+import {
+  NotificationListExampleComponent
+} from '../_examples/notification-list-example/notification-list-example.component';
 
 @Component({
   imports: [
@@ -13,7 +16,8 @@ import {
     PageContentDirective,
     PageTitleDirective,
     PlaygroundComponent,
-    BasicNotificationsExampleComponent
+    BasicNotificationsExampleComponent,
+    NotificationListExampleComponent
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'

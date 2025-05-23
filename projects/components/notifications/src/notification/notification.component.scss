@@ -4,6 +4,12 @@
   display: flex;
   gap: --spacing(4);
 
+  .avatar {
+    &:empty {
+      display: none;
+    }
+  }
+
   .actor {
     &:empty {
       display: none;
