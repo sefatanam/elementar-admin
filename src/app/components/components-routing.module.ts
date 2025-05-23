@@ -257,6 +257,10 @@ const routes: Routes = [
   {
     path: 'signature-pad',
     loadChildren: () => import('./signature-pad/signature-pad.module').then(m => m.SignaturePadModule)
+  },
+  {
+    path: 'notifications',
+    loadChildren: () => import('./notifications/notifications.module').then(m => m.NotificationsModule)
   }
 ];
 

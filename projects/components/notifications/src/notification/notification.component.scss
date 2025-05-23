@@ -1,0 +1,18 @@
+@reference 'tailwindcss';
+
+:host {
+  display: flex;
+  gap: --spacing(4);
+
+  .actor {
+    &:empty {
+      display: none;
+    }
+  }
+
+  .message {
+    &:empty {
+      display: none;
+    }
+  }
+}

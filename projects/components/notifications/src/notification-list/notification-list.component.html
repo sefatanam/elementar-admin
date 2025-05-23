@@ -1,5 +1,5 @@
 @if (_initialized) {
-  @for (notification of notifications(); track notification; let last = $last) {
+  @for (notification of notifications(); track notification) {
     <div class="notification">
       <ng-container [ngTemplateOutlet]="getNotificationTemplate(notification.type)"
                     [ngTemplateOutletContext]="{ $implicit: notification }" />

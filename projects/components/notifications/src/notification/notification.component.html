@@ -1,0 +1,21 @@
+<div class="flex-shrink-0">
+  <div class="relative">
+    <ng-content select="[emrNotificationActorAvatar]"/>
+<!--    <div class="flex absolute justify-center z-10 text-white items-center -right-0-->
+<!--                  -bottom-0 size-5 bg-blue-400 rounded-full border border-default border-white action-icon">-->
+<!--      <ng-content select="mat-icon,emr-icon"/>-->
+<!--    </div>-->
+  </div>
+</div>
+<div class="grow">
+  <div>
+    <span class="actor">
+      <ng-content select="emr-notification-actor,[emr-notification-actor]"/>
+    </span>
+    <span class="message">
+      <ng-content select="emr-notification-message,[emr-notification-message]"/>
+    </span>
+  </div>
+  <ng-content/>
+  <ng-content select="emr-notification-time,[emr-notification-time]"/>
+</div>

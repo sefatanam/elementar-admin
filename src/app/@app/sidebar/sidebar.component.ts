@@ -220,7 +220,7 @@ export class SidebarComponent implements OnInit {
       type: 'group',
       icon: 'grid_view',
       name: 'Components',
-      badge: 63,
+      badge: 64,
       children: [
         {
           key: uuid(),
@@ -599,6 +599,12 @@ export class SidebarComponent implements OnInit {
           type: 'link',
           name: 'Signature Pad',
           link: '/components/signature-pad'
+        },
+        {
+          key: uuid(),
+          type: 'link',
+          name: 'Notifications',
+          link: '/components/notifications'
         },
       ]
     },
