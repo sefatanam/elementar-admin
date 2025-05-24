@@ -4,12 +4,14 @@
       <emr-dicebear [key]="notification.actor.id"
                     [src]="notification.actor.avatarUrl"
                     emrNotificationAvatar/>
-      <a routerLink="/" emr-notification-actor>{{ notification.actor.name }}</a>
-      <emr-notification-message> {{ notification.message }}</emr-notification-message>
-      <emr-notification-time>{{ notification.createdAt }}</emr-notification-time>
+      <emr-notification-message>
+        <a routerLink="/" emr-notification-actor>{{ notification.actor.name }}</a>
+        {{ notification.message }}
+      </emr-notification-message>
       <emr-notification-content class="border border-default rounded-lg p-2.5 text-sm">
        This is a comment.
       </emr-notification-content>
+      <emr-notification-time>{{ notification.createdAt }}</emr-notification-time>
     </emr-notification>
   </ng-template>
   <ng-template emrNotificationDef="inviteToEditFilesInFolder" let-notification>

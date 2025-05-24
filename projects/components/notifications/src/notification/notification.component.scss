@@ -1,8 +1,10 @@
 @reference 'tailwindcss';
 
 :host {
+  --emr-notification-gap: --spacing(4);
+
   display: flex;
-  gap: --spacing(4);
+  gap: var(--emr-notification-gap);
 
   .avatar {
     position: relative;

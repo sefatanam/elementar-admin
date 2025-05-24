@@ -2,14 +2,9 @@
   <ng-content select="[emrNotificationAvatar]"/>
 </div>
 <div class="grow">
-  <div>
-    <span class="actor">
-      <ng-content select="emr-notification-actor,[emr-notification-actor]"/>
-    </span>
-    <span class="message">
-      <ng-content select="emr-notification-message,[emr-notification-message]"/>
-    </span>
-  </div>
+  <span class="message">
+    <ng-content select="emr-notification-message,[emr-notification-message]"/>
+  </span>
   <div class="content">
     <ng-content select="emr-notification-content,[emr-notification-content]"/>
   </div>
