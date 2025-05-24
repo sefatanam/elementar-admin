@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import {
-  NotificationActorAvatarDirective, NotificationActorComponent,
+  NotificationAvatarDirective,
+  NotificationActorComponent,
   NotificationComponent,
-  NotificationMessageComponent, NotificationTimeComponent
+  NotificationMessageComponent,
+  NotificationTimeComponent, NotificationContentComponent
 } from '@elementar-ui/components/notifications';
 import { DicebearComponent } from '@elementar-ui/components/avatar';
 import { RouterLink } from '@angular/router';
@@ -12,11 +14,12 @@ import { RouterLink } from '@angular/router';
   imports: [
     NotificationComponent,
     DicebearComponent,
-    NotificationActorAvatarDirective,
+    NotificationAvatarDirective,
     NotificationMessageComponent,
     NotificationTimeComponent,
     RouterLink,
-    NotificationActorComponent
+    NotificationActorComponent,
+    NotificationContentComponent
   ],
   templateUrl: './basic-notifications-example.component.html',
   styleUrl: './basic-notifications-example.component.scss'

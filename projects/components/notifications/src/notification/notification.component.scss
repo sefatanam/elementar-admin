@@ -5,6 +5,8 @@
   gap: --spacing(4);
 
   .avatar {
+    position: relative;
+
     &:empty {
       display: none;
     }

@@ -1,5 +1,5 @@
 <div class="avatar">
-  <ng-content select="[emrNotificationActorAvatar]"/>
+  <ng-content select="[emrNotificationAvatar]"/>
 </div>
 <div class="grow">
   <div>
@@ -10,6 +10,8 @@
       <ng-content select="emr-notification-message,[emr-notification-message]"/>
     </span>
   </div>
-  <ng-content/>
+  <div class="content">
+    <ng-content select="emr-notification-content,[emr-notification-content]"/>
+  </div>
   <ng-content select="emr-notification-time,[emr-notification-time]"/>
 </div>

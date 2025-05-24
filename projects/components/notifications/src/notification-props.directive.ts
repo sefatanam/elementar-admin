@@ -6,15 +6,11 @@ import { booleanAttribute, Directive, input } from '@angular/core';
   standalone: true,
   host: {
     'class': 'emr-notification-props',
-    '[class.is-new]': 'isNew()',
-    '[class.read]': 'read()',
+    '[class.is-unread]': 'isUnread()',
   }
 })
 export class NotificationPropsDirective {
-  isNew = input(false, {
-    transform: booleanAttribute
-  });
-  read = input(false, {
+  isUnread = input(false, {
     transform: booleanAttribute
   });
 }

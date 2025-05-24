@@ -2,11 +2,15 @@ import { Component } from '@angular/core';
 import { MatIconButton } from '@angular/material/button';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 import {
-  NotificationActorAvatarDirective, NotificationActorComponent,
+  NotificationAvatarDirective,
+  NotificationActorComponent,
   NotificationComponent,
   NotificationControlsDefDirective,
   NotificationDefDirective,
-  NotificationListComponent, NotificationMessageComponent, NotificationPropsDirective, NotificationTimeComponent
+  NotificationListComponent,
+  NotificationMessageComponent,
+  NotificationPropsDirective,
+  NotificationTimeComponent, NotificationContentComponent
 } from '@elementar-ui/components/notifications';
 import { MatIcon } from '@angular/material/icon';
 import { DicebearComponent } from '@elementar-ui/components/avatar';
@@ -26,11 +30,12 @@ import { RouterLink } from '@angular/router';
     NotificationComponent,
     NotificationPropsDirective,
     DicebearComponent,
-    NotificationActorAvatarDirective,
+    NotificationAvatarDirective,
     NotificationActorComponent,
     NotificationMessageComponent,
     NotificationTimeComponent,
-    RouterLink
+    RouterLink,
+    NotificationContentComponent
   ],
   templateUrl: './notification-list-example.component.html',
   styleUrl: './notification-list-example.component.scss'
@@ -51,7 +56,7 @@ export class NotificationListExampleComponent {
         avatarUrl: 'assets/avatars/4.svg'
       },
       message: 'what did you say?',
-      isNew: true,
+      isUnread: true,
       type: 'mentionedInComment',
       createdAt: '1 hour ago'
     },
@@ -71,7 +76,7 @@ export class NotificationListExampleComponent {
       payload: {
         folderName: 'My New Project'
       },
-      isNew: true,
+      isUnread: true,
       type: 'inviteToEditFilesInFolder',
       createdAt: '2 hours ago'
     },

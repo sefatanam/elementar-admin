@@ -1,15 +1,15 @@
 <emr-notification-list [notifications]="notifications" class="gap-5">
   <ng-template emrNotificationDef="mentionedInComment" let-notification>
-    <emr-notification emrNotificationProps [isNew]="notification.isNew">
+    <emr-notification emrNotificationProps [isUnread]="notification.isUnread">
       <emr-dicebear [key]="notification.actor.id"
                     [src]="notification.actor.avatarUrl"
-                    emrNotificationActorAvatar/>
+                    emrNotificationAvatar/>
       <a routerLink="/" emr-notification-actor>{{ notification.actor.name }}</a>
       <emr-notification-message> {{ notification.message }}</emr-notification-message>
       <emr-notification-time>{{ notification.createdAt }}</emr-notification-time>
-      <div class="border border-default rounded-lg p-2.5 text-sm mt-1">
+      <emr-notification-content class="border border-default rounded-lg p-2.5 text-sm">
        This is a comment.
-      </div>
+      </emr-notification-content>
     </emr-notification>
   </ng-template>
   <ng-template emrNotificationDef="inviteToEditFilesInFolder" let-notification>

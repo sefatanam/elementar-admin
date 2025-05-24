@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-notification-is-new-bg: var(--color-primary-200);
+  --emr-notification-is-unread-bg: var(--color-primary-200);
   --emr-notification-padding: --spacing(5);
   --emr-notification-gap: --spacing(6);
 
@@ -15,8 +15,8 @@
     background: var(--color-surface-container-low);
     border-radius: theme(--radius-xl);
 
-    &:has(.is-new) {
-      background: var(--emr-notification-is-new-bg);
+    &:has(.is-unread) {
+      background: var(--emr-notification-is-unread-bg);
     }
   }
 
@@ -34,5 +34,5 @@
 }
 
 :host-context(html.dark) {
-  --emr-notification-is-new-bg: var(--color-neutral-800);
+  --emr-notification-is-unread-bg: var(--color-neutral-950);
 }
