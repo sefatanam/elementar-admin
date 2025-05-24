@@ -19,7 +19,7 @@
             <a href="https://docs.elementarui.com" class="hover:underline underline-offset-2 text-primary">Documentation</a>
           </nav>
         </div>
-        <div class="ms-auto flex items-center gap-3">
+        <div class="ms-auto flex items-center gap-4">
           <button mat-icon-button (click)="_themeManager.toggleColorScheme()" matTooltip="Color Theme"
                   emrSoundEffect soundSrc="/assets/sound-effects/mouse-click.ogg">
             @if (_themeManager.getColorScheme() === 'light') {
@@ -28,6 +28,9 @@
               <mat-icon>dark_mode</mat-icon>
             }
           </button>
+          <a href="https://x.com/pavel_salauyou" target="_blank">
+            <img src="assets/x.svg" alt="" class="size-6">
+          </a>
           <a mat-stroked-button href="https://github.com/elementarlabs/elementar-ui" target="_blank">Github</a>
         </div>
       </div>
