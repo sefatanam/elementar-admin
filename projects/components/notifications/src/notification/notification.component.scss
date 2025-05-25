@@ -1,7 +1,16 @@
 @reference 'tailwindcss';
 
 :host {
+  --emr-notification-padding: --spacing(5);
   --emr-notification-gap: --spacing(4);
+  --emr-notification-bg: var(--color-surface-container-low);
+  --emr-notification-hover-bg: var(--color-surface-container);
+  --emr-notification-is-unread-bg: var(--color-primary-200);
+  --emr-notification-is-unread-hover-bg: var(--color-primary-300);
+
+  padding: var(--emr-notification-padding);
+  position: relative;
+  border-radius: theme(--radius-xl);
 
   display: flex;
   gap: var(--emr-notification-gap);
@@ -23,6 +32,31 @@
   .message {
     &:empty {
       display: none;
+    }
+  }
+}
+
+:host-context(emr-notification-list.is-static) {
+  cursor: auto;
+}
+
+:host-context(emr-notification-list) {
+  background: var(--emr-notification-bg);
+  cursor: pointer;
+
+  &.is-unread {
+    background: var(--emr-notification-is-unread-bg);
+  }
+}
+
+:host-context(emr-notification-list:not(.is-static)) {
+  &:hover {
+    background: var(--emr-notification-hover-bg);
+  }
+
+  &.is-unread {
+    &:hover {
+      background: var(--emr-notification-is-unread-hover-bg);
     }
   }
 }

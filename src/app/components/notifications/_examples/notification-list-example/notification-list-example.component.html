@@ -1,6 +1,6 @@
-<emr-notification-list [notifications]="notifications" class="gap-5">
+<emr-notification-list [notifications]="notifications" [static]="false">
   <ng-template emrNotificationDef="mentionedInComment" let-notification>
-    <emr-notification emrNotificationProps [isUnread]="notification.isUnread">
+    <emr-notification [isUnread]="notification.isUnread">
       <emr-dicebear [key]="notification.actor.id"
                     [src]="notification.actor.avatarUrl"
                     emrNotificationAvatar/>
@@ -15,7 +15,11 @@
     </emr-notification>
   </ng-template>
   <ng-template emrNotificationDef="inviteToEditFilesInFolder" let-notification>
-    invites
+    <emr-notification>
+      <emr-notification-content>
+        invites
+      </emr-notification-content>
+    </emr-notification>
   </ng-template>
   <ng-template emrNotificationControlsDef let-notification>
     <button mat-icon-button [matMenuTriggerFor]="settings">

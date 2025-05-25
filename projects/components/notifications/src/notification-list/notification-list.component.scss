@@ -1,35 +1,20 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-notification-is-unread-bg: var(--color-primary-200);
-  --emr-notification-padding: --spacing(5);
-  --emr-notification-gap: --spacing(6);
+  --emr-notification-list-gap: --spacing(6);
 
   display: flex;
   flex-direction: column;
-  gap: var(--emr-notification-gap);
+  gap: var(--emr-notification-list-gap);
 
   .notification {
-    padding: var(--emr-notification-padding);
     position: relative;
-    background: var(--color-surface-container-low);
-    border-radius: theme(--radius-xl);
-
-    &:has(.is-unread) {
-      background: var(--emr-notification-is-unread-bg);
-    }
   }
 
   .controls {
     position: absolute;
-    inset-inline-end: --spacing(2);
-    top: --spacing(2);
-  }
-
-  &:has(.controls:not(:empty)) {
-    .notification {
-      padding-inline-end: --spacing(7);
-    }
+    inset-inline-end: --spacing(1);
+    top: --spacing(1);
   }
 }
 

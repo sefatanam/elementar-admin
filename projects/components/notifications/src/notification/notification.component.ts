@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { booleanAttribute, Component, input } from '@angular/core';
 
 @Component({
   selector: 'emr-notification',
@@ -8,8 +8,11 @@ import { Component } from '@angular/core';
   styleUrl: './notification.component.scss',
   host: {
     'class': 'emr-notification',
+    '[class.is-unread]': 'isUnread()'
   }
 })
 export class NotificationComponent {
-
+  isUnread = input(false, {
+    transform: booleanAttribute
+  });
 }

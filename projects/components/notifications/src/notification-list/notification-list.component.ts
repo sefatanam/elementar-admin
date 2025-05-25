@@ -1,5 +1,5 @@
 import {
-  AfterContentInit,
+  AfterContentInit, booleanAttribute,
   Component,
   contentChild,
   contentChildren,
@@ -20,7 +20,8 @@ import { Notification } from '../types';
   templateUrl: './notification-list.component.html',
   styleUrl: './notification-list.component.scss',
   host: {
-    'class': 'emr-notification-list'
+    'class': 'emr-notification-list',
+    '[class.is-static]': 'static()'
   }
 })
 export class NotificationListComponent<T extends Notification> implements AfterContentInit {
@@ -28,6 +29,9 @@ export class NotificationListComponent<T extends Notification> implements AfterC
   readonly controlsDef = contentChild(NotificationControlsDefDirective);
 
   notifications = input<T[]>([]);
+  static = input(true, {
+    transform: booleanAttribute
+  });
 
   protected _initialized = false;
   protected _defsMap = new Map<string, TemplateRef<any>>();

@@ -9,8 +9,8 @@ import {
   NotificationDefDirective,
   NotificationListComponent,
   NotificationMessageComponent,
-  NotificationPropsDirective,
-  NotificationTimeComponent, NotificationContentComponent
+  NotificationTimeComponent,
+  NotificationContentComponent
 } from '@elementar-ui/components/notifications';
 import { MatIcon } from '@angular/material/icon';
 import { DicebearComponent } from '@elementar-ui/components/avatar';
@@ -28,7 +28,6 @@ import { RouterLink } from '@angular/router';
     NotificationListComponent,
     MatMenuTrigger,
     NotificationComponent,
-    NotificationPropsDirective,
     DicebearComponent,
     NotificationAvatarDirective,
     NotificationActorComponent,
