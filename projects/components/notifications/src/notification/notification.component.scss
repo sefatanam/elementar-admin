@@ -8,12 +8,11 @@
   --emr-notification-is-unread-bg: var(--color-primary-200);
   --emr-notification-is-unread-hover-bg: var(--color-primary-300);
 
-  padding: var(--emr-notification-padding);
+  display: flex;
   position: relative;
   border-radius: theme(--radius-xl);
-
-  display: flex;
   gap: var(--emr-notification-gap);
+  padding: var(--emr-notification-padding);
 
   .avatar {
     position: relative;
@@ -59,4 +58,9 @@
       background: var(--emr-notification-is-unread-hover-bg);
     }
   }
+}
+
+:host-context(html.dark) {
+  --emr-notification-is-unread-bg: var(--color-neutral-950);
+  --emr-notification-is-unread-hover-bg: var(--color-neutral-900);
 }

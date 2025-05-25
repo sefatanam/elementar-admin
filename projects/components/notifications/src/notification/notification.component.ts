@@ -1,7 +1,7 @@
 import { booleanAttribute, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'emr-notification',
+  selector: 'emr-notification,[emr-notification]',
   exportAs: 'emrNotification',
   imports: [],
   templateUrl: './notification.component.html',
