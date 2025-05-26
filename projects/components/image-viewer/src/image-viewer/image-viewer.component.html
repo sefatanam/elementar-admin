@@ -1,4 +1,4 @@
-<div class="absolute start-4 top-4 z-[3]">
+<div class="title-container">
   @if (hasTitle()) {
     <div class="title">
       @if (data.titleTplRef) {
@@ -9,7 +9,7 @@
     </div>
   }
 </div>
-<div class="absolute end-4 top-4 flex flex-col gap-4 z-[3]" (click)="onPreventClick($event)">
+<div class="controls" (click)="onPreventClick($event)">
   <div class="w-max">
     <button (click)="pictureRef.close()" class="close">
       <mat-icon>close</mat-icon>
@@ -29,7 +29,7 @@
   <div class="image" (dragstart)="onDragStart($event)">
     @if (loading) {
       <div class="spinner">
-        <mat-spinner></mat-spinner>
+        <mat-spinner/>
       </div>
     }
     <img [src]="data.sourceUrl" alt="" (load)="onLoad($event)" (click)="onPreventClick($event)" class="img">

@@ -6,15 +6,23 @@
   display: flex;
   flex-direction: column;
 
+  .title-container {
+    @apply absolute start-4 top-4 z-[3];
+  }
+
+  .controls {
+    @apply absolute end-4 top-4 flex flex-col gap-4 z-[3];
+  }
+
   .header {
     position: absolute;
     top: 0;
     inset-inline-start: 0;
     inset-inline-end: 0;
-    height: calc(var(--spacing) * 20);
+    height: --spacing(20);
     flex: none;
-    padding-left: calc(var(--spacing) * 4);
-    padding-right: calc(var(--spacing) * 4);
+    padding-left: --spacing(4);
+    padding-right: --spacing(4);
     z-index: 3;
     display: flex;
     align-items: center;
@@ -27,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: calc(var(--spacing) * 8);
+    gap: --spacing(8);
     width: 100vw;
     height: 100vh;
   }
@@ -65,10 +73,10 @@
   .title {
     background-color: var(--color-neutral-700);
     font-weight: 500;
-    height: calc(var(--spacing) * 10);
+    height: --spacing(10);
     border-radius: calc(infinity * 1px);
-    padding-left: calc(var(--spacing) * 4);
-    padding-right: calc(var(--spacing) * 4);
+    padding-left: --spacing(4);
+    padding-right: --spacing(4);
     font-size: var(--text-tiny);
     display: flex;
     align-items: center;
@@ -78,10 +86,12 @@
 
   .close,
   .zoom {
-    width: calc(var(--spacing) * 10);
-    height: calc(var(--spacing) * 10);
+    width: --spacing(10);
+    height: --spacing(10);
     border-radius: calc(infinity * 1px);
+    cursor: pointer;
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
     background: var(--color-neutral-700);
@@ -108,15 +118,15 @@
     background: var(--color-neutral-50);
     display: flex;
     flex-direction: column;
-    gap: calc(var(--spacing) * 5);
+    gap: --spacing(5);
     height: 100%;
-    padding-inline-end: calc(var(--spacing) * 10);
+    padding-inline-end: --spacing(10);
 
     &-header {
       font-weight: 700;
-      padding-left: calc(var(--spacing) * 8);
-      padding-right: calc(var(--spacing) * 8);
-      padding-top: calc(var(--spacing) * 8);
+      padding-left: --spacing(8);
+      padding-right: --spacing(8);
+      padding-top: --spacing(8);
     }
 
     &-body {
@@ -130,9 +140,9 @@
         position: absolute;
         inset: 0;
         overflow-y: auto;
-        padding-left: calc(var(--spacing) * 8);
-        padding-right: calc(var(--spacing) * 8);
-        padding-bottom: calc(var(--spacing) * 8);
+        padding-left: --spacing(8);
+        padding-right: --spacing(8);
+        padding-bottom: --spacing(8);
       }
     }
   }
