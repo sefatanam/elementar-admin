@@ -10,6 +10,12 @@ import { BreadcrumbItemIconDefDirective } from '../breadcrumb-item-icon-def.dire
 import { BreadcrumbItemIconDirective } from '../breadcrumb-item-icon.directive';
 import { MatIcon } from '@angular/material/icon';
 import { NgTemplateOutlet } from '@angular/common';
+import {
+  BreadcrumbItemNameDefDirective
+} from '../breadcrumb-item-name-def.directive';
+import {
+  BreadcrumbItemTitleDefDirective
+} from '../breadcrumb-item-title-def.directive';
 
 @Component({
   selector: 'emr-breadcrumbs-global',
@@ -32,7 +38,9 @@ import { NgTemplateOutlet } from '@angular/common';
 })
 export class BreadcrumbsGlobalComponent {
   private _breadcrumbsStore = inject(BreadcrumbsStore);
-  protected _itemIconDef = contentChild(BreadcrumbItemIconDefDirective);
+  protected itemIconDef = contentChild(BreadcrumbItemIconDefDirective);
+  protected itemNameDef = contentChild(BreadcrumbItemNameDefDirective);
+  protected itemTitleDef = contentChild(BreadcrumbItemTitleDefDirective);
 
   breadcrumbs = computed<Breadcrumb[]>(() => {
     return this._breadcrumbsStore.breadcrumbs();
@@ -43,6 +51,14 @@ export class BreadcrumbsGlobalComponent {
   separator = input('/');
 
   get iconTemplateRef(): TemplateRef<any> {
-    return this._itemIconDef()?.templateRef as TemplateRef<any>;
+    return this.itemIconDef()?.templateRef as TemplateRef<any>;
+  }
+
+  get nameTemplateRef(): TemplateRef<any> {
+    return this.itemNameDef()?.templateRef as TemplateRef<any>;
+  }
+
+  get titleTemplateRef(): TemplateRef<any> {
+    return this.itemTitleDef()?.templateRef as TemplateRef<any>;
   }
 }

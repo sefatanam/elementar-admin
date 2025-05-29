@@ -5,4 +5,5 @@ export interface Breadcrumb {
   type: 'link' | 'separator' | null | string;
   icon?: string;
   route?: string;
+  [propName: string]: any;
 }

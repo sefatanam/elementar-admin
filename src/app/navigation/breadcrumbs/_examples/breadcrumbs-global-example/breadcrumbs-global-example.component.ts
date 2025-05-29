@@ -13,7 +13,9 @@ import { IconComponent } from '@elementar-ui/components/icon';
     BreadcrumbsGlobalComponent,
     MatButton,
     IconComponent,
-    BreadcrumbItemIconDefDirective
+    BreadcrumbItemIconDefDirective,
+    // BreadcrumbItemNameDefDirective,
+    // BreadcrumbItemTitleDefDirective
   ],
   templateUrl: './breadcrumbs-global-example.component.html',
   styleUrl: './breadcrumbs-global-example.component.scss'
