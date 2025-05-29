@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   inject,
   input,
@@ -26,7 +25,6 @@ enableCache('all');
   }
 })
 export class IconComponent implements OnInit, OnChanges {
-  private _cdr = inject(ChangeDetectorRef);
   private _sanitizer = inject(DomSanitizer);
   protected _iconHtml: SafeHtml;
 
@@ -40,7 +38,7 @@ export class IconComponent implements OnInit, OnChanges {
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['name'] && !changes['name'].isFirstChange()) {
-      if (changes['name'].previousValue === changes['name'].previousValue) {
+      if (changes['name'].previousValue === changes['name'].currentValue) {
         return;
       }
 
@@ -51,6 +49,11 @@ export class IconComponent implements OnInit, OnChanges {
 
   private async _loadIcon() {
     if (this.loaded) {
+      return;
+    }
+
+    if (!this.name()) {
+      this.loaded = true;
       return;
     }
 

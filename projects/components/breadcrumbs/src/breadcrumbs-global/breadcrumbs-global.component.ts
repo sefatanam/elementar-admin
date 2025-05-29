@@ -54,11 +54,11 @@ export class BreadcrumbsGlobalComponent {
     return this.itemIconDef()?.templateRef as TemplateRef<any>;
   }
 
-  get nameTemplateRef(): TemplateRef<any> {
-    return this.itemNameDef()?.templateRef as TemplateRef<any>;
-  }
-
   get titleTemplateRef(): TemplateRef<any> {
     return this.itemTitleDef()?.templateRef as TemplateRef<any>;
+  }
+
+  get nameTemplateRef(): TemplateRef<any> {
+    return this.itemNameDef()?.templateRef as TemplateRef<any>;
   }
 }

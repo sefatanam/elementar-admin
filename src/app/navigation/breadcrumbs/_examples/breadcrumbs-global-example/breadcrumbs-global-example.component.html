@@ -1,7 +1,9 @@
 <emr-breadcrumbs-global class="mb-6">
   <!-- Setup custom icons -->
-  <ng-template emrBreadcrumbItemIconDef let-iconName>
-    <emr-icon [name]="iconName" class="size-5 me-0.5"/>
+  <ng-template emrBreadcrumbItemIconDef let-breadcrumb>
+    @if (breadcrumb.icon) {
+      <emr-icon [name]="breadcrumb.icon" class="size-5 me-0.5"/>
+    }
   </ng-template>
 
 <!--  if you want to translate or customize the breadcrumbs, you can use the following templates:-->

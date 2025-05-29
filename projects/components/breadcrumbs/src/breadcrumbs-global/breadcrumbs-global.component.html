@@ -38,13 +38,11 @@
       @default {
         <emr-breadcrumb-item>
           <ng-container emrBreadcrumbItemIcon>
-            @if (breadcrumb.icon) {
-              @if (itemIconDef()) {
-                <ng-container [ngTemplateOutlet]="iconTemplateRef"
-                              [ngTemplateOutletContext]="{ $implicit: breadcrumb.icon, breadcrumb }"/>
-              } @else {
-                <mat-icon>{{ breadcrumb.icon }}</mat-icon>
-              }
+            @if (iconTemplateRef) {
+              <ng-container [ngTemplateOutlet]="iconTemplateRef"
+                            [ngTemplateOutletContext]="{ $implicit: breadcrumb }"/>
+            } @else if (breadcrumb.icon) {
+              <mat-icon>{{ breadcrumb.icon }}</mat-icon>
             }
           </ng-container>
 
