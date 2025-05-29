@@ -18,7 +18,7 @@ enableCache('all');
   exportAs: 'emrIcon',
   standalone: true,
   template: '',
-  styleUrls: ['./icon.component.scss'],
+  styleUrl: './icon.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'emr-icon',
@@ -32,17 +32,28 @@ export class IconComponent implements OnInit, OnChanges {
 
   name = input.required<string>();
 
+  private loaded = false;
+
   async ngOnInit() {
     await this._loadIcon();
   }
 
   async ngOnChanges(changes: SimpleChanges) {
     if (changes['name'] && !changes['name'].isFirstChange()) {
+      if (changes['name'].previousValue === changes['name'].previousValue) {
+        return;
+      }
+
+      this.loaded = false;
       await this._loadIcon();
     }
   }
 
   private async _loadIcon() {
+    if (this.loaded) {
+      return;
+    }
+
     const data = await loadIcon(this.name());
     let body = data.body;
 
@@ -58,6 +69,6 @@ export class IconComponent implements OnInit, OnChanges {
 
     const iconHtml = `<svg viewBox="0 0 ${data.width} ${data.height}">${body}</svg>`;
     this._iconHtml = this._sanitizer.bypassSecurityTrustHtml(iconHtml);
-    this._cdr.markForCheck();
+    this.loaded = true;
   }
 }

@@ -1,7 +1,7 @@
 @reference 'tailwindcss';
 
 :host {
-  --emr-icon-size: calc(var(--spacing) * 6);
+  --emr-icon-size: --spacing(6);
 
   display: inline-flex;
   flex: none;
