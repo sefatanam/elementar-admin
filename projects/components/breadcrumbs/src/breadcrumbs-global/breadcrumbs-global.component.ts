@@ -1,4 +1,13 @@
-import { booleanAttribute, Component, computed, contentChild, inject, input, TemplateRef } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  inject,
+  input,
+  TemplateRef
+} from '@angular/core';
 import { Breadcrumb } from '../types';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbItemComponent } from '../breadcrumb-item/breadcrumb-item.component';
@@ -32,8 +41,10 @@ import {
   ],
   templateUrl: './breadcrumbs-global.component.html',
   styleUrl: './breadcrumbs-global.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'class': 'emr-breadcrumbs-global',
+    ngSkipHydration: 'true'
   }
 })
 export class BreadcrumbsGlobalComponent {
