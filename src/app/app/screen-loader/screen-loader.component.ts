@@ -11,7 +11,6 @@ import { GlobalState, GlobalStore } from '@elementar-ui/components/core';
 
 @Component({
   selector: 'app-screen-loader',
-  imports: [],
   templateUrl: './screen-loader.component.html',
   styleUrl: './screen-loader.component.scss',
 })
